@@ -3801,7 +3801,7 @@
 
 .my-video .video-js {
   width: 100%;
-  /*height: 232px*/
+  height: 100%;
 }
 
 .my-video .iframe-live {

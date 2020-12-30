@@ -31,13 +31,14 @@ module.exports = {
   devServer: {
     proxy: {
       '/api/*': {
-        target: 'https://www.sportlive8.com',
+        target: 'http://www.sportlive8.com',
         changeOrigin: true,
         pathRewrite: {
           '/api': ''
         }
       }
-    }
+    },
+    https: true
   },
   configureWebpack: {
     performance: {

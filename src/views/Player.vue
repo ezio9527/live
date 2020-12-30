@@ -21,8 +21,8 @@
       </div><!---->
       <div class="live-detailBox">
         <div class="my-video">
-          <div v-if="playType==='1'" ref="videoWrap">
-            <video id="video" data-setup='{}' class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" height="">
+          <div v-if="playType===1" ref="videoWrap" class="video-wrap">
+            <video id="myVideo" class="video-js vjs-default-skin vjs-big-play-centered">
               <source id="source" type="application/x-mpegURL">
             </video>
           </div>
@@ -110,7 +110,7 @@ export default {
   data () {
     return {
       player: null,
-      playType: '1',
+      playType: 1,
       url: '',
       details: {}
     }
@@ -118,7 +118,7 @@ export default {
   created () {
     const id = this.$route.params.id // 比赛ID
     const type = this.$route.params.type // 比赛类型
-    this.playType = this.$route.params.playType // 播放类型：1视频直播2动画直播
+    this.playType = parseInt(this.$route.params.playType) // 播放类型：1视频直播2动画直播
     this.qryMatchDetails({ mid: id, type })
   },
   methods: {
@@ -141,7 +141,7 @@ export default {
           }
         })
         // 根据当前播放类型选择播放地址
-        if (this.playType === '1') {
+        if (this.playType === 1) {
           if (data.matchinfo.live_urls.length > 0) {
             this.url = data.matchinfo.live_urls[0].url
             this.selectVideoSource({
@@ -157,7 +157,7 @@ export default {
     },
     // 重选视频播放源
     selectVideoSource (item) {
-      this.playType = '1'
+      this.playType = 1
       this.url = item.value
       setTimeout(() => {
         this.changeVideo()
@@ -165,28 +165,37 @@ export default {
     },
     // 重选动画播放源
     selectAnimationSource (item) {
-      this.playType = '2'
+      this.playType = 2
       this.url = item.value
     },
     // 切换视频播放源
     changeVideo () {
-      this.$refs.videoWrap.innerHTML = `
-        <video id="video" data-setup='{}' class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto">
-          <source id="source" src="${this.url}" type="application/x-mpegURL">
+      if (this.player) {
+        this.player.pause()
+        this.player.dispose()
+        this.$refs.videoWrap.innerHTML = `
+        <video id="myVideo" class="video-js vjs-default-skin vjs-big-play-centered">
+          <source id="source" type="application/x-mpegURL">
         </video>`
-      // setTimeout(() => {
-      //   this.player = videojs('video')
-      //   this.player.pause()
-      //   this.player.dispose()
-      //   videojs('video', {
-      //     bigPlayButton: true,
-      //     textTrackDisplay: false,
-      //     posterImage: false,
-      //     errorDisplay: false
-      //   }, function () {
-      //     this.play()
-      //   })
-      // }, 1000)
+      }
+      this.player = videojs('myVideo', {
+        liveui: true,
+        controls: true,
+        preload: 'auto',
+        autoplay: true,
+        src: this.url,
+        bigPlayButton: true,
+        textTrackDisplay: false,
+        posterImage: false,
+        errorDisplay: true,
+        notSupportedMessage: '暂无直播信息'
+      }, () => {
+        // this.player.play()
+        this.player.on('loadstart', err => {
+          console.log(err)
+          debugger
+        })
+      })
     }
   }
 }
@@ -201,6 +210,10 @@ export default {
     height: 563px;
     margin-top: 100px;
   }
+
+  .my-video > .video-wrap {
+    height: 100%;
+  }
   @media screen and (max-width: 700px) {
     .player {
       height: 100%;
@@ -212,11 +225,6 @@ export default {
       width: 100%;
       height: 100%;
       margin-top: 0;
-    }
-    .my-video {
-      .video-js {
-        height: 100% !important;
-      }
     }
   }
 </style>

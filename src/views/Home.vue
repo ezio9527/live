@@ -53,7 +53,7 @@
                    style="position: relative; box-sizing: border-box; min-width: 100%; min-height: 100%;">
                 <ul class=" horizontal-scroll-list-wrap">
                   <li :class="{'head_sel': categoryId===0}"><a href="/" aria-current="page" @click="filtrateMatch(0)">所有</a></li>
-                  <li :class="{'head_sel': categoryId===item.id}" :data-id="item.id" v-for="(item, index) in categoryFilterList" :key="index" @click="filtrateMatch(item.id, item.type)"><a href="#">{{item.name_zh}}</a></li>
+                  <li :class="{'head_sel': categoryId===item.id}" :data-id="item.id" v-for="(item, index) in categoryFilterList" :key="index" @click="filtrateMatch(item.id, item.type)"><a href="#">{{item.name}}</a></li>
                 </ul>
                 <div
                   style="display: block; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: none; padding: 0px; margin: 0px; opacity: 0; z-index: -1000; pointer-events: none;">
@@ -73,7 +73,7 @@
         <div class="__vuescroll hBarVisible"
              style="height: 100%; width: 100%; padding: 0px; position: relative; overflow: hidden;">
           <div class="__panel __hidebar" ref="scrollWrap"
-               style="position: relative; box-sizing: border-box; height: 100%; overflow: hidden scroll;" @scroll="scrollHandle" @mousewheel="scrollHandle" @DOMMouseScroll="scrollHandle">
+               style="position: relative; box-sizing: border-box; height: 100%; overflow: hidden scroll;overflow-scrolling: touch;-webkit-overflow-scrolling: touch;" @scroll="scrollHandle" @mousewheel="scrollHandle" @DOMMouseScroll="scrollHandle">
             <div class="__view"
                  style="position: relative; box-sizing: border-box; min-width: 100%; min-height: 100%;" ref="scrollContent">
               <div class="list-content-scroll">
@@ -239,7 +239,7 @@ export default {
     // 查询分类列表
     qryCategoryList () {
       categoryListApi().then(data => {
-        this.categoryList = data
+        this.categoryList = data.twoCategoryList
       })
     },
     // 查询比赛列表
