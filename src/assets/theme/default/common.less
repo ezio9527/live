@@ -1,0 +1,55 @@
+*, *:after, *:before {
+  margin: 0;
+  padding: 0;
+  overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch;
+  -moz-user-select:none; /*火狐*/
+  -webkit-user-select:none; /*webkit浏览器*/
+  -ms-user-select:none; /*IE10*/
+  -khtml-user-select:none; /*早期浏览器*/
+  user-select:none;
+}
+html, body, #app {
+  height: 100%;
+  font-size: 12px;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+.float-left {
+  float: left;
+}
+.float-right {
+  float: right;
+}
+/*清除浮动*/
+.clear-fix {
+  *zoom: 1;
+}
+.clear-fix::after {
+  content: '';
+  height: 0;
+  line-height: 0;
+  visibility: hidden;
+  clear: both;
+  display: block;
+}
+/*单行省略*/
+.line-word-hidden {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/** 自定义字体 **/
+@font-face {
+  font-family: bbicon;
+  src: url(../../font/icomoon.eot#iefix) format("embedded-opentype"), url(../../font/icomoon.ttf) format("truetype"), url(../../font/icomoon.woff) format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block
+}
