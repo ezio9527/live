@@ -21,12 +21,9 @@
       </div><!---->
       <div class="live-detailBox">
         <div class="my-video">
-          <div v-if="playType===1" ref="videoWrap" class="video-wrap">
-            <video id="myVideo" class="video-js vjs-default-skin vjs-big-play-centered">
-              <source id="source" type="application/x-mpegURL">
-            </video>
+          <div v-show="playType===1" ref="videoWrap" class="video-wrap">
           </div>
-          <div v-else>
+          <div v-if="playType===2">
             <iframe :src="url"></iframe>
           </div>
         </div>
@@ -112,6 +109,7 @@ export default {
       player: null,
       playType: 1,
       url: '',
+      channel: 0,
       details: {}
     }
   },
@@ -119,6 +117,7 @@ export default {
     const id = this.$route.params.id // 比赛ID
     const type = this.$route.params.type // 比赛类型
     this.playType = parseInt(this.$route.params.playType) // 播放类型：1视频直播2动画直播
+    this.channel = parseInt(this.$route.params.channel) // 视频播放信号
     this.qryMatchDetails({ mid: id, type })
   },
   methods: {
@@ -143,7 +142,7 @@ export default {
         // 根据当前播放类型选择播放地址
         if (this.playType === 1) {
           if (data.matchinfo.live_urls.length > 0) {
-            this.url = data.matchinfo.live_urls[0].url
+            this.url = data.matchinfo.live_urls[this.channel].url
             this.selectVideoSource({
               value: this.url
             })
@@ -159,31 +158,34 @@ export default {
     selectVideoSource (item) {
       this.playType = 1
       this.url = item.value
-      setTimeout(() => {
-        this.changeVideo()
-      }, 2000)
+      this.changeVideo()
     },
     // 重选动画播放源
     selectAnimationSource (item) {
       this.playType = 2
       this.url = item.value
+      if (this.player) {
+        this.player.pause()
+        this.player.dispose()
+        this.player = null
+      }
     },
     // 切换视频播放源
     changeVideo () {
       if (this.player) {
         this.player.pause()
         this.player.dispose()
-        this.$refs.videoWrap.innerHTML = `
-        <video id="myVideo" class="video-js vjs-default-skin vjs-big-play-centered">
-          <source id="source" type="application/x-mpegURL">
-        </video>`
       }
+      this.$refs.videoWrap.innerHTML = `
+        <video id="myVideo" class="video-js vjs-default-skin vjs-big-play-centered" oncontextmenu="return false;" controls preload="auto" x5-playsinline="" playsinline="" webkit-playsinline="" disablepictureinpicture="">
+          <source id="source" src="${this.url}" type="application/x-mpegURL">
+        </video>`
       this.player = videojs('myVideo', {
         liveui: true,
         controls: true,
         preload: 'auto',
         autoplay: true,
-        src: this.url,
+        // src: this.url,
         bigPlayButton: true,
         textTrackDisplay: false,
         posterImage: false,
@@ -193,7 +195,6 @@ export default {
         // this.player.play()
         this.player.on('loadstart', err => {
           console.log(err)
-          debugger
         })
       })
     }
@@ -220,6 +221,9 @@ export default {
     }
     .my-video > div {
       height: 100%;
+    }
+    .video-js {
+      height: 563px
     }
     iframe {
       width: 100%;

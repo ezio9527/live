@@ -11,7 +11,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/player/:type/:playType/:id',
+    path: '/player/:type/:playType/:channel/:id',
     name: 'Player',
     component: () => import('@views/Player.vue')
   },

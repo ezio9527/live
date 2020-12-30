@@ -112,26 +112,28 @@
                       <div class="live-index"><!---->
                         <div class="listop-box">
                           <div class="team-group">
-                            <div class="sport-icon sport-icon-1"></div>
+                            <div class="sport-icon" :class="{'sport-icon-1': parseInt(item.type)===1, 'sport-icon-2': parseInt(item.type)===2}"></div>
                             <h1 class="level-54 level-99">{{item.name}}</h1>
                           </div>
                           <p class="time changed"><b>{{item.matchTime}}</b><span>{{convert(item.status)}}<i></i></span></p>
                         </div>
                         <div class="teamIfo-box">
                           <div class="team-ifo">
-                            <div class="logo" :class="{logo_1: item.type===1,logo_2: item.type===2}"><!----></div>
+                            <!--<div class="logo" :class="{logo_1: parseInt(item.type)===1,logo_2: parseInt(item.type)===2}">&lt;!&ndash;&ndash;&gt;</div>-->
+                            <img class="logo" :src="item.hteam_logo" style="background: none;">
                             <h1 class="">{{item.hteam_name}}</h1>
                           </div>
                           <div class="team-score">
                             <span class="">{{item.score.split('-')[0]}}</span> - <span class="red">{{item.score.split('-')[1]}}</span>
                           </div>
                           <div class="team-ifo">
-                            <div class="logo" :class="{logo_1: item.type===1,logo_2: item.type===2}"><!----></div>
+                            <!--<div class="logo" :class="{logo_1: item.type===1,logo_2: item.type===2}">&lt;!&ndash;&ndash;&gt;</div>-->
+                            <img class="logo" :src="item.ateam_logo" style="background: none;">
                             <h1 class="red">{{item.ateam_name}}</h1>
                           </div>
                           <div class="live-path-box">
                             <div class="live-item pathColor_1" v-for="(i, k) in item.live_urls" :key="k">
-                              <a @click="player(item, 1)" class=""><i class="iconfont icon-naozhong"></i><span>{{i.name}}</span></a>
+                              <a @click="player(item, 1, k)" class=""><i class="iconfont icon-naozhong"></i><span>{{i.name}}</span></a>
                             </div>
                             <div class="live-item pathColor_1" v-if="item.live_cartoon_url.length > 0">
                               <a @click="player(item, 2)" class=""><i class="iconfont icon-naozhong"></i><span>动画直播</span></a>
@@ -299,8 +301,8 @@ export default {
       }
     },
     // 播放
-    player (item, playType) {
-      this.$router.push({ name: 'Player', params: { type: item.type, playType, id: item.id } })
+    player (item, playType, channel) {
+      this.$router.push({ name: 'Player', params: { type: item.type, playType, id: item.id, channel } })
     }
   }
 }
