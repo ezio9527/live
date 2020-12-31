@@ -5,11 +5,7 @@
         <div class="top-logo router-link-active"><img
           src="@img/logo-white-cn.png"></div>
         <div class="menu-list"><a href="/" class="menu-item active"><i
-          class="icon icon-zhibo"></i><span class="title">说球帝直播</span></a><a
-          href="/mine" class="menu-item"><i
-          class="icon cubeic-person"></i><span
-          class="title">我</span></a><a href="/download" class="menu-item"><i
-          class="icon icon-xiazai2"></i><span class="title">APP下载</span></a></div>
+          class="icon icon-zhibo"></i><span class="title">说球帝直播</span></a></div>
         <div class="domains web-text"><span>备用域名</span><span
         >shuoqiudi.live</span></div>
       </div>
@@ -73,17 +69,6 @@
             <div class="__view"
                  style="position: relative; box-sizing: border-box; min-width: 100%; min-height: 100%;" ref="scrollContent">
               <div class="list-content-scroll">
-                <div class="cube-slide banner-show">
-                  <div class="cube-slide-group"
-                       style="width: 1000px; transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1); transition-duration: 400ms; transform: translate(0px, 0px) scale(1) translateZ(0px);">
-                    <div class="cube-slide-item" style="width: 1000px;"><img src="@img/app1-web-cn120.jpg">
-                      <div class="code-img">
-                        <!--<img src="@img/url.png">-->
-                      </div>
-                    </div>
-                  </div>
-                  <div class="cube-slide-dots"><span class="active"></span></div>
-                </div>
                 <div class="web-title">
                   <div class="web-title-teamtime">
                     <div class="web-title-group">赛事</div>
@@ -128,12 +113,14 @@
                             <h1 class="red">{{item.ateam_name}}</h1>
                           </div>
                           <div class="live-path-box">
-                            <div class="live-item pathColor_1" v-for="(i, k) in item.live_urls" :key="k">
-                              <a @click="player(item, 1, k)" class=""><i class="iconfont icon-naozhong"></i><span>{{i.name}}</span></a>
-                            </div>
-                            <div class="live-item pathColor_1" v-if="item.live_cartoon_url.length > 0">
-                              <a @click="player(item, 2)" class=""><i class="iconfont icon-naozhong"></i><span>动画直播</span></a>
-                            </div>
+                            <template v-if="item.status === 0">
+                              <div class="live-item pathColor_1" v-for="(i, k) in item.live_urls" :key="k">
+                                <a @click="player(item, 1, k)" class=""><i class="iconfont icon-naozhong"></i><span>{{i.name}}</span></a>
+                              </div>
+                              <div class="live-item pathColor_1" v-if="item.live_cartoon_url.length > 0">
+                                <a @click="player(item, 2)" class=""><i class="iconfont icon-naozhong"></i><span>动画直播</span></a>
+                              </div>
+                            </template>
                           </div>
                         </div>
                       </div>
