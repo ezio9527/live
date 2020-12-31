@@ -7,6 +7,7 @@
 </template>
 
 <script>
+// import eruda from 'eruda'
 export default {
   data () {
     return {
@@ -14,6 +15,7 @@ export default {
     }
   },
   mounted () {
+    // eruda.init()
     this.desktop = document.body.clientWidth > 700
     window.onresize = () => {
       this.desktop = document.body.clientWidth > 700

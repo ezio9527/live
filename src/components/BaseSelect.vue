@@ -2,7 +2,7 @@
   <button type="button" class="base-select cube-btn live-btn" @click="hidden=false" @mouseenter="hidden=false" @focus="hidden=false" @blur="hidden=true">
     {{text}}<i class="cubeic-select" v-if="options.length!==0"></i>
     <ul :class="{hidden: hidden}" @mouseleave="hidden=true">
-      <li v-for="(item, index) in options" :key="index" @click.stop="select(item)">{{item.text}}</li>
+      <li :class="{active: activeIndex===index}" v-for="(item, index) in options" :key="index" @click.stop="select(item, index)">{{item.text}}</li>
     </ul>
   </button>
 </template>
@@ -14,6 +14,10 @@ export default {
     text: {
       type: String
     },
+    active: {
+      type: Number,
+      default: -1
+    },
     options: {
       type: Array,
       default: () => []
@@ -21,12 +25,25 @@ export default {
   },
   data () {
     return {
-      hidden: true
+      hidden: true,
+      activeIndex: -1
     }
   },
+  watch: {
+    active (val) {
+      this.activeIndex = val
+    }
+  },
+  created () {
+    this.activeIndex = this.active
+  },
   methods: {
-    select (item) {
-      this.$emit('select', item)
+    select (item, index) {
+      this.activeIndex = index
+      this.$emit('select', {
+        value: item.value,
+        index
+      })
       this.hidden = true
     }
   }
@@ -61,6 +78,10 @@ export default {
       li {
         height: 26px;
         line-height: 26px;
+        &.active {
+          background: #0C9CE2;
+          color: white;
+        }
       }
       li:hover {
         background: #0C9CE2;

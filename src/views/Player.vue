@@ -34,12 +34,12 @@
               <div class="live-select-box">
                 <div class="popover live-select-item live-popover">
                   <div aria-owns="popover-live-select-item live-popover" class="popover__face">
-                    <BaseSelect :disabled="!details.animation" :text="details.animation?'动画直播':'暂无动画直播'" :options="details.animationUrl" @select="selectAnimationSource"></BaseSelect>
+                    <BaseSelect :disabled="!details.animation" :text="details.animation?'动画直播':'暂无动画直播'" :options="details.animationUrl" :active.sync="animationActive" @select="selectAnimationSource"></BaseSelect>
                   </div>
                 </div>
                 <div class="popover live-select-item live-popover">
                   <div aria-owns="popover-live-select-item live-popover" class="popover__face">
-                    <BaseSelect :disabled="!details.video" :text="details.video?'視頻直播':'暂无視頻直播'" :options="details.videoUrl" @select="selectVideoSource"></BaseSelect>
+                    <BaseSelect :disabled="!details.video" :text="details.video?'視頻直播':'暂无視頻直播'" :options="details.videoUrl" :active.sync="videoActive" @select="selectVideoSource"></BaseSelect>
                   </div>
                 </div>
               </div>
@@ -99,6 +99,7 @@ import { matchDetailApi } from '@/http/api'
 import BaseSelect from '@comp/BaseSelect'
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
+import 'videojs-landscape-fullscreen'
 export default {
   name: 'Player',
   components: {
@@ -110,7 +111,9 @@ export default {
       playType: 1,
       url: '',
       channel: 0,
-      details: {}
+      details: {},
+      animationActive: -1,
+      videoActive: -1
     }
   },
   created () {
@@ -118,6 +121,11 @@ export default {
     const type = this.$route.params.type // 比赛类型
     this.playType = parseInt(this.$route.params.playType) // 播放类型：1视频直播2动画直播
     this.channel = parseInt(this.$route.params.channel) // 视频播放信号
+    if (this.playType === 1) {
+      this.videoActive = this.channel
+    } else {
+      this.animationActive = this.channel
+    }
     this.qryMatchDetails({ mid: id, type })
   },
   methods: {
@@ -144,12 +152,17 @@ export default {
           if (data.matchinfo.live_urls.length > 0) {
             this.url = data.matchinfo.live_urls[this.channel].url
             this.selectVideoSource({
+              index: this.channel,
               value: this.url
             })
           }
         } else {
           if (data.matchinfo.live_cartoon_url.length > 0) {
-            this.url = data.matchinfo.live_cartoon_url[0].url
+            this.url = data.matchinfo.live_cartoon_url[this.channel].url
+            this.selectAnimationSource({
+              index: this.channel,
+              value: this.url
+            })
           }
         }
       }).catch(() => {})
@@ -159,6 +172,8 @@ export default {
       this.playType = 1
       this.url = item.value
       this.changeVideo()
+      this.videoActive = item.index
+      this.animationActive = -1
     },
     // 重选动画播放源
     selectAnimationSource (item) {
@@ -169,6 +184,8 @@ export default {
         this.player.dispose()
         this.player = null
       }
+      this.videoActive = -1
+      this.animationActive = item.index
     },
     // 切换视频播放源
     changeVideo () {
@@ -192,7 +209,13 @@ export default {
         errorDisplay: true,
         notSupportedMessage: '暂无直播信息'
       }, () => {
-        // this.player.play()
+        this.player.landscapeFullscreen({
+          fullscreen: {
+            enterOnRotate: true,
+            alwaysInLandscapeMode: true,
+            iOS: true
+          }
+        })
         this.player.on('loadstart', err => {
           console.log(err)
         })

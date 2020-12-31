@@ -46,7 +46,7 @@
               <a href="#" :class="{'router-link-exact-active': type===2, 'router-link-active': type===2, 'head_sel': type===2}" @click="filtrateCategory(2)">篮球</a>
             </div>
           </div>
-          <div class="head-nav __vuescroll" :class="{close: !fold}">
+          <div class="head-nav __vuescroll">
             <div class="__panel __hidebar"
                  style="position: relative; box-sizing: border-box; height: 100%; overflow: hidden;">
               <div class="__view"
@@ -63,17 +63,13 @@
               </div>
             </div>
           </div>
-          <div class="fold">
-            <img src="@img/icon-arrow-up.png" v-show="fold" @click="fold=!fold"/>
-            <img src="@img/icon-arrow-down.png" v-show="!fold" @click="fold=!fold"/>
-          </div>
         </div>
       </header>
       <div class="scroll-list-wrap-live">
         <div class="__vuescroll hBarVisible"
              style="height: 100%; width: 100%; padding: 0px; position: relative; overflow: hidden;">
           <div class="__panel __hidebar" ref="scrollWrap"
-               style="position: relative; box-sizing: border-box; height: 100%; overflow: hidden scroll;overflow-scrolling: touch;-webkit-overflow-scrolling: touch;" @scroll="scrollHandle" @mousewheel="scrollHandle" @DOMMouseScroll="scrollHandle">
+               style="position: relative; box-sizing: border-box; height: 100%; overflow: scroll;overflow-scrolling: touch;-webkit-overflow-scrolling: touch;" @scroll="scrollHandle" @mousewheel="scrollHandle" @DOMMouseScroll="scrollHandle">
             <div class="__view"
                  style="position: relative; box-sizing: border-box; min-width: 100%; min-height: 100%;" ref="scrollContent">
               <div class="list-content-scroll">
@@ -174,8 +170,7 @@ export default {
       type: 0, // 分类类型: 0全部;1足球;2篮球
       categoryId: 0, // 分类ID
       categoryList: [], // 分类列表
-      matchList: [], // 比赛列表
-      fold: false // 列表折叠状态
+      matchList: [] // 比赛列表
     }
   },
   computed: {
@@ -301,8 +296,8 @@ export default {
       }
     },
     // 播放
-    player (item, playType, channel) {
-      this.$router.push({ name: 'Player', params: { type: item.type, playType, id: item.id, channel } })
+    player (item, playType, channel = 0) {
+      this.$router.push({ name: 'Player', params: { type: item.type, playType, channel, id: item.id } })
     }
   }
 }
@@ -329,9 +324,6 @@ export default {
     -ms-flex: 1;
     flex: 1;
   }
-  .desktop .fold {
-    display: none;
-  }
   .head-nav.__vuescroll {
     height: 100%; width: 100%; padding: 0px; position: relative; overflow: hidden;
   }
@@ -342,17 +334,6 @@ export default {
     -ms-transition: height 300ms;
     -o-transition: height 300ms;
     transition: height 300ms;
-  }
-  .mobile .head-nav.__vuescroll.close {
-    height: 30px;
-  }
-  .mobile .fold {
-    text-align: center;
-    height: 30px;
-    line-height: 30px;
-  }
-  .mobile .fold img{
-    width: 20px;
   }
   .mobile header {
     line-height: normal;
