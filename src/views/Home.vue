@@ -113,14 +113,12 @@
                             <h1 class="red">{{item.ateam_name}}</h1>
                           </div>
                           <div class="live-path-box">
-                            <template v-if="item.status === 0">
-                              <div class="live-item pathColor_1" v-for="(i, k) in item.live_urls" :key="k">
-                                <a @click="player(item, 1, k)" class=""><i class="iconfont icon-naozhong"></i><span>{{i.name}}</span></a>
-                              </div>
-                              <div class="live-item pathColor_1" v-if="item.live_cartoon_url.length > 0">
-                                <a @click="player(item, 2)" class=""><i class="iconfont icon-naozhong"></i><span>动画直播</span></a>
-                              </div>
-                            </template>
+                            <div class="live-item pathColor_1" :class="{'pathColor_1': item.status === 0, 'pathColor_3': item.status !== 0}" v-for="(i, k) in item.live_urls" :key="k">
+                              <a @click="player(item, 1, k)" class=""><i class="iconfont icon-naozhong"></i><span>{{i.name}}</span></a>
+                            </div>
+                            <div class="live-item pathColor_1" v-if="item.live_cartoon_url.length > 0">
+                              <a @click="player(item, 2)" class=""><i class="iconfont icon-naozhong"></i><span>动画直播</span></a>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -153,7 +151,7 @@ export default {
     return {
       load: false, // 数据加载
       pageIndex: 1,
-      pageSize: 10,
+      pageSize: 20,
       type: 0, // 分类类型: 0全部;1足球;2篮球
       categoryId: 0, // 分类ID
       categoryList: [], // 分类列表

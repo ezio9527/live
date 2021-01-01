@@ -128,6 +128,13 @@ export default {
     }
     this.qryMatchDetails({ mid: id, type })
   },
+  destroyed () {
+    if (this.player) {
+      this.player.pause()
+      this.player.dispose()
+      this.player = null
+    }
+  },
   methods: {
     // 查询比赛详情
     qryMatchDetails (data = {}) {
