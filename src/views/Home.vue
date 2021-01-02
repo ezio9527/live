@@ -113,7 +113,7 @@
                             <h1 class="red">{{item.ateam_name}}</h1>
                           </div>
                           <div class="live-path-box">
-                            <div class="live-item pathColor_1" :class="{'pathColor_1': item.status === 0, 'pathColor_3': item.status !== 0}" v-for="(i, k) in item.live_urls" :key="k">
+                            <div class="live-item pathColor_1" :class="{'pathColor_1': i.status === 1, 'pathColor_3': i.status === 0}" v-for="(i, k) in item.live_urls" :key="k">
                               <a @click="player(item, 1, k)" class=""><i class="iconfont icon-naozhong"></i><span>{{i.name}}</span></a>
                             </div>
                             <div class="live-item pathColor_1" v-if="item.live_cartoon_url.length > 0">

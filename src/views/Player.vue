@@ -34,12 +34,12 @@
               <div class="live-select-box">
                 <div class="popover live-select-item live-popover">
                   <div aria-owns="popover-live-select-item live-popover" class="popover__face">
-                    <BaseSelect :disabled="!details.animation" :text="details.animation?'动画直播':'暂无动画直播'" :options="details.animationUrl" :active.sync="animationActive" @select="selectAnimationSource"></BaseSelect>
+                    <BaseSelect noneText="暂无动画直播"  text="动画直播" :options="details.animationUrl" :active.sync="animationActive" @select="selectAnimationSource"></BaseSelect>
                   </div>
                 </div>
                 <div class="popover live-select-item live-popover">
                   <div aria-owns="popover-live-select-item live-popover" class="popover__face">
-                    <BaseSelect :disabled="!details.video" :text="details.video?'視頻直播':'暂无視頻直播'" :options="details.videoUrl" :active.sync="videoActive" @select="selectVideoSource"></BaseSelect>
+                    <BaseSelect noneText="暂无視頻直播" text="視頻直播" :options="details.videoUrl" :active.sync="videoActive" @select="selectVideoSource"></BaseSelect>
                   </div>
                 </div>
               </div>
@@ -140,16 +140,16 @@ export default {
     qryMatchDetails (data = {}) {
       matchDetailApi(data).then(data => {
         this.details = data.matchinfo
-        this.details.video = data.matchinfo.live_urls.length > 0
-        this.details.animation = data.matchinfo.live_cartoon_url.length > 0
         this.details.videoUrl = data.matchinfo.live_urls.map((item, index) => {
           return {
+            disabled: item.status === 0,
             text: item.name,
             value: item.url
           }
         })
         this.details.animationUrl = data.matchinfo.live_cartoon_url.map((item, index) => {
           return {
+            disabled: item.status === 0,
             text: item.name,
             value: item.url
           }

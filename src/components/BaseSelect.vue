@@ -1,8 +1,8 @@
 <template>
-  <button type="button" class="base-select cube-btn live-btn" @click="hidden=false" @mouseenter="hidden=false" @focus="hidden=false" @blur="hidden=true">
-    {{text}}<i class="cubeic-select" v-if="options.length!==0"></i>
+  <button type="button" class="base-select cube-btn live-btn" :class="{disabled: disabled}" @click="hidden=disabled || false" @mouseenter="hidden=disabled || false" @focus="hidden=disabled || false" @blur="hidden=true">
+    {{disabled? noneText : text}}<i class="cubeic-select" v-if="!disabled"></i>
     <ul :class="{hidden: hidden}" @mouseleave="hidden=true">
-      <li :class="{active: activeIndex===index}" v-for="(item, index) in options" :key="index" @click.stop="select(item, index)">{{item.text}}</li>
+      <li :class="{active: activeIndex===index, disabled: item.disabled}" v-for="(item, index) in options" :key="index" @click.stop="select(item, index)">{{item.text}}</li>
     </ul>
   </button>
 </template>
@@ -13,6 +13,10 @@ export default {
   props: {
     text: {
       type: String
+    },
+    noneText: {
+      type: String,
+      default: '暂无选项'
     },
     active: {
       type: Number,
@@ -25,6 +29,7 @@ export default {
   },
   data () {
     return {
+      disabled: false,
       hidden: true,
       activeIndex: -1
     }
@@ -32,10 +37,18 @@ export default {
   watch: {
     active (val) {
       this.activeIndex = val
+    },
+    options (val) {
+      this.disabled = val.length === 0 || val.every(item => {
+        return item.disabled
+      })
     }
   },
   created () {
     this.activeIndex = this.active
+    this.disabled = this.options.length === 0 || this.options.every(item => {
+      return item.disabled
+    })
   },
   methods: {
     select (item, index) {
@@ -81,6 +94,15 @@ export default {
         &.active {
           background: #0C9CE2;
           color: white;
+        }
+        &.disabled {
+          color: #777;
+          background: transparent !important;
+        }
+        &.disabled:hover {
+          background: transparent !important;
+          color: #777;
+          z-index: 99;
         }
       }
       li:hover {
