@@ -42,6 +42,12 @@
                     <BaseSelect noneText="暂无視頻直播" text="視頻直播" :options="details.videoUrl" :active.sync="videoActive" @select="selectVideoSource"></BaseSelect>
                   </div>
                 </div>
+                <!--<div class="live-item pathColor_1" :class="{'pathColor_1': i.status === 1, 'pathColor_3': i.status === 0}" v-for="(i, k) in details.live_urls" :key="k">-->
+                  <!--<a class=""><i class="iconfont icon-naozhong"></i><span>{{i.name}}</span></a>-->
+                <!--</div>-->
+                <!--<div class="live-item pathColor_1" v-if="details.live_cartoon_url.length > 0">-->
+                  <!--<a class=""><i class="iconfont icon-naozhong"></i><span>动画直播</span></a>-->
+                <!--</div>-->
               </div>
             </div>
           </div>
@@ -111,7 +117,10 @@ export default {
       playType: 1,
       url: '',
       channel: 0,
-      details: {},
+      details: {
+        live_urls: [],
+        live_cartoon_url: []
+      },
       animationActive: -1,
       videoActive: -1
     }
@@ -260,5 +269,16 @@ export default {
       height: 100%;
       margin-top: 0;
     }
+  }
+  .live-path-box .live-item {
+     border-radius: 5px;
+     background: #0c9ce2;
+     margin: 2px;
+   }
+  .live-path-box .pathColor_1 {
+    background: #0b9ce2;
+  }
+  .live-path-box .pathColor_3 {
+    background: #aaa;
   }
 </style>

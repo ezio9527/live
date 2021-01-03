@@ -149,6 +149,7 @@ export default {
   name: 'Home',
   data () {
     return {
+      scrollTop: 0, // 滚动高度
       load: false, // 数据加载
       pageIndex: 1,
       pageSize: 20,
@@ -200,6 +201,9 @@ export default {
     this.qryCategoryList()
     // 默认查全部分类，第一页的十条数据
     this.qryMatchList({ pn: 1, type: 0, ps: this.pageSize })
+  },
+  activated () {
+    this.$refs.scrollWrap.scrollTop = this.scrollTop
   },
   methods: {
     convert (status) {
@@ -268,6 +272,7 @@ export default {
       const viewH = this.$refs.scrollWrap.clientHeight // 可见高度
       const contentH = this.$refs.scrollContent.clientHeight // 内容高度
       const scrollTop = this.$refs.scrollWrap.scrollTop// 滚动高度
+      this.scrollTop = scrollTop
       // if(contentH = viewH + scrollTop) { //当滚动到底部时，
       //
       // }
