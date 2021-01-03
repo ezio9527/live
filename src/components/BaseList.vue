@@ -24,6 +24,9 @@
         <span v-show="!loading">点击加载更多</span>
       </li>
     </ul>
+    <el-backtop target=".base-list" :bottom="100">
+      <img src="@img/list/backtop.png"/>
+    </el-backtop>
   </div>
 </template>
 

@@ -4,7 +4,7 @@
       "component",
       {
         "libraryName": "element-ui",
-        "styleLibraryName": "~override-element"
+        "styleLibraryName": "~src/assets/theme/element-ui"
       }
     ]
   ]
