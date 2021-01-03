@@ -11,6 +11,8 @@
     <!--固定日期栏-->
     <!--列表区域-->
     <BaseList :list="matchFilterList" :loading="listLoading" @load="load"></BaseList>
+    <!--底部Footer-->
+    <BaseFooter></BaseFooter>
   </div>
 </template>
 
@@ -18,13 +20,15 @@
 import BaseNavBar from '@comp/BaseNavBar'
 import BaseCategory from '@comp/BaseCategory'
 import BaseList from '@comp/BaseList'
+import BaseFooter from '@comp/BaseFooter'
 import { matchListApi } from '@/http/api'
 export default {
   name: 'Home2',
   components: {
     BaseNavBar,
     BaseCategory,
-    BaseList
+    BaseList,
+    BaseFooter
   },
   data () {
     return {
@@ -33,7 +37,7 @@ export default {
       // 列表相关
       listLoading: false,
       pageSize: 20,
-      pageIndex: 0,
+      pageIndex: 1,
       matchList: []
     }
   },
@@ -71,12 +75,14 @@ export default {
   },
   created () {
     // 默认查全部分类，第一页的十条数据
-    this.qryMatchList({ pn: 1, type: 0, ps: this.pageSize })
+    this.qryMatchList({ pn: 0, type: 0, ps: this.pageSize })
   },
   methods: {
     // 切换球类
     categoryChange (id) {
       this.categoryId = id
+      this.pageIndex = 0
+      this.qryMatchList({ type: this.typeId, cid: this.categoryId, pn: this.pageIndex, ps: this.pageSize })
     },
     // 列表的load事件
     load () {
@@ -136,6 +142,9 @@ export default {
       .guest {width: 195px;}
       .channel {width: 395px;}
     }
-    /*列表主体*/
+    /*底部Footer*/
+    .base-footer {
+      flex: 1;
+    }
   }
 </style>
