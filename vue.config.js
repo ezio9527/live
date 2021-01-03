@@ -37,8 +37,8 @@ module.exports = {
           '/api': ''
         }
       }
-    },
-    https: true
+    }
+    // https: true
   },
   configureWebpack: {
     performance: {

@@ -4,6 +4,11 @@ import router from './router'
 import store from './store'
 import './http'
 import './plugs'
+import '@/filter/index'
+import { Input, Loading, InfiniteScroll } from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
+Vue.use(Input).use(Loading).use(InfiniteScroll)
 
 Vue.config.productionTip = false
 
