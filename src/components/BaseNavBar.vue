@@ -200,4 +200,56 @@ export default {
       }
     }
   }
+  @media screen and (max-width: 960px) {
+    .base-nav-bar {
+      /*内容区域*/
+      .container {
+        width: 100%;
+        .px2vw(height, 140);
+        line-height: normal;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /*清理导航底部细线*/
+        &:before {
+          display: none;
+        }
+        /*logo*/
+        .logo {
+          .px2vw(width, 200);
+        }
+        /*导航选项*/
+        ul {
+          margin-left: 0;
+          .px2vw(width, 428);
+          .px2vw(height, 60);
+          border: 1px solid #D7D7DA;
+          border-radius: 100px;
+          .background {
+            .px2vw(width, 143);
+            .px2vw(height, 60);
+            border-radius: 100px;
+          }
+          li {
+            .px2vw(width, 142);
+            height: 100%;
+            img {
+              .px2vw(width, 30);
+              .px2vw(height, 30);
+              vertical-align: middle;
+            }
+            span {
+              vertical-align: middle;
+            }
+            &.active {
+              color: #FFF;
+            }
+          }
+        }
+      }
+    }
+  }
 </style>

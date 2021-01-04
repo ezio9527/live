@@ -93,4 +93,11 @@ export default {
       }
     }
   }
+  @media screen and (max-width: 960px) {
+    .base-category {
+      .container {
+        width: 100%;
+      }
+    }
+  }
 </style>
