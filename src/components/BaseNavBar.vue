@@ -13,7 +13,7 @@
         <li class="background"></li>
       </ul>
       <!--搜索-->
-      <el-input class="search" placeholder="搜索球队" prefix-icon="el-icon-search" clearable v-model="searchKey"></el-input>
+      <el-input class="search" placeholder="搜索球队或赛事" prefix-icon="el-icon-search" clearable v-model="searchKey"></el-input>
     </div>
   </nav>
 </template>
@@ -21,11 +21,27 @@
 <script>
 export default {
   name: 'BaseNavBar',
+  props: {
+    clear: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
       hoverId: 0, // 鼠标指针位置
       typeId: 0, // 分类ID, 0:全部;1:足球;2:篮球;
       searchKey: '' // 搜索关键字
+    }
+  },
+  watch: {
+    clear (val) {
+      if (!val) {
+        this.searchKey = ''
+      }
+    },
+    searchKey (val) {
+      this.$emit('search', val)
     }
   },
   computed: {

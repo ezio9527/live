@@ -1,7 +1,7 @@
 <template>
   <div class="home2">
     <!--导航-->
-    <BaseNavBar @categoryChange="categoryTypeChange"></BaseNavBar>
+    <BaseNavBar @categoryChange="categoryTypeChange" @search="search" :clear="searchKey"></BaseNavBar>
     <!--分类-->
     <BaseCategory :type="typeId" @categoryChange="categoryIdChange"></BaseCategory>
     <!--列表头-->
@@ -32,6 +32,7 @@ export default {
   },
   data () {
     return {
+      searchKey: '', // 搜索关键字
       typeId: 0, // 球分类ID
       categoryId: 0, // 球赛ID
       // 列表相关
@@ -44,12 +45,19 @@ export default {
   computed: {
     // 处理后的列表
     matchFilterList () {
+      let list = []
       let newList = []
-      if (this.matchList.length > 0) {
+      // 关键字过滤
+      list = this.matchList.filter(match => {
+        // 赛事、主队、客队，关键字匹配
+        return match.name.indexOf(this.searchKey) > -1 || match.hteam_name.indexOf(this.searchKey) > -1 || match.ateam_name.indexOf(this.searchKey) > -1
+      })
+      // 分组处理
+      if (list.length > 0) {
         // 1.将数据按天分组
         const groupList = [[]]
-        let lastTime = new Date(this.matchList[0].matchtime.replace(/-/g, '/')).format('yyyy年MM月dd日')
-        this.matchList.forEach((item) => {
+        let lastTime = new Date(list[0].matchtime.replace(/-/g, '/')).format('yyyy年MM月dd日')
+        list.forEach((item) => {
           const matchTimeStr = new Date(item.matchtime.replace(/-/g, '/')).format('yyyy年MM月dd日')
           if (lastTime !== matchTimeStr) {
             lastTime = matchTimeStr
@@ -78,8 +86,13 @@ export default {
     this.qryMatchList({ pn: 0, type: 0, ps: this.pageSize })
   },
   methods: {
+    // 关键字搜索
+    search (key) {
+      this.searchKey = key
+    },
     // 切换球类
     categoryTypeChange (id) {
+      this.searchKey = ''
       this.typeId = id
       this.categoryId = 0
       this.pageIndex = 0
@@ -87,6 +100,7 @@ export default {
     },
     // 切换比赛分类
     categoryIdChange (id) {
+      this.searchKey = ''
       this.categoryId = id
       this.pageIndex = 0
       this.qryMatchList({ type: this.typeId, cid: this.categoryId, pn: this.pageIndex, ps: this.pageSize })
