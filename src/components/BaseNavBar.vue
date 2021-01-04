@@ -2,14 +2,14 @@
   <nav class="base-nav-bar">
     <div class="container">
       <!--logo-->
-      <a href="#">
+      <a href="/home">
         <img src="@img/nav/logo.png" class="logo">
       </a>
       <!--导航选项-->
-      <ul  @mouseleave="hoverId=categoryId">
-        <li class="item" :class="{active: hoverId === categoryId && categoryId===0}" @click="select(0)" @mouseenter="hoverId=0"><img src="@img/nav/icon_all.png"><span>全部</span></li>
-        <li class="item" :class="{active: hoverId === categoryId && categoryId===1}" @click="select(1)" @mouseenter="hoverId=1"><img src="@img/nav/football_unselect.png"><span>足球</span></li>
-        <li class="item" :class="{active: hoverId === categoryId && categoryId===2}" @click="select(2)" @mouseenter="hoverId=2"><img src="@img/nav/basketball_unselect.png"><span>篮球</span></li>
+      <ul  @mouseleave="hoverId=typeId">
+        <li class="item" :class="{active: activeItem1}" @click="select(0)" @mouseenter="hoverId=0"><img src="@img/nav/all_selected.png" v-show="activeItem1"><img src="@img/nav/all_unselected.png" v-show="!activeItem1"><span>全部</span></li>
+        <li class="item" :class="{active: activeItem2}" @click="select(1)" @mouseenter="hoverId=1"><img src="@img/nav/football_selected.png" v-show="activeItem2"><img src="@img/nav/football_unselected.png" v-show="!activeItem2"><span>足球</span></li>
+        <li class="item" :class="{active: activeItem3}" @click="select(2)" @mouseenter="hoverId=2"><img src="@img/nav/basketball_selected.png" v-show="activeItem3"><img src="@img/nav/basketball_unselected.png" v-show="!activeItem3"><span>篮球</span></li>
         <li class="background"></li>
       </ul>
       <!--搜索-->
@@ -24,13 +24,45 @@ export default {
   data () {
     return {
       hoverId: 0, // 鼠标指针位置
-      categoryId: 0, // 分类ID, 0:全部;1:足球;2:篮球;
+      typeId: 0, // 分类ID, 0:全部;1:足球;2:篮球;
       searchKey: '' // 搜索关键字
+    }
+  },
+  computed: {
+    // 第一项被激活
+    activeItem1 () {
+      if (this.hoverId === this.typeId) {
+        // 没有鼠标hover
+        return this.typeId === 0
+      } else {
+        // 有鼠标hover
+        return this.hoverId === 0
+      }
+    },
+    // 第二项被激活
+    activeItem2 () {
+      if (this.hoverId === this.typeId) {
+        // 没有鼠标hover
+        return this.typeId === 1
+      } else {
+        // 有鼠标hover
+        return this.hoverId === 1
+      }
+    },
+    // 第三项被激活
+    activeItem3 () {
+      if (this.hoverId === this.typeId) {
+        // 没有鼠标hover
+        return this.typeId === 2
+      } else {
+        // 有鼠标hover
+        return this.hoverId === 2
+      }
     }
   },
   methods: {
     select (id) {
-      this.categoryId = id
+      this.typeId = id
       this.$emit('categoryChange', id)
     }
   }

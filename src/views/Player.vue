@@ -106,6 +106,7 @@ import BaseSelect from '@comp/BaseSelect'
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
 import 'videojs-landscape-fullscreen'
+import zhCN from 'video.js/dist/lang/zh-CN.json'
 export default {
   name: 'Player',
   components: {
@@ -124,6 +125,10 @@ export default {
       animationActive: -1,
       videoActive: -1
     }
+  },
+  mounted () {
+    // 设置语言
+    videojs.addLanguage('zh-CN', zhCN)
   },
   created () {
     const id = this.$route.params.id // 比赛ID

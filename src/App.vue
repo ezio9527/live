@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="lang-cn" :class="{desktop: desktop, mobile: !desktop}">
-    <keep-alive include="Home">
+    <keep-alive :include="['Home', 'Home2']">
       <router-view/>
     </keep-alive>
   </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="base-category">
     <ul class="container" v-loading="categoryLoading">
-      <li :class="{active: id===category.id}" @click="id=category.id" v-for="(category, index) in categoryFilterList" :key="index">{{category.name}}</li>
+      <li :class="{active: id===category.id}" @click="change(category.id)" v-for="(category, index) in categoryFilterList" :key="index">{{category.name}}</li>
     </ul>
   </div>
 </template>
@@ -12,7 +12,7 @@ import { categoryListApi } from '@/http/api'
 export default {
   name: 'BaseCategory',
   props: {
-    category: {
+    type: {
       type: Number,
       default: 0
     }
@@ -26,11 +26,11 @@ export default {
   },
   computed: {
     categoryFilterList () {
-      if (this.category === 0) {
+      if (this.type === 0) {
         return [{ id: 0, name: '全部' }].concat(this.categoryList)
       } else {
         return [{ id: 0, name: '全部' }].concat(this.categoryList.filter(item => {
-          return parseInt(item.type) === this.category
+          return parseInt(item.type) === this.type
         }))
       }
     }
@@ -47,6 +47,11 @@ export default {
       }).finally(() => {
         this.categoryLoading = false
       })
+    },
+    // 选中比赛分类
+    change (id) {
+      this.id = id
+      this.$emit('categoryChange', id)
     }
   }
 }

@@ -1,16 +1,16 @@
 <template>
   <div class="home2">
     <!--导航-->
-    <BaseNavBar @categoryChange="categoryChange"></BaseNavBar>
+    <BaseNavBar @categoryChange="categoryTypeChange"></BaseNavBar>
     <!--分类-->
-    <BaseCategory :category="categoryId"></BaseCategory>
+    <BaseCategory :type="typeId" @categoryChange="categoryIdChange"></BaseCategory>
     <!--列表头-->
     <ul class="list-header">
       <li class="name">赛事</li><li class="time">时间</li><li class="status">状态</li><li class="home">主队</li><li class="score">比分</li><li class="guest">客队</li><li class="channel">频道</li>
     </ul>
     <!--固定日期栏-->
     <!--列表区域-->
-    <BaseList :list="matchFilterList" :loading="listLoading" @load="load"></BaseList>
+    <BaseList :list="matchFilterList" :loading="listLoading" @load="load" @play="play"></BaseList>
     <!--底部Footer-->
     <BaseFooter></BaseFooter>
   </div>
@@ -79,7 +79,14 @@ export default {
   },
   methods: {
     // 切换球类
-    categoryChange (id) {
+    categoryTypeChange (id) {
+      this.typeId = id
+      this.categoryId = 0
+      this.pageIndex = 0
+      this.qryMatchList({ type: this.typeId, cid: this.categoryId, pn: this.pageIndex, ps: this.pageSize })
+    },
+    // 切换比赛分类
+    categoryIdChange (id) {
       this.categoryId = id
       this.pageIndex = 0
       this.qryMatchList({ type: this.typeId, cid: this.categoryId, pn: this.pageIndex, ps: this.pageSize })
@@ -88,13 +95,17 @@ export default {
     load () {
       this.qryMatchList({ type: this.typeId, cid: this.categoryId, pn: ++this.pageIndex, ps: this.pageSize })
     },
+    // 列表的play事件
+    play (params) {
+      this.$router.push({ name: 'Player2', params })
+    },
     // 查询比赛列表
     qryMatchList (params = { ps: this.pageSize }) {
       if (this.listLoading) {
         return
       }
       this.listLoading = true
-      if (params.pn === 1) {
+      if (params.pn === 0) {
         this.matchList = []
       }
       matchListApi(params).then(data => {
@@ -142,8 +153,8 @@ export default {
       .guest {width: 195px;}
       .channel {width: 395px;}
     }
-    /*底部Footer*/
-    .base-footer {
+    /*列表体 */
+    .base-list {
       flex: 1;
     }
   }

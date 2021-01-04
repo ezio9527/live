@@ -1,5 +1,5 @@
 <template>
-  <div class="base-footer">
+  <footer class="base-footer">
     <div class="container">
       <div class="float-left">
         <span>APP下载 | 帮助 | 关于说球帝 | 官方微博 | 加入我们 | 广告投放</span>
@@ -10,7 +10,7 @@
         <span>鲁ICP备20025623号-1</span>
       </div>
     </div>
-  </div>
+  </footer>
 </template>
 
 <script>

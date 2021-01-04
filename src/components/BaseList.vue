@@ -1,18 +1,26 @@
 <template>
-  <div class="base-list" ref="wrap" v-infinite-scroll="scrollHandle">
+  <div class="base-list" ref="wrap" v-infinite-scroll="scrollHandle" @scroll="record" @mousewheel="record" @DOMMouseScroll="record">
     <!--@scroll="scrollHandle" @mousewheel="scrollHandle" @DOMMouseScroll="scrollHandle"-->
     <ul class="list-content" ref="content">
       <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string'}">
         <template v-if="$type(match)==='object'">
           <div class="item name"><img src="@img/home/football.png" v-if="match.type===1"><img src="@img/home/basketball.png" v-else><span>{{match.name}}</span></div>
           <div class="item time">{{match.matchTime}}</div>
-          <div class="item status">{{('1') | interpreter('MatchType')}}</div>
+          <div class="item status">{{match.status | interpreter('MatchType')}}</div>
           <div class="item home"><img :src="match.hteam_logo"><span>{{match.hteam_name}}</span></div>
           <div class="item score">{{match.score}}</div>
           <div class="item guest"><img :src="match.ateam_logo"><span>{{match.ateam_name}}</span></div>
           <div class="item channel">
-            <div class="video" v-for="(video, k) in match.live_urls" :key="k"><img src="@img/list/live_video.png"/><span>{{video.name}}</span></div>
-            <div class="animation"><img src="@img/list/live_animation.png"/><span>动画直播</span></div>
+            <div class="video" :class="{disabled: video.status===0}" v-for="(video, k) in match.live_urls" :key="'video'+k" @click="$emit('play', {type: match.type, playType: 1, channel: k, id: match.id})">
+              <img class="able" src="@img/list/video.png"/>
+              <img class="disabled" src="@img/list/video_disabled.png"/>
+              <span>{{video.name}}</span>
+            </div>
+            <div class="animation" :class="{disabled: match.status!==0}" v-for="(animation, k) in match.live_cartoon_url" :key="'animation'+k" @click="$emit('play', {type: match.type, playType: 2, channel: k, id: match.id})">
+              <img class="able" src="@img/list/animation.png"/>
+              <img class="disabled" src="@img/list/animation_disabled.png"/>
+              <span>{{animation.name}}</span>
+            </div>
           </div>
         </template>
         <template v-else>
@@ -45,9 +53,18 @@ export default {
   },
   data () {
     return {
+      scrollTop: 0
     }
   },
+  activated () {
+    this.$refs.wrap.scrollTop = this.scrollTop
+  },
   methods: {
+    // 记录滚动
+    record () {
+      // 失活之后拿不到高度了,记录滚动高度
+      this.scrollTop = this.$refs.wrap.scrollTop
+    },
     // 处理滚动
     scrollHandle () {
       this.$emit('load')
@@ -67,7 +84,7 @@ export default {
 
 <style scoped lang="less">
   .base-list {
-    overflow: scroll;
+    overflow: hidden scroll;
     overflow-scrolling: touch;
     -webkit-overflow-scrolling: touch;
     .list-content {
@@ -123,15 +140,17 @@ export default {
         .channel {
           width: 395px;
           flex-wrap: wrap;
+          justify-content: center;
+          /*视频直播和动画直播图标*/
           .video, .animation {
-            margin-right: 36px;
+            padding: 0 10px;
             cursor: pointer;
             color: #27C5C3;
-            -webkit-transition: all 200ms;
-            -moz-transition: all 200ms;
-            -ms-transition: all 200ms;
-            -o-transition: all 200ms;
-            transition: all 200ms;
+            -webkit-transition: all 100ms;
+            -moz-transition: all 100ms;
+            -ms-transition: all 100ms;
+            -o-transition: all 100ms;
+            transition: all 100ms;
             img {
               margin-right: 4px;
             }
@@ -161,6 +180,21 @@ export default {
                 width: 20px;
                 height: 14px;
               }
+            }
+          }
+          /*不可用和可用状态下的样式*/
+          .video, .animation {
+            img.disabled {
+              display: none;
+            }
+          }
+          .video.disabled, .animation.disabled {
+            color: #C9C9C9;
+            img.able {
+              display: none;
+            }
+            img.disabled {
+              display: inline-block;
             }
           }
         }
