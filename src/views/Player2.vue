@@ -3,7 +3,7 @@
     <!--导航-->
     <BaseNavBar></BaseNavBar>
     <!--播放器-->
-    <BaseVideoPlayer></BaseVideoPlayer>
+    <BaseVideoPlayer :url="url" :ball="match.type"></BaseVideoPlayer>
     <!--比赛信息-->
     <div class="details" v-loading="detailsLoading">
       <div class="item name"><img src="@img/home/football.png" v-if="match.type===1"><img src="@img/home/basketball.png" v-else><span>{{match.name}}</span></div>
