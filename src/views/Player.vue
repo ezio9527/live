@@ -64,7 +64,13 @@
               <div class="team-ifo">
                 <div class="logo" :class="{logo_1: details.type==1,logo_2: details.type==2}"><!----></div>
                 <h1 class="">{{details.ateam_name}}</h1><!----></div>
-              <div class="team-score"><span>0</span> - <span>0</span></div>
+              <div class="team-score" v-if="isSocket && msgContent">
+                <span>{{msgContent.score[2][0]}}</span>
+                  -
+                <span>{{msgContent.score[3][0]}}</span>
+              </div>
+              <div class="team-score" v-else>{{details.score}}</div>
+              <!-- <div class="team-score"><span>0</span> - <span>0</span></div> -->
               <div class="team-ifo right-ifo">
                 <div class="logo" :class="{logo_1: details.type==1,logo_2: details.type==2}"><!----></div>
                 <h1 class="">{{details.hteam_name}}</h1><!----></div>
@@ -110,6 +116,11 @@ import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
 import 'videojs-landscape-fullscreen'
 import zhCN from 'video.js/dist/lang/zh-CN.json'
+// 进入详情页建立连接
+import {
+  // sendSock,
+  handleWebsocketClose
+} from '@/utils/webSocket'
 export default {
   name: 'Player',
   components: {
@@ -123,7 +134,8 @@ export default {
       url: '',
       channel: 0,
       num: 0,
-      loop: false,
+      isSocket: false,
+      msgContent: null,
       details: {
         live_urls: [],
         live_cartoon_url: []
@@ -148,6 +160,9 @@ export default {
     }
     this.qryMatchDetails({ mid: id, type })
   },
+  deactivated () { // 销毁断开
+    handleWebsocketClose()
+  },
   destroyed () {
     if (this.player) {
       this.player.pause()
@@ -156,9 +171,23 @@ export default {
     }
   },
   methods: {
+    getMsgResult (res) { // 接收
+      let msg = res.data
+      if (typeof msg === 'string') {
+        msg = JSON.parse(msg)
+      } else {
+        this.msgContent = msg
+      }
+      if (msg && msg.length) {
+        this.isSocket = true
+        this.msgContent = msg.find(e => (e.id === this.id)) || null
+      }
+    },
     // 查询比赛详情
     qryMatchDetails (data = {}) {
       matchDetailApi(data).then(data => {
+        // 初始化连接
+        // sendSock('hi', data.token, this.getMsgResult)
         this.details = data.matchinfo
         this.details.videoUrl = data.matchinfo.live_urls.map((item, index) => {
           return {

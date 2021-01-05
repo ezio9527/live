@@ -26,8 +26,6 @@
 <script>
 import LiveMsg from './LiveMsg'
 import { Tab, Tabs } from 'vant'
-// 进入详情页建立连接
-import { sendSock, handleWebsocketClose } from '@/utils/webSocket'
 export default {
   name: 'LiveTabView',
   components: {
@@ -43,23 +41,11 @@ export default {
       txtTips: '开发小哥正在加班，内容建设中...'
     }
   },
-  deactivated () { // 销毁断开
-    handleWebsocketClose()
-  },
   computed: {
   },
   created () {
-    // 初始化
-    sendSock('hi', this.getMsgResult)
   },
   methods: {
-    getMsgResult (res) { // 接收
-      if (typeof res.data === 'string') {
-        console.log(JSON.parse(res.data))
-      } else {
-        console.log(res.data)
-      }
-    }
   }
 }
 </script>

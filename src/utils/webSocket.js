@@ -6,9 +6,9 @@ var globalCallback = null
 var timer = null
 var timer2 = null
 // 初始化
-function initWebSocket (agentData) {
+function initWebSocket (agentData, token) {
   if ('WebSocket' in window) {
-    var url = `${location.protocol === 'https' ? 'wss' : 'ws'}://${location.host}/ws/live/detail?token=aaaaa`
+    var url = `${location.protocol === 'https' ? 'wss' : 'ws'}://${location.host}/ws/live/detail?token=${token}`
     console.log(url)
     websock = new WebSocket(url)
     websock.onmessage = (e) => {
@@ -81,7 +81,7 @@ function websocketOpen (e) {
  * @param {*} callback
  * @returns sendSock(data, this.getConfigResult)
  */
-export function sendSock (agentData, callback) {
+export function sendSock (agentData, token, callback) {
   if (agentData) {
     globalCallback = callback
     if (websock && websock.readyState === websock.OPEN) {
@@ -96,7 +96,7 @@ export function sendSock (agentData, callback) {
       }, 1000)
     } else {
       // 若未开启
-      initWebSocket(agentData)
+      initWebSocket(agentData, token)
     }
   } else {
     Toast('数据不能为空')
