@@ -42,23 +42,23 @@
             <div class="time">{{match.matchTime}}</div>
             <div class="status">{{match.status | interpreter('MatchType')}}</div>
           </div>
-          <!--<div class="middle">-->
-            <!--<div class="home"><img :src="match.hteam_logo"><span>{{match.hteam_name}}</span></div>-->
-            <!--<div class="score">{{match.score}}</div>-->
-            <!--<div class="guest"><img :src="match.ateam_logo"><span>{{match.ateam_name}}</span></div>-->
-          <!--</div>-->
-          <!--<div class="bottom">-->
-            <!--<div class="video" :class="{disabled: video.status===0}" v-for="(video, k) in match.live_urls" :key="'video'+k" @click="$emit('play', {type: match.type, playType: 1, channel: k, id: match.id})">-->
-              <!--<img class="able" src="@img/list/video.png"/>-->
-              <!--<img class="disabled" src="@img/list/video_disabled.png"/>-->
-              <!--<span>{{video.name}}</span>-->
-            <!--</div>-->
-            <!--<div class="animation" :class="{disabled: match.status!==0}" v-for="(animation, k) in match.live_cartoon_url" :key="'animation'+k" @click="$emit('play', {type: match.type, playType: 2, channel: k, id: match.id})">-->
-              <!--<img class="able" src="@img/list/animation.png"/>-->
-              <!--<img class="disabled" src="@img/list/animation_disabled.png"/>-->
-              <!--<span>{{animation.name}}</span>-->
-            <!--</div>-->
-          <!--</div>-->
+          <div class="middle">
+            <div class="home line-word-hidden"><span>{{match.hteam_name}}</span><img :src="match.hteam_logo"></div>
+            <div class="score">{{match.score}}</div>
+            <div class="guest line-word-hidden"><img :src="match.ateam_logo"><span>{{match.ateam_name}}</span></div>
+          </div>
+          <div class="bottom">
+            <div class="video" :class="{disabled: video.status===0}" v-for="(video, k) in match.live_urls" :key="'video'+k" @click="$emit('play', {type: match.type, playType: 1, channel: k, id: match.id})">
+              <img class="able" src="@img/list/video.png"/>
+              <img class="disabled" src="@img/list/video_disabled.png"/>
+              <span>{{video.name}}</span>
+            </div>
+            <div class="animation" :class="{disabled: match.status!==0}" v-for="(animation, k) in match.live_cartoon_url" :key="'animation'+k" @click="$emit('play', {type: match.type, playType: 2, channel: k, id: match.id})">
+              <img class="able" src="@img/list/animation.png"/>
+              <img class="disabled" src="@img/list/animation_disabled.png"/>
+              <span>{{animation.name}}</span>
+            </div>
+          </div>
         </template>
         <template v-else>
           {{match}}
@@ -318,13 +318,16 @@ export default {
       overflow: hidden scroll;
       overflow-scrolling: touch;
       -webkit-overflow-scrolling: touch;
+      font-size: 12px;
       .list-content {
         .px2vw(width, 700);
+        margin: auto;
         li {
           position: relative;
           width: 100%;
-          /*height: 84px;*/
-          margin: 15px auto;
+          height: auto;
+          .px2vw(margin-top, 10);
+          .px2vw(margin-bottom, 10);
           border-radius: 10px;
           color: #666666;
           background: #FFF;
@@ -335,19 +338,197 @@ export default {
           display: -webkit-flex;
           display: -ms-flexbox;
           display: flex;
+          flex-direction: column;
+          align-items: center;
           -webkit-transition: all 200ms;
           -moz-transition: all 200ms;
           -ms-transition: all 200ms;
           -o-transition: all 200ms;
           transition: all 200ms;
+          .top {
+            position: relative;
+            .px2vw(width, 640);
+            .px2vw(height, 60);
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .name, .status {
+              width: auto;
+              flex: 1;
+            }
+            .name {
+              color: #333333;
+              text-align: left;
+              img {
+                .px2vw(width, 40);
+                .px2vw(height, 40);
+                margin-left: 0;
+              }
+            }
+            .time {
+              color: #333333;
+              .px2vw(width, 100);
+            }
+            .status {
+              color: #333333;
+              text-align: right;
+            }
+            /*底部细线*/
+            &:before {
+              content: '';
+              position: absolute;
+              width: 100%;
+              bottom: 0;
+              height: 1px;
+              background: #979797;
+              -webkit-transform: scaleY(0.5);
+              -moz-transform: scaleY(0.5);
+              -ms-transform: scaleY(0.5);
+              -o-transform: scaleY(0.5);
+              transform: scaleY(0.5);
+            }
+          }
+          .middle {
+            .px2vw(width, 640);
+            .px2vw(height, 90);
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .home {
+              flex: 1;
+              text-align: right;
+              font-size: 12px;
+              color: #000000;
+              img {
+                .px2vw(width, 38);
+                .px2vw(height, 38);
+                .px2vw(margin-left, 16);
+              }
+            }
+            .score {
+              font-size: 14px;
+              color: #000000;
+              .px2vw(width, 120);
+              text-align: center;
+            }
+            .guest {
+              flex: 1;
+              text-align: left;
+              font-size: 12px;
+              color: #000000;
+              img {
+                .px2vw(width, 38);
+                .px2vw(height, 38);
+                .px2vw(margin-right, 16);
+              }
+            }
+          }
+          .bottom {
+            .px2vw(width, 640);
+            .px2vw(padding-bottom, 40);
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /*视频直播和动画直播图标*/
+            .video, .animation {
+              font-size: 12px;
+              .px2vw(padding-left, 20);
+              .px2vw(padding-right, 20);
+              cursor: pointer;
+              color: #27C5C3;
+              -webkit-transition: all 100ms;
+              -moz-transition: all 100ms;
+              -ms-transition: all 100ms;
+              -o-transition: all 100ms;
+              transition: all 100ms;
+              img {
+                .px2vw(margin-right, 8);
+              }
+              &:hover {
+                font-size: 12px;
+              }
+            }
+            .video {
+              img {
+                .px2vw(width, 28);
+                .px2vw(height, 32);
+              }
+              &:hover {
+                img {
+                  .px2vw(width, 32);
+                  .px2vw(height, 36);
+                }
+              }
+            }
+            .animation {
+              img {
+                .px2vw(width, 36);
+                .px2vw(height, 24);
+              }
+              &:hover {
+                img {
+                  .px2vw(width, 40);
+                  .px2vw(height, 28);
+                }
+              }
+            }
+            /*不可用和可用状态下的样式*/
+            .video, .animation {
+              img.disabled {
+                display: none;
+              }
+            }
+            .video.disabled, .animation.disabled {
+              color: #C9C9C9;
+              img.able {
+                display: none;
+              }
+              img.disabled {
+                display: inline-block;
+              }
+            }
+          }
         }
-        .top {
-          display: -webkit-box;
-          display: -webkit-flex;
-          display: -ms-flexbox;
-          display: flex;
-          justify-content: space-between;
-          .px2vw(height, 60);
+        /*去掉特效*/
+        li:hover {
+          width: 100%;
+          height: auto;
+          -webkit-box-shadow: none;
+          -moz-box-shadow: none;
+          box-shadow: none;
+        }
+        /*底部加载更多*/
+        li.more {
+          display: block;
+          width: 100%;
+          height: 36px;
+          line-height: 36px;
+          margin-top: 10px;
+          text-align: center;
+          background: #F7F7F7;
+          border-radius: 10px;
+          color: #999999;
+          font-size: 14px;
+          -webkit-box-shadow: none;
+          -moz-box-shadow: none;
+          box-shadow: none;
+          &:hover {
+            cursor: pointer;
+            width: 100%;
+            height: 40px;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+          }
         }
       }
     }

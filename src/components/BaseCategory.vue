@@ -102,6 +102,7 @@ export default {
         display: none;
       }
       .container {
+        width: 100%;
         padding-top: 0;
         white-space: nowrap;
         li {

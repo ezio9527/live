@@ -221,17 +221,24 @@ export default {
         /*logo*/
         .logo {
           .px2vw(width, 200);
+          .px2vw(margin-right, 28);
         }
         /*导航选项*/
         ul {
           margin-left: 0;
-          .px2vw(width, 428);
-          .px2vw(height, 60);
+          .px2vw(width, 424);
+          .px2vw(height, 64);
           border: 1px solid #D7D7DA;
           border-radius: 100px;
           -webkit-box-sizing: border-box;
           -moz-box-sizing: border-box;
           box-sizing: border-box;
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: -ms-flexbox;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           .background {
             .px2vw(width, 140);
             .px2vw(height, 60);
@@ -247,12 +254,18 @@ export default {
           }
           /*第三个元素*/
           .item.active + li.background {
-            .px2vw(left, 280) !important;
+            left: auto !important;
+            right: 0;
           }
           li {
             .px2vw(width, 140);
-            height: 100%;
-            .px2vw(line-height, 60);
+            .px2vw(height, 60);
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             img {
               .px2vw(width, 30);
               .px2vw(height, 30);
