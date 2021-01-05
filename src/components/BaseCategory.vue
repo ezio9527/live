@@ -93,10 +93,23 @@ export default {
       }
     }
   }
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 700px) {
     .base-category {
+      overflow: scroll;
+      overflow-scrolling: touch;
+      -webkit-overflow-scrolling: touch;
+      &::-webkit-scrollbar {
+        display: none;
+      }
       .container {
-        width: 100%;
+        padding-top: 0;
+        white-space: nowrap;
+        li {
+          display: inline-block;
+          .px2vw(width, 100);
+          height: 34px;
+          margin-bottom: 0;
+        }
       }
     }
   }

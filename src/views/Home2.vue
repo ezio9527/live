@@ -3,14 +3,14 @@
     <!--导航-->
     <BaseNavBar @categoryChange="categoryTypeChange" @search="search" :clear="searchKey"></BaseNavBar>
     <!--分类-->
-    <!--<BaseCategory :type="typeId" @categoryChange="categoryIdChange"></BaseCategory>-->
+    <BaseCategory :type="typeId" @categoryChange="categoryIdChange"></BaseCategory>
     <!--列表头-->
-    <!--<ul class="list-header">-->
-      <!--<li class="name">赛事</li><li class="time">时间</li><li class="status">状态</li><li class="home">主队</li><li class="score">比分</li><li class="guest">客队</li><li class="channel">频道</li>-->
-    <!--</ul>-->
+    <ul class="list-header">
+      <li class="name">赛事</li><li class="time">时间</li><li class="status">状态</li><li class="home">主队</li><li class="score">比分</li><li class="guest">客队</li><li class="channel">频道</li>
+    </ul>
     <!--固定日期栏-->
     <!--列表区域-->
-    <!--<BaseList :list="matchFilterList" :loading="listLoading" @load="load" @play="play"></BaseList>-->
+    <BaseList :list="matchFilterList" :loading="listLoading" @load="load" @play="play"></BaseList>
     <!--底部Footer-->
     <BaseFooter></BaseFooter>
   </div>
@@ -18,16 +18,16 @@
 
 <script>
 import BaseNavBar from '@comp/BaseNavBar'
-// import BaseCategory from '@comp/BaseCategory'
-// import BaseList from '@comp/BaseList'
+import BaseCategory from '@comp/BaseCategory'
+import BaseList from '@comp/BaseList'
 import BaseFooter from '@comp/BaseFooter'
 import { matchListApi } from '@/http/api'
 export default {
   name: 'Home2',
   components: {
     BaseNavBar,
-    // BaseCategory,
-    // BaseList,
+    BaseCategory,
+    BaseList,
     BaseFooter
   },
   data () {
@@ -172,12 +172,12 @@ export default {
       flex: 1;
     }
   }
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 700px) {
     .home2 {
       background: #FFFFFF;
       /*列表头*/
       .list-header {
-        width: 100%;
+        display: none;
       }
     }
   }

@@ -200,8 +200,9 @@ export default {
       }
     }
   }
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 700px) {
     .base-nav-bar {
+      .px2vw(height, 140);
       /*内容区域*/
       .container {
         width: 100%;
@@ -228,26 +229,46 @@ export default {
           .px2vw(height, 60);
           border: 1px solid #D7D7DA;
           border-radius: 100px;
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
           .background {
-            .px2vw(width, 143);
+            .px2vw(width, 140);
             .px2vw(height, 60);
             border-radius: 100px;
           }
+          /*第一个元素*/
+          .item.active + .item + .item + li.background {
+            left: 0;
+          }
+          /*第二个元素*/
+          .item.active + .item + li.background {
+            .px2vw(left, 140) !important;
+          }
+          /*第三个元素*/
+          .item.active + li.background {
+            .px2vw(left, 280) !important;
+          }
           li {
-            .px2vw(width, 142);
+            .px2vw(width, 140);
             height: 100%;
+            .px2vw(line-height, 60);
             img {
               .px2vw(width, 30);
               .px2vw(height, 30);
-              vertical-align: middle;
+              /*vertical-align: middle;*/
             }
             span {
-              vertical-align: middle;
+              /*vertical-align: middle;*/
             }
             &.active {
               color: #FFF;
             }
           }
+        }
+        /*搜索*/
+        .search {
+          display: none;
         }
       }
     }

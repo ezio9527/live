@@ -1,7 +1,8 @@
 <template>
   <div class="base-list" ref="wrap" v-infinite-scroll="scrollHandle" @scroll="record" @mousewheel="record" @DOMMouseScroll="record">
     <!--@scroll="scrollHandle" @mousewheel="scrollHandle" @DOMMouseScroll="scrollHandle"-->
-    <ul class="list-content" ref="content">
+    <!--PC样式-->
+    <ul class="list-content" ref="content" v-if="getScreenIsPc">
       <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string'}">
         <template v-if="$type(match)==='object'">
           <div class="item name"><img src="@img/home/football.png" v-if="match.type===1"><img src="@img/home/basketball.png" v-else><span>{{match.name}}</span></div>
@@ -32,6 +33,42 @@
         <span v-show="!loading">点击加载更多</span>
       </li>
     </ul>
+    <!--Mobile样式-->
+    <ul class="list-content" ref="content" v-else>
+      <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string'}">
+        <template v-if="$type(match)==='object'">
+          <div class="top">
+            <div class="name"><img src="@img/home/football.png" v-if="match.type===1"><img src="@img/home/basketball.png" v-else><span>{{match.name}}</span></div>
+            <div class="time">{{match.matchTime}}</div>
+            <div class="status">{{match.status | interpreter('MatchType')}}</div>
+          </div>
+          <!--<div class="middle">-->
+            <!--<div class="home"><img :src="match.hteam_logo"><span>{{match.hteam_name}}</span></div>-->
+            <!--<div class="score">{{match.score}}</div>-->
+            <!--<div class="guest"><img :src="match.ateam_logo"><span>{{match.ateam_name}}</span></div>-->
+          <!--</div>-->
+          <!--<div class="bottom">-->
+            <!--<div class="video" :class="{disabled: video.status===0}" v-for="(video, k) in match.live_urls" :key="'video'+k" @click="$emit('play', {type: match.type, playType: 1, channel: k, id: match.id})">-->
+              <!--<img class="able" src="@img/list/video.png"/>-->
+              <!--<img class="disabled" src="@img/list/video_disabled.png"/>-->
+              <!--<span>{{video.name}}</span>-->
+            <!--</div>-->
+            <!--<div class="animation" :class="{disabled: match.status!==0}" v-for="(animation, k) in match.live_cartoon_url" :key="'animation'+k" @click="$emit('play', {type: match.type, playType: 2, channel: k, id: match.id})">-->
+              <!--<img class="able" src="@img/list/animation.png"/>-->
+              <!--<img class="disabled" src="@img/list/animation_disabled.png"/>-->
+              <!--<span>{{animation.name}}</span>-->
+            <!--</div>-->
+          <!--</div>-->
+        </template>
+        <template v-else>
+          {{match}}
+        </template>
+      </li>
+      <li class="more" @click="$emit('load')">
+        <span v-show="loading">数据加载中</span>
+        <span v-show="!loading">点击加载更多</span>
+      </li>
+    </ul>
     <el-backtop target=".base-list" :bottom="100">
       <img src="@img/list/backtop.png"/>
     </el-backtop>
@@ -39,6 +76,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'BaseList',
   props: {
@@ -50,6 +88,12 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  computed: {
+    ...mapGetters([
+      'getScreenIsPc',
+      'getScreenIsMobile'
+    ])
   },
   data () {
     return {
@@ -265,6 +309,45 @@ export default {
           -webkit-box-shadow: none;
           -moz-box-shadow: none;
           box-shadow: none;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 700px) {
+    .base-list {
+      overflow: hidden scroll;
+      overflow-scrolling: touch;
+      -webkit-overflow-scrolling: touch;
+      .list-content {
+        .px2vw(width, 700);
+        li {
+          position: relative;
+          width: 100%;
+          /*height: 84px;*/
+          margin: 15px auto;
+          border-radius: 10px;
+          color: #666666;
+          background: #FFF;
+          -webkit-box-shadow: 0px 10px 44px 0px rgba(0, 0, 0, 0.08);
+          -moz-box-shadow: 0px 10px 44px 0px rgba(0, 0, 0, 0.08);
+          box-shadow: 0px 10px 44px 0px rgba(0, 0, 0, 0.08);
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-transition: all 200ms;
+          -moz-transition: all 200ms;
+          -ms-transition: all 200ms;
+          -o-transition: all 200ms;
+          transition: all 200ms;
+        }
+        .top {
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: -ms-flexbox;
+          display: flex;
+          justify-content: space-between;
+          .px2vw(height, 60);
         }
       }
     }

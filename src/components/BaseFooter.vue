@@ -56,7 +56,7 @@ export default {
       }
     }
   }
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 700px) {
     .base-footer {
       display: none;
     }
