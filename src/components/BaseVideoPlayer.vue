@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import 'hls.js'
 import DPlayer from 'dplayer'
 import logo from '@img/nav/logo.png'
 export default {
@@ -68,10 +69,10 @@ export default {
       volume: 0.7,
       mutex: true,
       video: {
-        url: 'dplayer.mp4',
-        pic: 'dplayer.png',
+        url: this.url,
+        // pic: 'dplayer.png',
         thumbnails: logo,
-        type: 'auto'
+        type: 'hls'
       }
     })
   },

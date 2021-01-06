@@ -3,7 +3,7 @@
     <!--@scroll="scrollHandle" @mousewheel="scrollHandle" @DOMMouseScroll="scrollHandle"-->
     <!--PC样式-->
     <ul class="list-content" ref="content" v-if="getScreenIsPc">
-      <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string'}">
+      <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string', underway: parseInt(match.status)===0}">
         <template v-if="$type(match)==='object'">
           <div class="item name"><img src="@img/home/football.png" v-if="match.type===1"><img src="@img/home/basketball.png" v-else><span>{{match.name}}</span></div>
           <div class="item time">{{match.matchTime}}</div>
@@ -35,7 +35,7 @@
     </ul>
     <!--Mobile样式-->
     <ul class="list-content" ref="content" v-else>
-      <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string'}">
+      <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string', underway: parseInt(match.status)===0}">
         <template v-if="$type(match)==='object'">
           <div class="top">
             <div class="name"><img src="@img/home/football.png" v-if="match.type===1"><img src="@img/home/basketball.png" v-else><span>{{match.name}}</span></div>
@@ -153,6 +153,17 @@ export default {
         -ms-transition: all 200ms;
         -o-transition: all 200ms;
         transition: all 200ms;
+        /*比赛中*/
+        &.underway {
+          .name {
+            color: #FB4B4B;
+            img {
+              -webkit-animation: loading 1300ms linear infinite;
+              animation: loading 1300ms linear infinite;
+            }
+          }
+          .status {color: #FB4B4B;}
+        }
         .item {
           display: -webkit-box;
           display: -webkit-flex;
@@ -163,6 +174,7 @@ export default {
         }
         .name {
           width: 150px;
+          color: #FB4B4B;
           img {
             width: 30px;
             height: 30px;
@@ -170,7 +182,7 @@ export default {
             margin-right: 4px;
           }
         }
-        .time {width: 65px;}
+        .time {width: 65px; color: #27C5C3;}
         .status {width: 100px;}
         .home, .guest {
           flex-direction: column;
@@ -360,7 +372,7 @@ export default {
               flex: 1;
             }
             .name {
-              color: #333333;
+              color: #FB4B4B;
               text-align: left;
               img {
                 .px2vw(width, 40);
@@ -369,11 +381,10 @@ export default {
               }
             }
             .time {
-              color: #333333;
+              color: #27C5C3;
               .px2vw(width, 100);
             }
             .status {
-              color: #333333;
               text-align: right;
             }
             /*底部细线*/
@@ -531,6 +542,39 @@ export default {
           }
         }
       }
+    }
+  }
+
+  @-webkit-keyframes loading {
+    from {
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(1turn);
+      -moz-transform: rotate(1turn);
+      -ms-transform: rotate(1turn);
+      -o-transform: rotate(1turn);
+      transform: rotate(1turn);
+    }
+  }
+  @keyframes loading {
+    from {
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(1turn);
+      -moz-transform: rotate(1turn);
+      -ms-transform: rotate(1turn);
+      -o-transform: rotate(1turn);
+      transform: rotate(1turn);
     }
   }
 </style>
