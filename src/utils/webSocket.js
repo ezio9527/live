@@ -3,12 +3,15 @@ import { Toast } from 'vant'
 // 建立连接
 var websock = null
 var globalCallback = null
+var isClose = false
 var timer = null
 var timer2 = null
 // 初始化
-function initWebSocket (agentData, token) {
+function initWebSocket (agentData, type, token) {
   if ('WebSocket' in window) {
-    var url = `${location.protocol === 'https' ? 'wss' : 'ws'}://${location.host}/ws/live/detail?token=${token}`
+    isClose = false
+    let typeName = type === 1 ? 'zuqiu' : 'lanqiu'
+    var url = `${location.protocol === 'https' ? 'wss' : 'ws'}://${location.host}/ws/live/detail/${typeName}?token=${token}`
     console.log(url)
     websock = new WebSocket(url)
     websock.onmessage = (e) => {
@@ -36,7 +39,7 @@ function initWebSocket (agentData, token) {
 
 // 数据接收
 function websocketonmessage (e) {
-  console.log('数据接收', e)
+  // console.log('数据接收', e)
   globalCallback(e)
   // globalCallback(JSON.parse(e.data))
 }
@@ -56,15 +59,18 @@ function websocketsend (agentData) {
 // 关闭
 export function websocketclose (e) {
   console.log(`关闭`)
-  clearTimeout(timer2)
-  timer2 = null
-  timer2 = setTimeout(() => {
-    initWebSocket()
-  }, 1000)
+  if (!isClose) { // 非手动关闭重连
+    clearTimeout(timer2)
+    timer2 = null
+    timer2 = setTimeout(() => {
+      initWebSocket()
+    }, 1000)
+  }
 }
 export function handleWebsocketClose (e) {
   if (websock) {
     console.log(`连接已关闭`)
+    isClose = true
     websock.close()
   }
 }
@@ -79,9 +85,9 @@ function websocketOpen (e) {
  * @export
  * @param {*} agentData
  * @param {*} callback
- * @returns sendSock(data, this.getConfigResult)
+ * @returns sendSock(data,type,token this.getConfigResult)
  */
-export function sendSock (agentData, token, callback) {
+export function sendSock (agentData, type, token, callback) {
   if (agentData) {
     globalCallback = callback
     if (websock && websock.readyState === websock.OPEN) {
@@ -92,11 +98,11 @@ export function sendSock (agentData, token, callback) {
       clearTimeout(timer)
       timer = null
       timer = setTimeout(() => {
-        sendSock(agentData, callback)
+        sendSock(agentData, type, token, callback)
       }, 1000)
     } else {
       // 若未开启
-      initWebSocket(agentData, token)
+      initWebSocket(agentData, type, token)
     }
   } else {
     Toast('数据不能为空')
