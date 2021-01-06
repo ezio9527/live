@@ -110,7 +110,6 @@
 
 <script>
 import Hls from 'hls.js'
-import VueDPlayer from './VueDPlayerHls'
 import BaseNavBar from '@comp/BaseNavBar'
 import BaseVideoPlayer from '@comp/BaseVideoPlayer'
 import BaseFooter from '@comp/BaseFooter'
