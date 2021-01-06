@@ -10,7 +10,13 @@
     </div>
     <!--播放器-->
     <!-- <BaseVideoPlayer :url="url" :ball="match.type" v-if="playType===1"></BaseVideoPlayer> -->
-    <BaseVideoPlayer ref="player" :video="video" :contextmenu="contextmenu" @play="play"></BaseVideoPlayer>
+    <BaseVideoPlayer
+      v-if="playType===1"
+      ref="player"
+      :video="video"
+      :contextmenu="contextmenu"
+      @play="play"
+    ></BaseVideoPlayer>
     <!--动画播放器-->
     <iframe :src="url" v-else></iframe>
     <!--比赛信息PC版-->
