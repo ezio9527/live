@@ -1,5 +1,5 @@
 <template>
-  <div class="base-list" ref="wrap" v-infinite-scroll="scrollHandle" @scroll="record" @mousewheel="record" @DOMMouseScroll="record">
+  <div class="base-list" ref="wrap" v-infinite-scroll="scrollHandle" infinite-scroll-distance="700" @scroll="record" @mousewheel="record" @DOMMouseScroll="record">
     <!--@scroll="scrollHandle" @mousewheel="scrollHandle" @DOMMouseScroll="scrollHandle"-->
     <!--PC样式-->
     <ul class="list-content" ref="content" v-if="getScreenIsPc">
@@ -57,6 +57,11 @@
               <img class="able" src="@img/list/animation.png"/>
               <img class="disabled" src="@img/list/animation_disabled.png"/>
               <span>{{animation.name}}</span>
+            </div>
+            <!--啥信号都没有-->
+            <div class="none" v-if="match.live_urls.length === 0 && match.live_cartoon_url.length === 0">
+              <img src="@img/list/video_hd_disabled.png"/>
+              <span>暂无更多信号</span>
             </div>
           </div>
         </template>
@@ -135,6 +140,14 @@ export default {
     overflow: hidden scroll;
     overflow-scrolling: touch;
     -webkit-overflow-scrolling: touch;
+    &::-webkit-scrollbar-thumb {
+      background: rgba(25, 171, 245, 0.6) !important;
+      background: linear-gradient(135deg, rgba(25, 171, 245, 0.6), rgba(104, 255, 135, 0.6))!important;
+      background: -webkit-linear-gradient(135deg, rgba(25, 171, 245, 0.6), rgba(104, 255, 135, 0.6))!important;
+      background: -moz-linear-gradient-linear-gradient(135deg, rgba(25, 171, 245, 0.6), rgba(104, 255, 135, 0.6))!important;
+      background: -ms-linear-gradient(135deg, rgba(25, 171, 245, 0.6), rgba(104, 255, 135, 0.6))!important;
+      background: -o-linear-gradient(135deg, rgba(25, 171, 245, 0.6), rgba(104, 255, 135, 0.6))!important;
+    }
     .list-content {
       flex: 1;
       li {
@@ -379,13 +392,14 @@ export default {
               color: #FB4B4B;
               text-align: left;
               img {
-                .px2vw(width, 40);
-                .px2vw(height, 40);
+                .px2vw(width, 28);
+                .px2vw(height, 28);
                 margin-left: 0;
               }
             }
             .time {
               color: #27C5C3;
+              font-size: 12px;
               .px2vw(width, 100);
             }
             .status {
@@ -409,7 +423,7 @@ export default {
           }
           .middle {
             .px2vw(width, 640);
-            .px2vw(height, 80);
+            .px2vw(height, 90);
             display: -webkit-box;
             display: -webkit-flex;
             display: -ms-flexbox;
@@ -419,7 +433,7 @@ export default {
             .home {
               flex: 1;
               text-align: right;
-              font-size: 14px;
+              font-size: 12px;
               color: #000000;
               font-weight: 400;
               img {
@@ -438,7 +452,7 @@ export default {
             .guest {
               flex: 1;
               text-align: left;
-              font-size: 14px;
+              font-size: 12px;
               color: #000000;
               font-weight: 400;
               img {
@@ -450,7 +464,7 @@ export default {
           }
           .bottom {
             .px2vw(width, 640);
-            .px2vw(padding-bottom, 10);
+            .px2vw(padding-bottom, 20);
             display: -webkit-box;
             display: -webkit-flex;
             display: -ms-flexbox;
@@ -513,6 +527,14 @@ export default {
               }
               img.disabled {
                 display: inline-block;
+              }
+            }
+            .none {
+              color: #C9C9C9;
+              img {
+                .px2vw(width, 32);
+                .px2vw(height, 36);
+                .px2vw(margin-right, 8);
               }
             }
           }
