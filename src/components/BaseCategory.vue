@@ -73,7 +73,7 @@ export default {
       box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.04);
       li {
         display: inline-block;
-        width: 73px;
+        padding: 0 15px;
         height: 34px;
         line-height: 34px;
         margin-bottom: 12px;
@@ -107,7 +107,8 @@ export default {
         white-space: nowrap;
         li {
           display: inline-block;
-          .px2vw(width, 100);
+          .px2vw(padding-left, 30);
+          .px2vw(padding-right, 30);
           height: 34px;
           margin-bottom: 0;
         }
