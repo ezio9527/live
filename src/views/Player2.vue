@@ -182,7 +182,7 @@ export default {
   display: -ms-flexbox;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   /*视频播放器*/
   .base-video {
