@@ -408,7 +408,7 @@ export default {
           }
           .middle {
             .px2vw(width, 640);
-            .px2vw(height, 60);
+            .px2vw(height, 80);
             display: -webkit-box;
             display: -webkit-flex;
             display: -ms-flexbox;
