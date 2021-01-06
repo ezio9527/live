@@ -111,7 +111,7 @@ export default {
     },
     // 列表的play事件
     play (params) {
-      this.$router.push({ name: 'Player', params })
+      this.$router.push({ name: 'Player2', params })
     },
     // 查询比赛列表
     qryMatchList (params = { ps: this.pageSize }) {

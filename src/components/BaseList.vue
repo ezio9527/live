@@ -8,9 +8,9 @@
           <div class="item name"><img src="@img/home/football.png" v-if="match.type===1"><img src="@img/home/basketball.png" v-else><span>{{match.name}}</span></div>
           <div class="item time">{{match.matchTime}}</div>
           <div class="item status">{{match.status | interpreter('MatchType')}}</div>
-          <div class="item home"><img :src="match.hteam_logo"><span>{{match.hteam_name}}</span></div>
+          <div class="item home"><img :src="match.hteam_logo" @error="errorImg"><span>{{match.hteam_name}}</span></div>
           <div class="item score">{{match.score}}</div>
-          <div class="item guest"><img :src="match.ateam_logo"><span>{{match.ateam_name}}</span></div>
+          <div class="item guest"><img :src="match.ateam_logo" @error="errorImg"><span>{{match.ateam_name}}</span></div>
           <div class="item channel">
             <div class="video" :class="{disabled: video.status===0}" v-for="(video, k) in match.live_urls" :key="'video'+k" @click="$emit('play', {type: match.type, playType: 1, channel: k, id: match.id})">
               <img class="able" src="@img/list/video.png"/>
@@ -43,9 +43,9 @@
             <div class="status">{{match.status | interpreter('MatchType')}}</div>
           </div>
           <div class="middle">
-            <div class="home line-word-hidden"><span>{{match.hteam_name}}</span><img :src="match.hteam_logo"></div>
+            <div class="home line-word-hidden"><span>{{match.hteam_name}}</span><img :src="match.hteam_logo" @error="errorImg"></div>
             <div class="score">{{match.score}}</div>
-            <div class="guest line-word-hidden"><img :src="match.ateam_logo"><span>{{match.ateam_name}}</span></div>
+            <div class="guest line-word-hidden"><img :src="match.ateam_logo" @error="errorImg"><span>{{match.ateam_name}}</span></div>
           </div>
           <div class="bottom">
             <div class="video" :class="{disabled: video.status===0}" v-for="(video, k) in match.live_urls" :key="'video'+k" @click="$emit('play', {type: match.type, playType: 1, channel: k, id: match.id})">
@@ -77,6 +77,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import logo from '@img/list/team_default_logo.png'
 export default {
   name: 'BaseList',
   props: {
@@ -121,6 +122,9 @@ export default {
       // if (contentH - viewH - scrollTop <= 100) {}
       // // 当滚动到距离底部5%时
       // if (scrollTop / (contentH - viewH) >= 0.95 && !this.load) {}
+    },
+    errorImg (event) {
+      event.target.src = logo
     }
   }
 }
@@ -404,7 +408,7 @@ export default {
           }
           .middle {
             .px2vw(width, 640);
-            .px2vw(height, 90);
+            .px2vw(height, 60);
             display: -webkit-box;
             display: -webkit-flex;
             display: -ms-flexbox;
@@ -442,7 +446,7 @@ export default {
           }
           .bottom {
             .px2vw(width, 640);
-            .px2vw(padding-bottom, 40);
+            .px2vw(padding-bottom, 10);
             display: -webkit-box;
             display: -webkit-flex;
             display: -ms-flexbox;
