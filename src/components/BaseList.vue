@@ -404,6 +404,7 @@ export default {
               -ms-transform: scaleY(0.5);
               -o-transform: scaleY(0.5);
               transform: scaleY(0.5);
+              opacity: 0.3;
             }
           }
           .middle {
