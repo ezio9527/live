@@ -5,15 +5,12 @@
       <img src="@img/nav/basketball_unselected.png" v-else>
       <span>视频加载中...</span>
     </div>
-    <video id="videoPlayer" class="video-js"></video>
   </div>
 </template>
 
 <script>
-import videojs from 'video.js'
-import 'video.js/dist/video-js.css'
-import 'videojs-landscape-fullscreen'
-import zhCN from 'video.js/dist/lang/zh-CN.json'
+import DPlayer from 'dplayer'
+import logo from '@img/nav/logo.png'
 export default {
   name: 'BaseVideoPlayer',
   props: {
@@ -58,8 +55,25 @@ export default {
     }
   },
   mounted () {
-    // 设置语言
-    videojs.addLanguage('zh-CN', zhCN)
+    this.player = new DPlayer({
+      container: this.$refs.wrap,
+      autoplay: false,
+      theme: '#FADFA3',
+      loop: true,
+      lang: 'zh-cn',
+      screenshot: true,
+      hotkey: true,
+      preload: 'auto',
+      logo: logo,
+      volume: 0.7,
+      mutex: true,
+      video: {
+        url: 'dplayer.mp4',
+        pic: 'dplayer.png',
+        thumbnails: logo,
+        type: 'auto'
+      }
+    })
   },
   destroyed () {
     this.destroyPlayer()
@@ -74,61 +88,6 @@ export default {
       }
     },
     createPlayer () {
-      this.player = videojs('videoPlayer', this.setup, () => {
-        videojs.log('Your player is ready!')
-
-        this.player.on('loadstart', () => {
-          console.log('开始请求数据 ')
-          this.loading = false
-        })
-        this.player.on('progress', () => {
-          console.log('正在请求数据 ')
-        })
-        this.player.on('loadedmetadata', () => {
-          console.log('获取资源长度完成 ')
-        })
-        this.player.on('canplaythrough', () => {
-          console.log('视频源数据加载完成')
-        })
-        this.player.on('waiting', () => {
-          console.log('等待数据')
-        })
-        this.player.on('play', () => {
-          console.log('视频开始播放')
-          this.loading = false
-        })
-        this.player.on('playing', () => {
-          console.log('视频播放中')
-        })
-        this.player.on('pause', () => {
-          console.log('视频暂停播放')
-        })
-        this.player.on('ended', () => {
-          console.log('视频播放结束')
-        })
-        this.player.on('error', () => {
-          console.log('加载错误')
-          this.loading = false
-        })
-        this.player.on('seeking', () => {
-          console.log('视频跳转中')
-        })
-        this.player.on('seeked', () => {
-          console.log('视频跳转结束')
-        })
-        this.player.on('ratechange', () => {
-          console.log('播放速率改变')
-        })
-        this.player.on('timeupdate', () => {
-          console.log('播放时长改变')
-        })
-        this.player.on('volumechange', () => {
-          console.log('音量改变')
-        })
-        this.player.on('stalled', () => {
-          console.log('网速异常')
-        })
-      })
     }
   }
 }
@@ -170,6 +129,12 @@ export default {
       &.hidden {
         display: none;
       }
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    .base-video {
+      width: 100%;
     }
   }
 

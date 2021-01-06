@@ -10,9 +10,9 @@
   "dependencies": {
     "axios": "^0.20.0",
     "core-js": "^2.6.5",
+    "dplayer": "^1.26.0",
     "element-ui": "^2.14.1",
     "eruda": "^2.4.1",
-    "video.js": "^7.10.2",
     "videojs-landscape-fullscreen": "^11.1.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
