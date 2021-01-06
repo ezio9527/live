@@ -419,8 +419,9 @@ export default {
             .home {
               flex: 1;
               text-align: right;
-              font-size: 12px;
+              font-size: 14px;
               color: #000000;
+              font-weight: 400;
               img {
                 .px2vw(width, 38);
                 .px2vw(height, 38);
@@ -428,7 +429,8 @@ export default {
               }
             }
             .score {
-              font-size: 14px;
+              font-size: 16px;
+              font-weight: 600;
               color: #000000;
               .px2vw(width, 120);
               text-align: center;
@@ -436,8 +438,9 @@ export default {
             .guest {
               flex: 1;
               text-align: left;
-              font-size: 12px;
+              font-size: 14px;
               color: #000000;
+              font-weight: 400;
               img {
                 .px2vw(width, 38);
                 .px2vw(height, 38);
