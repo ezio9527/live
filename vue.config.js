@@ -36,6 +36,14 @@ module.exports = {
         pathRewrite: {
           '/api': ''
         }
+      },
+      '/ws': {
+        target: 'http://www.sportlive8.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/ws': '/ws'
+        },
+        ws: true
       }
     }
     // https: true

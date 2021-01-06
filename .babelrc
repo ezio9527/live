@@ -6,6 +6,11 @@
         "libraryName": "element-ui",
         "styleLibraryName": "~src/assets/theme/element-ui"
       }
-    ]
+    ],
+    ["import", {
+      "libraryName": "vant",
+      "libraryDirectory": "es",
+      "style": true
+    }]
   ]
 }

@@ -77,6 +77,8 @@
           </div><!----><!----><p class="text-notice" style="display: none;"><span>以下数据/信息由程序采集第三方整合得出，仅供参考；<br
          ></span><span>本站不保证此数据/信息的准确性、可靠性等任何问题，亦不对使用此数据/信息造成的任何后果负责 。</span></p>
           <!----><!----></div>
+          <!-- 切换栏 -->
+          <LiveTabView v-if="false"/>
         <div class="bottomHeight"></div>
       </div><!---->
       <!--<div>-->
@@ -103,6 +105,7 @@
 <script>
 import { matchDetailApi } from '@/http/api'
 import BaseSelect from '@comp/BaseSelect'
+import LiveTabView from '@comp/LiveTabView/index'
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
 import 'videojs-landscape-fullscreen'
@@ -110,7 +113,8 @@ import zhCN from 'video.js/dist/lang/zh-CN.json'
 export default {
   name: 'Player',
   components: {
-    BaseSelect
+    BaseSelect,
+    LiveTabView
   },
   data () {
     return {
@@ -118,6 +122,8 @@ export default {
       playType: 1,
       url: '',
       channel: 0,
+      num: 0,
+      loop: false,
       details: {
         live_urls: [],
         live_cartoon_url: []
@@ -239,6 +245,18 @@ export default {
         })
         this.player.on('loadstart', err => {
           console.log(err)
+        })
+        this.player.on('error', () => {
+          let len = this.details && this.details.live_urls.length
+          let num = this.num++
+          if (num < len) {
+            this.url = this.details.live_urls[num].url
+            this.selectVideoSource({
+              index: this.channel,
+              value: this.url
+            })
+            console.log('value:', this.url)
+          }
         })
       })
     }

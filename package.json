@@ -13,6 +13,8 @@
     "dplayer": "^1.26.0",
     "element-ui": "^2.14.1",
     "eruda": "^2.4.1",
+    "vant": "^2.12.2",
+    "video.js": "^7.10.2",
     "videojs-landscape-fullscreen": "^11.1.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
