@@ -1,175 +1,97 @@
 <template>
-  <div class="base-video" ref="wrap">
-    <div class="loading" :class="{hidden: !loading}">
-      <img src="@img/nav/football_unselected.png" v-if="ball===1">
-      <img src="@img/nav/basketball_unselected.png" v-else>
-      <span>视频加载中...</span>
-    </div>
-  </div>
+  <div class="dplayer"></div>
 </template>
 
 <script>
-import Hls from 'hls.js'
+// import 'dplayer/dist/DPlayer.min.css'
 import DPlayer from 'dplayer'
-import logo from '@img/nav/logo.png'
 export default {
-  name: 'BaseVideoPlayer',
   props: {
-    ball: {
-      type: Number,
-      default: 1
+    autoplay: {
+      type: Boolean,
+      default: false
     },
-    url: {
+    theme: {
+      type: String,
+      default: '#FADFA3'
+    },
+    loop: {
+      type: Boolean,
+      default: true
+    },
+    lang: {
+      type: String,
+      default: 'zh-cn'
+    },
+    screenshot: {
+      type: Boolean,
+      default: false
+    },
+    hotkey: {
+      type: Boolean,
+      default: false
+    },
+    preload: {
+      type: String,
+      default: 'auto'
+    },
+    contextmenu: {
+      type: Array,
+      default: () => []
+    },
+    logo: {
       type: String,
       default: ''
-    }
-  },
-  watch: {
-    url (val) {
-      if (val) {
-        this.$set(this.setup, 'sources', [{ src: val, type: 'application/x-mpegURL' }])
-        this.createPlayer()
+    },
+    video: {
+      type: Object,
+      required: true,
+      validator (value) {
+        return typeof value.url === 'string'
       }
     }
   },
   data () {
     return {
-      player: null,
-      loading: true
+      dp: null
     }
   },
   mounted () {
-    this.player = new DPlayer({
-      container: this.$refs.wrap,
-      autoplay: false,
-      theme: '#FADFA3',
-      loop: true,
-      lang: 'zh-cn',
-      screenshot: true,
-      hotkey: true,
-      preload: 'auto',
-      logo: logo,
-      volume: 0.7,
-      mutex: true,
+    const player = this.dp = new DPlayer({
+      element: this.$el,
+      autoplay: this.autoplay,
+      theme: this.theme,
+      loop: this.loop,
+      lang: this.lang,
+      screenshot: this.screenshot,
+      hotkey: this.hotkey,
+      preload: this.preload,
+      contextmenu: this.contextmenu,
+      logo: this.logo,
       video: {
-        url: 'https://play.k56t.cn/live/stream15456.m3u8',
-        type: 'customHls',
-        customType: {
-          customHls: function (video, player) {
-            const hls = new Hls()
-            hls.loadSource(video.src)
-            hls.attachMedia(video)
-          }
-        }
+        url: this.video.url,
+        pic: this.video.pic,
+        type: this.video.type
       }
     })
-    // this.player = new DPlayer({
-    //   container: this.$refs.wrap,
-    //   autoplay: false,
-    //   theme: '#FADFA3',
-    //   loop: true,
-    //   lang: 'zh-cn',
-    //   screenshot: true,
-    //   hotkey: true,
-    //   preload: 'auto',
-    //   logo: logo,
-    //   volume: 0.7,
-    //   mutex: true,
-    //   video: {
-    //     url: this.url,
-    //     // pic: 'dplayer.png',
-    //     thumbnails: logo,
-    //     type: 'hls'
-    //   }
-    // })
-  },
-  destroyed () {
-    this.destroyPlayer()
-  },
-  methods: {
-    destroyPlayer () {
-    },
-    createPlayer () {
-    }
+    player.on('play', () => {
+      this.$emit('play')
+    })
+    player.on('pause', () => {
+      this.$emit('pause')
+    })
+    player.on('canplay', () => {
+      this.$emit('canplay')
+    })
+    player.on('playing', () => {
+      this.$emit('playing')
+    })
+    player.on('ended', () => {
+      this.$emit('ended')
+    })
+    player.on('error', () => {
+      this.$emit('error')
+    })
   }
 }
 </script>
-
-<style scoped lang="less">
-  .base-video {
-    position: relative;
-    width: 1200px;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    flex-direction: column;
-    .video-js {
-      width: 100%;
-      flex: 1;
-    }
-    .loading {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      margin: auto;
-      z-index: 1;
-      color: #999999;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      img {
-        margin-right: 20px;
-        -webkit-animation: loading 1300ms linear infinite;
-        animation: loading 1300ms linear infinite;
-      }
-      &.hidden {
-        display: none;
-      }
-    }
-  }
-
-  @media screen and (max-width: 700px) {
-    .base-video {
-      width: 100%;
-    }
-  }
-
-  @-webkit-keyframes loading {
-    from {
-      -webkit-transform: rotate(0deg);
-      -moz-transform: rotate(0deg);
-      -ms-transform: rotate(0deg);
-      -o-transform: rotate(0deg);
-      transform: rotate(0deg);
-    }
-    to {
-      -webkit-transform: rotate(1turn);
-      -moz-transform: rotate(1turn);
-      -ms-transform: rotate(1turn);
-      -o-transform: rotate(1turn);
-      transform: rotate(1turn);
-    }
-  }
-  @keyframes loading {
-    from {
-      -webkit-transform: rotate(0deg);
-      -moz-transform: rotate(0deg);
-      -ms-transform: rotate(0deg);
-      -o-transform: rotate(0deg);
-      transform: rotate(0deg);
-    }
-    to {
-      -webkit-transform: rotate(1turn);
-      -moz-transform: rotate(1turn);
-      -ms-transform: rotate(1turn);
-      -o-transform: rotate(1turn);
-      transform: rotate(1turn);
-    }
-  }
-</style>

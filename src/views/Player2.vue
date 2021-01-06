@@ -5,30 +5,53 @@
     <div class="mobile-nav-bar">
       <!--logo-->
       <a href="/home">
-        <img src="@img/nav/logo.png" class="logo">
+        <img src="@img/nav/logo.png" class="logo" />
       </a>
     </div>
     <!--播放器-->
-    <BaseVideoPlayer :url="url" :ball="match.type" v-if="playType===1"></BaseVideoPlayer>
+    <!-- <BaseVideoPlayer :url="url" :ball="match.type" v-if="playType===1"></BaseVideoPlayer> -->
+    <BaseVideoPlayer ref="player" :video="video" :contextmenu="contextmenu" @play="play"></BaseVideoPlayer>
     <!--动画播放器-->
     <iframe :src="url" v-else></iframe>
     <!--比赛信息PC版-->
     <div class="details" v-loading="detailsLoading" v-if="getScreenIsPc">
-      <div class="item name"><img src="@img/home/football.png" v-if="match.type===1"><img src="@img/home/basketball.png" v-else><span>{{match.name}}</span></div>
+      <div class="item name">
+        <img src="@img/home/football.png" v-if="match.type===1" />
+        <img src="@img/home/basketball.png" v-else />
+        <span>{{match.name}}</span>
+      </div>
       <div class="item time">{{match.matchTime}}</div>
       <div class="item status">{{('1') | interpreter('MatchType')}}</div>
-      <div class="item home"><img :src="match.hteam_logo"><span>{{match.hteam_name}}</span></div>
+      <div class="item home">
+        <img :src="match.hteam_logo" />
+        <span>{{match.hteam_name}}</span>
+      </div>
       <div class="item score">{{match.score}}</div>
-      <div class="item guest"><img :src="match.ateam_logo"><span>{{match.ateam_name}}</span></div>
+      <div class="item guest">
+        <img :src="match.ateam_logo" />
+        <span>{{match.ateam_name}}</span>
+      </div>
       <div class="item channel">
-        <div class="video" :class="{disabled: video.status===0}" v-for="(video, k) in match.live_urls" :key="'video'+k" @click="changeVideo(1, video)">
-          <img class="able" src="@img/list/video.png"/>
-          <img class="disabled" src="@img/list/video_disabled.png"/>
+        <div
+          class="video"
+          :class="{disabled: video.status===0}"
+          v-for="(video, k) in match.live_urls"
+          :key="'video'+k"
+          @click="changeVideo(1, video)"
+        >
+          <img class="able" src="@img/list/video.png" />
+          <img class="disabled" src="@img/list/video_disabled.png" />
           <span>{{video.name}}</span>
         </div>
-        <div class="animation" :class="{disabled: match.status!==0}" v-for="(animation, k) in match.live_cartoon_url" :key="'animation'+k" @click="changeVideo(1, animation)">
-          <img class="able" src="@img/list/animation.png"/>
-          <img class="disabled" src="@img/list/animation_disabled.png"/>
+        <div
+          class="animation"
+          :class="{disabled: match.status!==0}"
+          v-for="(animation, k) in match.live_cartoon_url"
+          :key="'animation'+k"
+          @click="changeVideo(1, animation)"
+        >
+          <img class="able" src="@img/list/animation.png" />
+          <img class="disabled" src="@img/list/animation_disabled.png" />
           <span>{{animation.name}}</span>
         </div>
       </div>
@@ -36,24 +59,46 @@
     <!--比赛信息手机版-->
     <div class="details" v-loading="detailsLoading" v-else>
       <div class="top">
-        <div class="name"><img src="@img/home/football.png" v-if="match.type===1"><img src="@img/home/basketball.png" v-else><span>{{match.name}}</span></div>
+        <div class="name">
+          <img src="@img/home/football.png" v-if="match.type===1" />
+          <img src="@img/home/basketball.png" v-else />
+          <span>{{match.name}}</span>
+        </div>
         <div class="time">{{match.matchTime}}</div>
         <div class="status">{{match.status | interpreter('MatchType')}}</div>
       </div>
       <div class="middle">
-        <div class="home line-word-hidden"><span>{{match.hteam_name}}</span><img :src="match.hteam_logo"></div>
+        <div class="home line-word-hidden">
+          <span>{{match.hteam_name}}</span>
+          <img :src="match.hteam_logo" />
+        </div>
         <div class="score">{{match.score}}</div>
-        <div class="guest line-word-hidden"><img :src="match.ateam_logo"><span>{{match.ateam_name}}</span></div>
+        <div class="guest line-word-hidden">
+          <img :src="match.ateam_logo" />
+          <span>{{match.ateam_name}}</span>
+        </div>
       </div>
       <div class="bottom">
-        <div class="video" :class="{disabled: video.status===0}" v-for="(video, k) in match.live_urls" :key="'video'+k" @click="$emit('play', {type: match.type, playType: 1, channel: k, id: match.id})">
-          <img class="able" src="@img/list/video.png"/>
-          <img class="disabled" src="@img/list/video_disabled.png"/>
+        <div
+          class="video"
+          :class="{disabled: video.status===0}"
+          v-for="(video, k) in match.live_urls"
+          :key="'video'+k"
+          @click="$emit('play', {type: match.type, playType: 1, channel: k, id: match.id})"
+        >
+          <img class="able" src="@img/list/video.png" />
+          <img class="disabled" src="@img/list/video_disabled.png" />
           <span>{{video.name}}</span>
         </div>
-        <div class="animation" :class="{disabled: match.status!==0}" v-for="(animation, k) in match.live_cartoon_url" :key="'animation'+k" @click="$emit('play', {type: match.type, playType: 2, channel: k, id: match.id})">
-          <img class="able" src="@img/list/animation.png"/>
-          <img class="disabled" src="@img/list/animation_disabled.png"/>
+        <div
+          class="animation"
+          :class="{disabled: match.status!==0}"
+          v-for="(animation, k) in match.live_cartoon_url"
+          :key="'animation'+k"
+          @click="$emit('play', {type: match.type, playType: 2, channel: k, id: match.id})"
+        >
+          <img class="able" src="@img/list/animation.png" />
+          <img class="disabled" src="@img/list/animation_disabled.png" />
           <span>{{animation.name}}</span>
         </div>
       </div>
@@ -64,6 +109,8 @@
 </template>
 
 <script>
+import Hls from 'hls.js'
+import VueDPlayer from './VueDPlayerHls'
 import BaseNavBar from '@comp/BaseNavBar'
 import BaseVideoPlayer from '@comp/BaseVideoPlayer'
 import BaseFooter from '@comp/BaseFooter'
@@ -78,6 +125,14 @@ export default {
   },
   data () {
     return {
+      video: {
+        url: '',
+        // pic: require('../../assets/'),//底图
+        type: 'hls'
+      },
+      autoplay: false,
+      player: null,
+      contextmenu: [],
       detailsLoading: false, // 比赛详情加载中
       match: {
         live_urls: [],
@@ -109,10 +164,23 @@ export default {
     this.qryMatchDetails({ mid: id, type })
   },
   methods: {
+    play () {
+      console.log('play callback')
+    },
     // 查询比赛详情
     qryMatchDetails (data = {}) {
       this.detailsLoading = true
       matchDetailApi(data).then(data => {
+        this.player = this.$refs.player.dp
+        const liveUrl = data.url//
+        this.player.switchVideo({
+          url: liveUrl,
+          type: 'hls'
+        })
+        const hls = new Hls()
+        hls.loadSource(liveUrl)
+        hls.attachMedia(this.player)
+
         this.match = data.matchinfo
         // 处理一下比赛时间格式
         data.matchinfo.matchTime = new Date(data.matchinfo.matchtime.replace(/-/g, '/')).format('hh:mm')
@@ -148,7 +216,7 @@ export default {
             })
           }
         }
-      }).catch(() => {}).finally(() => {
+      }).catch(() => { }).finally(() => {
         this.detailsLoading = false
       })
     },
@@ -196,7 +264,7 @@ export default {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     color: #666666;
-    background: #FFF;
+    background: #fff;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -218,9 +286,14 @@ export default {
         margin-right: 4px;
       }
     }
-    .time {width: 65px;}
-    .status {width: 100px;}
-    .home, .guest {
+    .time {
+      width: 65px;
+    }
+    .status {
+      width: 100px;
+    }
+    .home,
+    .guest {
       flex-direction: column;
       width: 195px;
       img {
@@ -228,15 +301,18 @@ export default {
         height: 38px;
       }
     }
-    .score {width: 100px;}
+    .score {
+      width: 100px;
+    }
     .channel {
       width: 395px;
       flex-wrap: wrap;
       justify-content: center;
-      .video, .animation {
+      .video,
+      .animation {
         padding: 0 10px;
         cursor: pointer;
-        color: #27C5C3;
+        color: #27c5c3;
         -webkit-transition: all 100ms;
         -moz-transition: all 100ms;
         -ms-transition: all 100ms;
@@ -274,13 +350,15 @@ export default {
         }
       }
       /*不可用和可用状态下的样式*/
-      .video, .animation {
+      .video,
+      .animation {
         img.disabled {
           display: none;
         }
       }
-      .video.disabled, .animation.disabled {
-        color: #C9C9C9;
+      .video.disabled,
+      .animation.disabled {
+        color: #c9c9c9;
         img.able {
           display: none;
         }
@@ -322,7 +400,7 @@ export default {
       margin: 0;
       border-radius: 0;
       color: #666666;
-      background: #FFF;
+      background: #fff;
       -webkit-box-shadow: none;
       -moz-box-shadow: none;
       box-shadow: none;
@@ -347,7 +425,8 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        .name, .status {
+        .name,
+        .status {
           width: auto;
           flex: 1;
         }
@@ -370,7 +449,7 @@ export default {
         }
         /*底部细线*/
         &:before {
-          content: '';
+          content: "";
           position: absolute;
           width: 100%;
           bottom: 0;
@@ -431,12 +510,13 @@ export default {
         justify-content: center;
         align-items: center;
         /*视频直播和动画直播图标*/
-        .video, .animation {
+        .video,
+        .animation {
           font-size: 12px;
           .px2vw(padding-left, 20);
           .px2vw(padding-right, 20);
           cursor: pointer;
-          color: #27C5C3;
+          color: #27c5c3;
           -webkit-transition: all 100ms;
           -moz-transition: all 100ms;
           -ms-transition: all 100ms;
@@ -474,13 +554,15 @@ export default {
           }
         }
         /*不可用和可用状态下的样式*/
-        .video, .animation {
+        .video,
+        .animation {
           img.disabled {
             display: none;
           }
         }
-        .video.disabled, .animation.disabled {
-          color: #C9C9C9;
+        .video.disabled,
+        .animation.disabled {
+          color: #c9c9c9;
           img.able {
             display: none;
           }
