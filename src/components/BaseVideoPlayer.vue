@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import 'hls.js'
+import Hls from 'hls.js'
 import DPlayer from 'dplayer'
 import logo from '@img/nav/logo.png'
 export default {
@@ -35,24 +35,7 @@ export default {
   data () {
     return {
       player: null,
-      loading: true,
-      setup: {
-        autoplay: true,
-        liveui: true,
-        controls: true,
-        fluid: true,
-        suppressNotSupportedError: false
-        // children: [
-        //   'bigPlayButton',
-        //   'controlBar'
-        // ],
-        // sources: [
-        //   {
-        //     src: this.url,
-        //     type: 'application/x-mpegURL'
-        //   }
-        // ]
-      }
+      loading: true
     }
   },
   mounted () {
@@ -69,24 +52,42 @@ export default {
       volume: 0.7,
       mutex: true,
       video: {
-        url: this.url,
-        // pic: 'dplayer.png',
-        thumbnails: logo,
-        type: 'hls'
+        url: 'https://play.k56t.cn/live/stream15456.m3u8',
+        type: 'customHls',
+        customType: {
+          customHls: function (video, player) {
+            const hls = new Hls()
+            hls.loadSource(video.src)
+            hls.attachMedia(video)
+          }
+        }
       }
     })
+    // this.player = new DPlayer({
+    //   container: this.$refs.wrap,
+    //   autoplay: false,
+    //   theme: '#FADFA3',
+    //   loop: true,
+    //   lang: 'zh-cn',
+    //   screenshot: true,
+    //   hotkey: true,
+    //   preload: 'auto',
+    //   logo: logo,
+    //   volume: 0.7,
+    //   mutex: true,
+    //   video: {
+    //     url: this.url,
+    //     // pic: 'dplayer.png',
+    //     thumbnails: logo,
+    //     type: 'hls'
+    //   }
+    // })
   },
   destroyed () {
     this.destroyPlayer()
   },
   methods: {
     destroyPlayer () {
-      if (this.player) {
-        this.player.pause()
-        this.player.dispose()
-        this.player = null
-        this.$refs.wrap.innerHTML = `<video id="videoPlayer" class="video-js"></video>`
-      }
     },
     createPlayer () {
     }
