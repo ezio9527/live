@@ -42,9 +42,15 @@ export default {
     },
     searchKey (val) {
       this.$emit('search', val)
+    },
+    route (val) {
+      this.setNav(val)
     }
   },
   computed: {
+    route () {
+      return this.$route
+    },
     // 第一项被激活
     activeItem1 () {
       if (this.hoverId === this.typeId) {
@@ -76,10 +82,36 @@ export default {
       }
     }
   },
+  created () {
+    this.setNav(this.$route)
+  },
   methods: {
     select (id) {
       this.typeId = id
       this.$emit('categoryChange', id)
+      switch (id) {
+        case 0:
+          this.$router.push({ name: 'Home', params: { type: 'all' } })
+          break
+        case 1:
+          this.$router.push({ name: 'Home', params: { type: 'football' } })
+          break
+        case 2:
+          this.$router.push({ name: 'Home', params: { type: 'basketball' } })
+          break
+      }
+    },
+    setNav (route) {
+      if (route.path === '/' || route.path === '/all') {
+        this.hoverId = 0
+        this.typeId = 0
+      } else if (route.path === '/football') {
+        this.hoverId = 1
+        this.typeId = 1
+      } else if (route.path === '/basketball') {
+        this.hoverId = 2
+        this.typeId = 2
+      }
     }
   }
 }
