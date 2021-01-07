@@ -2,15 +2,14 @@
   <div class="player2">
     <!--导航-->
     <BaseNavBar></BaseNavBar>
-    <div class="mobile-nav-bar">
-      <!--logo-->
-      <a href="/home">
-        <img src="@img/nav/logo.png" class="logo" />
-      </a>
-    </div>
+    <!--<div class="mobile-nav-bar">-->
+      <!--&lt;!&ndash;logo&ndash;&gt;-->
+      <!--<a href="/home">-->
+        <!--<img src="@img/nav/logo.png" class="logo" />-->
+      <!--</a>-->
+    <!--</div>-->
     <!--播放器-->
-    <!-- <BaseVideoPlayer :url="url" :ball="match.type" v-if="playType===1"></BaseVideoPlayer> -->
-    <BaseVideoPlayer ref="player" :video="video" :contextmenu="contextmenu" @play="play"></BaseVideoPlayer>
+    <BaseVideoPlayer ref="player" :video="video" v-if="playType===1"></BaseVideoPlayer>
     <!--动画播放器-->
     <iframe :src="url" v-else></iframe>
     <!--比赛信息PC版-->
@@ -109,8 +108,6 @@
 </template>
 
 <script>
-import Hls from 'hls.js'
-import VueDPlayer from './VueDPlayerHls'
 import BaseNavBar from '@comp/BaseNavBar'
 import BaseVideoPlayer from '@comp/BaseVideoPlayer'
 import BaseFooter from '@comp/BaseFooter'
@@ -171,16 +168,20 @@ export default {
     qryMatchDetails (data = {}) {
       this.detailsLoading = true
       matchDetailApi(data).then(data => {
-        this.player = this.$refs.player.dp
-        const liveUrl = data.url//
-        this.player.switchVideo({
-          url: liveUrl,
-          type: 'hls'
+        const video = {}
+        const quality = []
+        data.matchinfo.live_urls.forEach((item, index) => {
+          quality[index] = item
+          quality[index].url = 'http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8'
+          quality[index].type = 'customHls'
         })
-        const hls = new Hls()
-        hls.loadSource(liveUrl)
-        hls.attachMedia(this.player)
-
+        video.quality = quality
+        if (this.playType === 1) {
+          video.defaultQuality = this.channel
+        } else {
+          video.defaultQuality = 0
+        }
+        this.video = video
         this.match = data.matchinfo
         // 处理一下比赛时间格式
         data.matchinfo.matchTime = new Date(data.matchinfo.matchtime.replace(/-/g, '/')).format('hh:mm')
@@ -252,9 +253,15 @@ export default {
   flex-direction: column;
   justify-content: left;
   align-items: center;
-  /*视频播放器*/
-  .base-video {
+  /*播放器*/
+  .base-video, iframe {
     flex: 1;
+  }
+  iframe {
+    width: 1200px;
+    height: 359px;
+    padding-top: 100px;
+    background: #000000;
   }
   /*比赛详情*/
   .details {
@@ -372,11 +379,8 @@ export default {
 
 @media screen and (max-width: 700px) {
   .player2 {
-    .base-nav-bar {
-      display: none;
-    }
     .mobile-nav-bar {
-      display: block;
+      display: none;
       width: 100%;
       .px2vw(height, 100);
       .px2vw(line-height, 100);
@@ -392,6 +396,15 @@ export default {
         }
       }
     }
+    /*视频播放器*/
+    .base-video {
+      flex: none;
+    }
+    iframe {
+      width: 100%;
+      height: 210px;
+      background: #000000;
+    }
     /*比赛详情*/
     .details {
       position: relative;
@@ -400,7 +413,7 @@ export default {
       margin: 0;
       border-radius: 0;
       color: #666666;
-      background: #fff;
+      background: #FFF;
       -webkit-box-shadow: none;
       -moz-box-shadow: none;
       box-shadow: none;
@@ -425,8 +438,7 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        .name,
-        .status {
+        .name, .status {
           width: auto;
           flex: 1;
         }
@@ -449,7 +461,7 @@ export default {
         }
         /*底部细线*/
         &:before {
-          content: "";
+          content: '';
           position: absolute;
           width: 100%;
           bottom: 0;
