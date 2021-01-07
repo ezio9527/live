@@ -138,7 +138,7 @@
           <!---->
         </div>
         <!-- 切换栏 -->
-        <LiveTabView v-if="false" :msgContent="msgContent" />
+        <LiveTabView :msgContent="msgContent" />
         <div class="bottomHeight"></div>
       </div>
       <!---->
@@ -189,7 +189,7 @@ import 'videojs-landscape-fullscreen'
 import zhCN from 'video.js/dist/lang/zh-CN.json'
 // 进入详情页建立连接
 import {
-  // sendSock,
+  sendSock,
   handleWebsocketClose
 } from '@/utils/webSocket'
 export default {
@@ -207,6 +207,7 @@ export default {
       type: 0,
       channel: 0,
       num: 0,
+      token: '',
       isSocket: false,
       msgContent: [],
       details: {
@@ -214,7 +215,8 @@ export default {
         live_cartoon_url: []
       },
       animationActive: -1,
-      videoActive: -1
+      videoActive: -1,
+      timer: null
     }
   },
   provide () {
@@ -251,6 +253,9 @@ export default {
       this.player = null
       handleWebsocketClose()
     }
+    if (this.timer) {
+      clearInterval(this.timer)
+    }
   },
   methods: {
     getMsgResult (res) { // 接收
@@ -258,21 +263,29 @@ export default {
       if (typeof msg === 'string') {
         msg = JSON.parse(msg)
       }
-      if (msg && msg.length) {
+      if (msg && Object.keys(msg).length) {
         this.isSocket = true
-        const newMsg = msg.filter(e => (e.id === Number(this.id)))
-        if (newMsg && newMsg.length) {
-          this.msgContent.unshift(...newMsg)
-          //   this.msgContent = [...this.msgContent, ...newMsg]
-          // this.msgContent = Array.from(new Set([...this.msgContent, ...newMsg]))
-        }
+        this.msgContent = msg
+        // this.msgContent.unshift(msg)
+        //   this.msgContent = [...this.msgContent, ...newMsg]
+        // this.msgContent = Array.from(new Set([...this.msgContent, ...newMsg]))
       }
+    },
+    loopSendMsg () { // 定时拉消息
+      if (this.timer) window.clearInterval(this.timer)
+      this.timer = window.setInterval(() => {
+        sendSock(this.id, this.type, this.token, this.getMsgResult)
+      }, 40000)
     },
     // 查询比赛详情
     qryMatchDetails (data = {}) {
       matchDetailApi(data).then(data => {
+        this.token = data.token
         // 初始化连接
-        // sendSock('hi', this.type, data.token, this.getMsgResult)
+        if (this.token) {
+          sendSock(this.id, this.type, this.token, this.getMsgResult)
+          this.loopSendMsg()
+        }
         this.details = data.matchinfo
         this.details.videoUrl = data.matchinfo.live_urls.map((item, index) => {
           return {

@@ -6,12 +6,21 @@ var globalCallback = null
 var isClose = false
 var timer = null
 var timer2 = null
+var agentDatas = null
+var types = null
+var tokens = null
 // 初始化
 function initWebSocket (agentData, type, token) {
+  console.log('🚀 ~ file: webSocket.js ~ line 14 ~ initWebSocket ~ agentData, type, token', agentData, type, token)
+  agentDatas = agentData
+  types = type
+  tokens = token
+  if (!token) return
   if ('WebSocket' in window) {
     isClose = false
-    let typeName = type === 1 ? 'zuqiu' : 'lanqiu'
-    var url = `${location.protocol === 'https' ? 'wss' : 'ws'}://${location.host}/ws/live/detail/${typeName}?token=${token}`
+    tokens = token
+    let typeName = types === '1' ? 'zuqiu' : 'lanqiu'
+    var url = `${location.protocol === 'https' ? 'wss' : 'ws'}://${location.host}/ws/live/detail/${typeName}?token=${tokens}`
     console.log(url)
     websock = new WebSocket(url)
     websock.onmessage = (e) => {
@@ -22,8 +31,8 @@ function initWebSocket (agentData, type, token) {
     }
     websock.onopen = () => {
       websocketOpen()
-      if (agentData) {
-        websocketsend(agentData)
+      if (agentDatas) {
+        websocketsend(agentDatas)
       }
     }
     // 连接发生错误的回调方法
@@ -63,7 +72,7 @@ export function websocketclose (e) {
     clearTimeout(timer2)
     timer2 = null
     timer2 = setTimeout(() => {
-      initWebSocket()
+      initWebSocket(agentDatas, types, tokens)
     }, 1000)
   }
 }
