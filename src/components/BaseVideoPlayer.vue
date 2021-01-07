@@ -15,9 +15,9 @@ import logo from '@img/nav/logo.png'
 export default {
   name: 'BaseVideoPlayer',
   props: {
-    ball: {
+    quality: {
       type: Number,
-      default: 1
+      default: 0
     },
     video: {
       type: Object,
@@ -29,6 +29,11 @@ export default {
       if (val.quality) {
         // 传入一组直播地址，初始化
         this.init()
+      }
+    },
+    quality (val) {
+      if (this.player) {
+        this.player.switchQuality(val)
       }
     }
   },

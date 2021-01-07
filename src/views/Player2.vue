@@ -9,7 +9,7 @@
       <!--</a>-->
     <!--</div>-->
     <!--播放器-->
-    <BaseVideoPlayer ref="player" :video="video" v-if="playType===1"></BaseVideoPlayer>
+    <BaseVideoPlayer ref="player" :quality="channel" :video="video" v-if="playType===1"></BaseVideoPlayer>
     <!--动画播放器-->
     <iframe :src="url" v-else></iframe>
     <!--比赛信息PC版-->
@@ -31,17 +31,17 @@
         <span>{{match.ateam_name}}</span>
       </div>
       <div class="item channel">
-        <div
-          class="video"
-          :class="{disabled: video.status===0}"
-          v-for="(video, k) in match.live_urls"
-          :key="'video'+k"
-          @click="changeVideo(1, video)"
-        >
-          <img class="able" src="@img/list/video.png" />
-          <img class="disabled" src="@img/list/video_disabled.png" />
-          <span>{{video.name}}</span>
-        </div>
+        <!--<div-->
+          <!--class="video"-->
+          <!--:class="{disabled: video.status===0}"-->
+          <!--v-for="(video, k) in match.live_urls"-->
+          <!--:key="'video'+k"-->
+          <!--@click="channel=k"-->
+        <!--&gt;-->
+          <!--<img class="able" src="@img/list/video.png" />-->
+          <!--<img class="disabled" src="@img/list/video_disabled.png" />-->
+          <!--<span>{{video.name}}</span>-->
+        <!--</div>-->
         <div
           class="animation"
           :class="{disabled: match.status!==0}"
@@ -78,17 +78,17 @@
         </div>
       </div>
       <div class="bottom">
-        <div
-          class="video"
-          :class="{disabled: video.status===0}"
-          v-for="(video, k) in match.live_urls"
-          :key="'video'+k"
-          @click="$emit('play', {type: match.type, playType: 1, channel: k, id: match.id})"
-        >
-          <img class="able" src="@img/list/video.png" />
-          <img class="disabled" src="@img/list/video_disabled.png" />
-          <span>{{video.name}}</span>
-        </div>
+        <!--<div-->
+          <!--class="video"-->
+          <!--:class="{disabled: video.status===0}"-->
+          <!--v-for="(video, k) in match.live_urls"-->
+          <!--:key="'video'+k"-->
+          <!--@click="$emit('play', {type: match.type, playType: 1, channel: k, id: match.id})"-->
+        <!--&gt;-->
+          <!--<img class="able" src="@img/list/video.png" />-->
+          <!--<img class="disabled" src="@img/list/video_disabled.png" />-->
+          <!--<span>{{video.name}}</span>-->
+        <!--</div>-->
         <div
           class="animation"
           :class="{disabled: match.status!==0}"
@@ -172,7 +172,7 @@ export default {
         const quality = []
         data.matchinfo.live_urls.forEach((item, index) => {
           quality[index] = item
-          quality[index].url = 'http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8'
+          // quality[index].url = 'http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8'
           quality[index].type = 'customHls'
         })
         video.quality = quality

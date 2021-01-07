@@ -3,7 +3,7 @@
     <!--@scroll="scrollHandle" @mousewheel="scrollHandle" @DOMMouseScroll="scrollHandle"-->
     <!--PC样式-->
     <ul class="list-content" ref="content" v-if="getScreenIsPc">
-      <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string', underway: parseInt(match.status)===0}">
+      <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string', underway: parseInt(match.status)===0}" @click="$emit('play', {type: match.type, playType: match.live_urls.length>0?1:2, channel: 0, id: match.id})">
         <template v-if="$type(match)==='object'">
           <div class="item name"><img src="@img/home/football.png" v-if="match.type===1"><img src="@img/home/basketball.png" v-else><span>{{match.name}}</span></div>
           <div class="item time">{{match.matchTime}}</div>
@@ -35,7 +35,7 @@
     </ul>
     <!--Mobile样式-->
     <ul class="list-content" ref="content" v-else>
-      <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string', underway: parseInt(match.status)===0}">
+      <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string', underway: parseInt(match.status)===0}" @click="$emit('play', {type: match.type, playType: match.live_urls.length>0?1:2, channel: 0, id: match.id})">
         <template v-if="$type(match)==='object'">
           <div class="top">
             <div class="name"><img src="@img/home/football.png" v-if="match.type===1"><img src="@img/home/basketball.png" v-else><span>{{match.name}}</span></div>
@@ -433,7 +433,7 @@ export default {
             .home {
               flex: 1;
               text-align: right;
-              font-size: 12px;
+              font-size: 14px;
               color: #000000;
               font-weight: 400;
               img {
@@ -443,7 +443,7 @@ export default {
               }
             }
             .score {
-              font-size: 16px;
+              font-size: 18px;
               font-weight: 600;
               color: #000000;
               .px2vw(width, 120);
@@ -452,7 +452,7 @@ export default {
             .guest {
               flex: 1;
               text-align: left;
-              font-size: 12px;
+              font-size: 14px;
               color: #000000;
               font-weight: 400;
               img {
@@ -473,7 +473,7 @@ export default {
             align-items: center;
             /*视频直播和动画直播图标*/
             .video, .animation {
-              font-size: 12px;
+              font-size: 14px;
               .px2vw(padding-left, 20);
               .px2vw(padding-right, 20);
               cursor: pointer;
@@ -543,9 +543,6 @@ export default {
         li:hover {
           width: 100%;
           height: auto;
-          -webkit-box-shadow: none;
-          -moz-box-shadow: none;
-          box-shadow: none;
         }
         /*底部加载更多*/
         li.more {
