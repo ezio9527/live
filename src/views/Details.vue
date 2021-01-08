@@ -159,6 +159,10 @@
 <script>
 import BaseNavBar from '@comp/BaseNavBar'
 import { matchDetailApi } from '@/http/api'
+import {
+  sendSock,
+  handleWebsocketClose
+} from '@/utils/webSocket'
 export default {
   name: 'Details',
   components: {
@@ -181,8 +185,17 @@ export default {
       token: '',
       loading: true,
       matchDetails: {},
-      currentRate: 88
+      currentRate: 88,
+      timer: null,
+      isSocket: false,
+      msgContent: {}
     }
+  },
+  deactivated () { // 销毁断开
+    handleWebsocketClose()
+  },
+  destroyed () {
+    handleWebsocketClose()
   },
   created () {
     let routeParams = this.$route.params
@@ -190,12 +203,34 @@ export default {
     this.qryMatch(Number(routeParams.id), Number(routeParams.type))
   },
   methods: {
-    async qryMatch (mid, type) {
+    getMsgResult (res) { // 接收
+      let msg = res.data
+      if (typeof msg === 'string') {
+        msg = JSON.parse(msg)
+      }
+      if (msg && Object.keys(msg).length) {
+        this.isSocket = true
+        this.msgContent = msg
+      }
+    },
+    loopSendMsg () { // 定时拉消息
+      if (this.timer) window.clearInterval(this.timer)
+      this.timer = window.setInterval(() => {
+        const { id, type } = this.params
+        sendSock(id, type, this.token, this.getMsgResult)
+      }, 10000)
+    },
+    async qryMatch (mid, type) { // 请求详情数据
       const result = await matchDetailApi({ mid, type })
-      console.log('🚀 ~ file: Details.vue ~ line 196 ~ qryMatch ~ result', result)
       if (result) {
         this.token = result.token
         this.matchDetails = result.matchinfo
+        // 初始化连接
+        // if (this.token) {
+        //   const { id, type } = this.params
+        //   sendSock(id, type, this.token, this.getMsgResult)
+        //   this.loopSendMsg()
+        // }
       }
       // setTimeout(() => {
       //   this.matchDetails = {
