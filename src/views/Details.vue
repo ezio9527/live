@@ -298,7 +298,7 @@ export default {
   created () {
     let routeParams = this.$route.params
     this.params = routeParams
-    this.qryMatch(Number(routeParams.id), Number(routeParams.type))
+    // this.qryMatch(Number(routeParams.id), Number(routeParams.type))
     // 播放器部分
     const id = this.$route.params.id // 比赛ID
     const type = this.$route.params.type // 比赛类型
@@ -313,9 +313,17 @@ export default {
   },
   methods: {
     // 查询比赛详情
-    qryMatchDetails (data = {}) {
+    qryMatchDetails (datas = {}) {
       this.detailsLoading = true
-      matchDetailApi(data).then(data => {
+      matchDetailApi(datas).then(data => {
+        this.token = data.token
+        this.matchDetails = data.matchinfo
+        // 初始化连接
+        if (this.token && data.matchinfo.status === 0) {
+          const { id, type } = this.params
+          sendSock(id, type, this.token, this.getMsgResult)
+          this.loopSendMsg()
+        }
         const video = {}
         const quality = []
         data.matchinfo.live_urls.forEach((item, index) => {
@@ -402,32 +410,32 @@ export default {
         const { id, type } = this.params
         sendSock(id, type, this.token, this.getMsgResult)
       }, 10000)
-    },
-    async qryMatch (mid, type) { // 请求详情数据
-      const result = await matchDetailApi({ mid, type })
-      if (result) {
-        this.token = result.token
-        this.matchDetails = result.matchinfo
-        // 初始化连接
-        if (this.token && result.matchinfo.status === 0) {
-          const { id, type } = this.params
-          sendSock(id, type, this.token, this.getMsgResult)
-          this.loopSendMsg()
-        }
-      }
-      // setTimeout(() => {
-      //   this.matchDetails = {
-      //     name: '英超  第15轮',
-      //     matchTime: '12-24 21:00',
-      //     hteam_name: '热刺',
-      //     ateam_name: '曼城',
-      //     score: '2 - 1',
-      //     des: '加时 12',
-      //     halfScore: '半场 0 - 0'
-      //   }
-      //   this.loading = false
-      // }, 2000)
     }
+    // async qryMatch (mid, type) { // 请求详情数据
+    //   const result = await matchDetailApi({ mid, type })
+    //   if (result) {
+    //     this.token = result.token
+    //     this.matchDetails = result.matchinfo
+    //     // 初始化连接
+    //     if (this.token && result.matchinfo.status === 0) {
+    //       const { id, type } = this.params
+    //       sendSock(id, type, this.token, this.getMsgResult)
+    //       this.loopSendMsg()
+    //     }
+    //   }
+    //   // setTimeout(() => {
+    //   //   this.matchDetails = {
+    //   //     name: '英超  第15轮',
+    //   //     matchTime: '12-24 21:00',
+    //   //     hteam_name: '热刺',
+    //   //     ateam_name: '曼城',
+    //   //     score: '2 - 1',
+    //   //     des: '加时 12',
+    //   //     halfScore: '半场 0 - 0'
+    //   //   }
+    //   //   this.loading = false
+    //   // }, 2000)
+    // }
   }
 }
 </script>
