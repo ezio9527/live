@@ -159,7 +159,6 @@
 <script>
 import BaseNavBar from '@comp/BaseNavBar'
 import { matchDetailApi } from '@/http/api'
-import { Toast } from 'vant'
 export default {
   name: 'Details',
   components: {
@@ -193,13 +192,10 @@ export default {
   methods: {
     async qryMatch (mid, type) {
       const result = await matchDetailApi({ mid, type })
-      if (result.code === '0') {
-        let Data = result.data
-        this.token = Data.token
-        this.matchDetails = Data.matchinfo
-      } else {
-        Toast.fail(result.msg)
-        this.$router.push({ path: '/' })
+      console.log('🚀 ~ file: Details.vue ~ line 196 ~ qryMatch ~ result', result)
+      if (result) {
+        this.token = result.token
+        this.matchDetails = result.matchinfo
       }
       // setTimeout(() => {
       //   this.matchDetails = {
