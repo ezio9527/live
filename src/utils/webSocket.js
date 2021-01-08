@@ -18,7 +18,7 @@ function initWebSocket (agentData, type, token) {
   if ('WebSocket' in window) {
     isClose = false
     tokens = token
-    let typeName = types === '1' ? 'zuqiu' : 'lanqiu'
+    var typeName = types === '1' ? 'zuqiu' : 'lanqiu'
     var url = `${location.protocol === 'https' ? 'wss' : 'ws'}://${location.host}/ws/live/detail/${typeName}?token=${tokens}`
     console.log(url)
     websock = new WebSocket(url)
@@ -66,7 +66,7 @@ function websocketsend (agentData) {
 
 // 关闭
 export function websocketclose (e) {
-  console.log(`关闭`)
+  // console.log(`关闭`)
   if (!isClose) { // 非手动关闭重连
     clearTimeout(timer2)
     timer2 = null
@@ -77,7 +77,7 @@ export function websocketclose (e) {
 }
 export function handleWebsocketClose (e) {
   if (websock) {
-    console.log(`连接已关闭`)
+    // console.log(`连接已关闭`)
     isClose = true
     websock.close()
   }

@@ -302,7 +302,7 @@ export default {
     handleWebsocketClose()
   },
   created () {
-    let routeParams = this.$route.params
+    const routeParams = this.$route.params
     this.params = routeParams
     // this.qryMatch(Number(routeParams.id), Number(routeParams.type))
     // 播放器部分
@@ -396,8 +396,8 @@ export default {
           this.hScore = this.score[2][0]
           this.aScore = this.score[3][0]
           this.ftlive = (msg.tlive && msg.tlive.length) && msg.tlive.reverse()
-          let newTxt = []
-          let newImpTxt = []
+          const newTxt = []
+          const newImpTxt = []
           this.ftlive.forEach(e => {
             if (e.main) {
               newImpTxt.push(e)
