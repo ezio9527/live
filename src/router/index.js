@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Home from '../views/Home.vue'
-import Home2 from '../views/Home2.vue'
+import Home from '../views/Home.vue'
 
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push (location) {
@@ -12,24 +11,9 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/:type',
-    name: 'Home',
-    component: Home2
-  },
-  {
-    path: '/home',
-    name: 'Home2',
-    component: Home2
-  },
-  {
     path: '/player/:type/:playType/:channel/:id',
     name: 'Player',
-    component: () => import('@views/Player2.vue')
-  },
-  {
-    path: '/player2/:type/:playType/:channel/:id',
-    name: 'Player2',
-    component: () => import('@views/Player2.vue')
+    component: () => import('@views/Player.vue')
   },
   {
     path: '/mine',
@@ -37,8 +21,18 @@ const routes = [
     component: () => import('@views/Mine.vue')
   },
   {
+    path: '/details',
+    name: 'Details',
+    component: () => import('@views/Details.vue')
+  },
+  {
+    path: '/:type',
+    name: 'Home',
+    component: Home
+  },
+  {
     path: '*',
-    component: Home2
+    component: Home
   }
 ]
 

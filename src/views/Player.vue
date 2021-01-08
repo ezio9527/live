@@ -1,140 +1,152 @@
 <template>
   <div class="player">
-    <div class="headbar-desktop-default">
-      <div class="inner">
-        <div class="top-logo router-link-active"><img
-          src="@img/logo-white-cn.png"></div>
-        <div class="menu-list"><a href="/" class="menu-item active"><i
-          class="icon icon-zhibo"></i><span class="title">说球帝直播</span></a><a
-          href="/mine" class="menu-item"><i
-          class="icon cubeic-person"></i><span
-          class="title">我</span></a><a href="/download" class="menu-item"><i
-          class="icon icon-xiazai2"></i><span class="title">APP下载</span></a></div>
-        <div class="domains web-text"><span>备用域名</span><span
-        >shuoqiudi.live</span></div>
+    <!--导航-->
+    <BaseNavBar></BaseNavBar>
+    <!--<div class="mobile-nav-bar">-->
+      <!--&lt;!&ndash;logo&ndash;&gt;-->
+      <!--<a href="/home">-->
+        <!--<img src="@img/nav/logo.png" class="logo" />-->
+      <!--</a>-->
+    <!--</div>-->
+    <!--播放器-->
+    <BaseVideoPlayer ref="player" :quality="channel" :video="video" v-if="playType===1"></BaseVideoPlayer>
+    <!--动画播放器-->
+    <iframe :src="url" v-else></iframe>
+    <!--比赛信息PC版-->
+    <div class="details" v-loading="detailsLoading" v-if="getScreenIsPc">
+      <div class="item name">
+        <img src="@img/home/football.png" v-if="match.type===1" />
+        <img src="@img/home/basketball.png" v-else />
+        <span>{{match.name}}</span>
       </div>
-    </div>
-    <div class="page-con player-open">
-      <div class="header-top">
-        <div class="go-back" @click="$router.push({name: 'Home'})"><i class="cubeic-back"></i></div>
-        <div class="logo-top"></div>
-      </div><!---->
-      <div class="live-detailBox">
-        <div class="my-video">
-          <div v-show="playType===1" ref="videoWrap" class="video-wrap">
-          </div>
-          <div v-if="playType===2">
-            <iframe :src="url"></iframe>
-          </div>
-        </div>
-        <div class="live-con">
-          <div class="live-box">
-            <div class="live-path-kind">
-              <div class="go-back-click" @click="$router.push({name: 'Home'})"><i class="cubeic-back"></i>返回</div>
-              <div class="live-select-box">
-                <div class="popover live-select-item live-popover">
-                  <div aria-owns="popover-live-select-item live-popover" class="popover__face">
-                    <BaseSelect noneText="暂无动画直播"  text="动画直播" :options="details.animationUrl" :active.sync="animationActive" @select="selectAnimationSource"></BaseSelect>
-                  </div>
-                </div>
-                <div class="popover live-select-item live-popover">
-                  <div aria-owns="popover-live-select-item live-popover" class="popover__face">
-                    <BaseSelect noneText="暂无視頻直播" text="視頻直播" :options="details.videoUrl" :active.sync="videoActive" @select="selectVideoSource"></BaseSelect>
-                  </div>
-                </div>
-                <!--<div class="live-item pathColor_1" :class="{'pathColor_1': i.status === 1, 'pathColor_3': i.status === 0}" v-for="(i, k) in details.live_urls" :key="k">-->
-                  <!--<a class=""><i class="iconfont icon-naozhong"></i><span>{{i.name}}</span></a>-->
-                <!--</div>-->
-                <!--<div class="live-item pathColor_1" v-if="details.live_cartoon_url.length > 0">-->
-                  <!--<a class=""><i class="iconfont icon-naozhong"></i><span>动画直播</span></a>-->
-                <!--</div>-->
-              </div>
-            </div>
-          </div>
-          <div class="detail-team-group">
-            <div class="detail-team-top"><!---->
-              <div class="listop-box">
-                <div class="team-group">
-                  <div class="sport-icon" :class="{'sport-icon-1': details.type==1, 'sport-icon-2': details.type==2}"></div>
-                  <h1 class="detail-team-group-name">{{details.name}}</h1><span class="when-time">{{details.matchtime}}</span>
-                </div>
-                <p class="time"><span></span><!----></p></div>
-            </div>
-            <div class="detail-team-ifo-box">
-              <div class="team-ifo">
-                <div class="logo" :class="{logo_1: details.type==1,logo_2: details.type==2}"><!----></div>
-                <h1 class="">{{details.ateam_name}}</h1><!----></div>
-              <div class="team-score"><span>0</span> - <span>0</span></div>
-              <div class="team-ifo right-ifo">
-                <div class="logo" :class="{logo_1: details.type==1,logo_2: details.type==2}"><!----></div>
-                <h1 class="">{{details.hteam_name}}</h1><!----></div>
-            </div>
-            <div class="half-score">
-              <div class="score-item"></div>
-              <div class="score-item"></div>
-            </div>
-            <div class="sub_line"></div>
-          </div><!----><!----><p class="text-notice" style="display: none;"><span>以下数据/信息由程序采集第三方整合得出，仅供参考；<br
-         ></span><span>本站不保证此数据/信息的准确性、可靠性等任何问题，亦不对使用此数据/信息造成的任何后果负责 。</span></p>
-          <!----><!----></div>
-          <!-- 切换栏 -->
-          <LiveTabView v-if="false"/>
-        <div class="bottomHeight"></div>
-      </div><!---->
-      <!--<div>-->
-        <!--<div class="refresh fix-video-btn fixLock"><span><i class="iconfont icon-zhibo-lock"></i></span></div>-->
-      <!--</div>-->
-      <div class="refresh"><i class="iconfont icon-shuaxin"></i></div><!---->
-      <!---->
-      <div class="footbar no-login-footbar">
-        <div class="footbar-inner">
-          <div class="menu-list"><a href="/" class="menu-item"><i
-            class="icon icon-zhibo"></i><!----><span class="title">说球帝直播</span></a><a
-            href="/mine" class="menu-item"><i class="icon cubeic-person"></i><!----><span
-            class="title">我</span></a><a href="/download" class="menu-item"><i
-            class="icon icon-xiazai2"></i><!----><span class="title">APP下載</span></a>
-          </div>
-          <div class="domains web-text"><span>備用域名</span><span
-           >shuoqiudi.live</span></div>
+      <div class="item time">{{match.matchTime}}</div>
+      <div class="item status">{{('1') | interpreter('MatchType')}}</div>
+      <div class="item home">
+        <img :src="match.hteam_logo" />
+        <span>{{match.hteam_name}}</span>
+      </div>
+      <div class="item score">{{match.score}}</div>
+      <div class="item guest">
+        <img :src="match.ateam_logo" />
+        <span>{{match.ateam_name}}</span>
+      </div>
+      <div class="item channel">
+        <!--<div-->
+          <!--class="video"-->
+          <!--:class="{disabled: video.status===0}"-->
+          <!--v-for="(video, k) in match.live_urls"-->
+          <!--:key="'video'+k"-->
+          <!--@click="channel=k"-->
+        <!--&gt;-->
+          <!--<img class="able" src="@img/list/video.png" />-->
+          <!--<img class="disabled" src="@img/list/video_disabled.png" />-->
+          <!--<span>{{video.name}}</span>-->
+        <!--</div>-->
+        <div
+          class="animation"
+          :class="{disabled: match.status!==0}"
+          v-for="(animation, k) in match.live_cartoon_url"
+          :key="'animation'+k"
+          @click="changeVideo(1, animation)"
+        >
+          <img class="able" src="@img/list/animation.png" />
+          <img class="disabled" src="@img/list/animation_disabled.png" />
+          <span>{{animation.name}}</span>
         </div>
       </div>
     </div>
+    <!--比赛信息手机版-->
+    <div class="details" v-loading="detailsLoading" v-else>
+      <div class="top">
+        <div class="name">
+          <img src="@img/home/football.png" v-if="match.type===1" />
+          <img src="@img/home/basketball.png" v-else />
+          <span>{{match.name}}</span>
+        </div>
+        <div class="time">{{match.matchTime}}</div>
+        <div class="status">{{match.status | interpreter('MatchType')}}</div>
+      </div>
+      <div class="middle">
+        <div class="home line-word-hidden">
+          <span>{{match.hteam_name}}</span>
+          <img :src="match.hteam_logo" />
+        </div>
+        <div class="score">{{match.score}}</div>
+        <div class="guest line-word-hidden">
+          <img :src="match.ateam_logo" />
+          <span>{{match.ateam_name}}</span>
+        </div>
+      </div>
+      <div class="bottom">
+        <!--<div-->
+          <!--class="video"-->
+          <!--:class="{disabled: video.status===0}"-->
+          <!--v-for="(video, k) in match.live_urls"-->
+          <!--:key="'video'+k"-->
+          <!--@click="$emit('play', {type: match.type, playType: 1, channel: k, id: match.id})"-->
+        <!--&gt;-->
+          <!--<img class="able" src="@img/list/video.png" />-->
+          <!--<img class="disabled" src="@img/list/video_disabled.png" />-->
+          <!--<span>{{video.name}}</span>-->
+        <!--</div>-->
+        <div
+          class="animation"
+          :class="{disabled: match.status!==0}"
+          v-for="(animation, k) in match.live_cartoon_url"
+          :key="'animation'+k"
+          @click="$emit('play', {type: match.type, playType: 2, channel: k, id: match.id})"
+        >
+          <img class="able" src="@img/list/animation.png" />
+          <img class="disabled" src="@img/list/animation_disabled.png" />
+          <span>{{animation.name}}</span>
+        </div>
+      </div>
+    </div>
+    <!--底部Footer-->
+    <BaseFooter></BaseFooter>
   </div>
 </template>
 
 <script>
+import BaseNavBar from '@comp/BaseNavBar'
+import BaseVideoPlayer from '@comp/BaseVideoPlayer'
+import BaseFooter from '@comp/BaseFooter'
 import { matchDetailApi } from '@/http/api'
-import BaseSelect from '@comp/BaseSelect'
-import LiveTabView from '@comp/LiveTabView/index'
-import videojs from 'video.js'
-import 'video.js/dist/video-js.css'
-import 'videojs-landscape-fullscreen'
-import zhCN from 'video.js/dist/lang/zh-CN.json'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Player',
   components: {
-    BaseSelect,
-    LiveTabView
+    BaseNavBar,
+    BaseVideoPlayer,
+    BaseFooter
   },
   data () {
     return {
+      video: {
+        url: '',
+        // pic: require('../../assets/'),//底图
+        type: 'hls'
+      },
+      autoplay: false,
       player: null,
-      playType: 1,
-      url: '',
-      channel: 0,
-      num: 0,
-      loop: false,
-      details: {
+      contextmenu: [],
+      detailsLoading: false, // 比赛详情加载中
+      match: {
         live_urls: [],
         live_cartoon_url: []
-      },
+      }, // 比赛详情
+      playType: 1, // 播放类型: 1视频 2动画
+      url: '', // 播放url
+      channel: 0, // 播放源index
       animationActive: -1,
       videoActive: -1
     }
   },
-  mounted () {
-    // 设置语言
-    videojs.addLanguage('zh-CN', zhCN)
+  computed: {
+    ...mapGetters([
+      'getScreenIsPc',
+      'getScreenIsMobile'
+    ])
   },
   created () {
     const id = this.$route.params.id // 比赛ID
@@ -148,26 +160,39 @@ export default {
     }
     this.qryMatchDetails({ mid: id, type })
   },
-  destroyed () {
-    if (this.player) {
-      this.player.pause()
-      this.player.dispose()
-      this.player = null
-    }
-  },
   methods: {
+    play () {
+      console.log('play callback')
+    },
     // 查询比赛详情
     qryMatchDetails (data = {}) {
+      this.detailsLoading = true
       matchDetailApi(data).then(data => {
-        this.details = data.matchinfo
-        this.details.videoUrl = data.matchinfo.live_urls.map((item, index) => {
+        const video = {}
+        const quality = []
+        data.matchinfo.live_urls.forEach((item, index) => {
+          quality[index] = item
+          // quality[index].url = 'http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8'
+          quality[index].type = 'customHls'
+        })
+        video.quality = quality
+        if (this.playType === 1) {
+          video.defaultQuality = this.channel
+        } else {
+          video.defaultQuality = 0
+        }
+        this.video = video
+        this.match = data.matchinfo
+        // 处理一下比赛时间格式
+        data.matchinfo.matchTime = new Date(data.matchinfo.matchtime.replace(/-/g, '/')).format('hh:mm')
+        this.match.videoUrl = data.matchinfo.live_urls.map((item, index) => {
           return {
             disabled: item.status === 0,
             text: item.name,
             value: item.url
           }
         })
-        this.details.animationUrl = data.matchinfo.live_cartoon_url.map((item, index) => {
+        this.match.animationUrl = data.matchinfo.live_cartoon_url.map((item, index) => {
           return {
             disabled: item.status === 0,
             text: item.name,
@@ -192,116 +217,381 @@ export default {
             })
           }
         }
-      }).catch(() => {})
-    },
-    // 重选视频播放源
-    selectVideoSource (item) {
-      this.playType = 1
-      this.url = item.value
-      this.changeVideo()
-      this.videoActive = item.index
-      this.animationActive = -1
-    },
-    // 重选动画播放源
-    selectAnimationSource (item) {
-      this.playType = 2
-      this.url = item.value
-      if (this.player) {
-        this.player.pause()
-        this.player.dispose()
-        this.player = null
-      }
-      this.videoActive = -1
-      this.animationActive = item.index
-    },
-    // 切换视频播放源
-    changeVideo () {
-      if (this.player) {
-        this.player.pause()
-        this.player.dispose()
-      }
-      this.$refs.videoWrap.innerHTML = `
-        <video id="myVideo" class="video-js vjs-default-skin vjs-big-play-centered" oncontextmenu="return false;" controls preload="auto" x5-playsinline="" playsinline="" webkit-playsinline="" disablepictureinpicture="">
-          <source id="source" src="${this.url}" type="application/x-mpegURL">
-        </video>`
-      this.player = videojs('myVideo', {
-        liveui: true,
-        controls: true,
-        preload: 'auto',
-        autoplay: true,
-        // src: this.url,
-        bigPlayButton: true,
-        textTrackDisplay: false,
-        posterImage: false,
-        errorDisplay: true,
-        notSupportedMessage: '暂无直播信息'
-      }, () => {
-        this.player.landscapeFullscreen({
-          fullscreen: {
-            enterOnRotate: true,
-            alwaysInLandscapeMode: true,
-            iOS: true
-          }
-        })
-        this.player.on('loadstart', err => {
-          console.log(err)
-        })
-        this.player.on('error', () => {
-          let len = this.details && this.details.live_urls.length
-          let num = this.num++
-          if (num < len) {
-            this.url = this.details.live_urls[num].url
-            this.selectVideoSource({
-              index: this.channel,
-              value: this.url
-            })
-            console.log('value:', this.url)
-          }
-        })
+      }).catch(() => { }).finally(() => {
+        this.detailsLoading = false
       })
+    },
+    changeSource (type, item) {
+      if (type === 1) {
+        // 重选视频播放源
+        this.playType = 1
+        this.url = item.value
+        this.animationActive = -1
+        this.videoActive = item.index
+      } else {
+        // 重选动画播放源
+        this.playType = 2
+        this.url = item.value
+        this.videoActive = -1
+        this.animationActive = item.index
+      }
     }
   }
 }
 </script>
 
 <style scoped lang="less">
-  .detail-team-group {
-    margin: auto;
+.player {
+  .mobile-nav-bar {
+    display: none;
+  }
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: center;
+  /*播放器*/
+  .base-video, iframe {
+    flex: 1;
   }
   iframe {
-    width: 1000px;
-    height: 563px;
-    margin-top: 100px;
+    width: 1200px;
+    height: 359px;
+    padding-top: 100px;
+    background: #000000;
   }
+  /*比赛详情*/
+  .details {
+    position: relative;
+    width: 1200px;
+    height: 84px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: #666666;
+    background: #fff;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    .item {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .name {
+      width: 150px;
+      img {
+        width: 30px;
+        height: 30px;
+        margin-left: 30px;
+        margin-right: 4px;
+      }
+    }
+    .time {
+      width: 65px;
+    }
+    .status {
+      width: 100px;
+    }
+    .home,
+    .guest {
+      flex-direction: column;
+      width: 195px;
+      img {
+        width: 38px;
+        height: 38px;
+      }
+    }
+    .score {
+      width: 100px;
+    }
+    .channel {
+      width: 395px;
+      flex-wrap: wrap;
+      justify-content: center;
+      .video,
+      .animation {
+        padding: 0 10px;
+        cursor: pointer;
+        color: #27c5c3;
+        -webkit-transition: all 100ms;
+        -moz-transition: all 100ms;
+        -ms-transition: all 100ms;
+        -o-transition: all 100ms;
+        transition: all 100ms;
+        img {
+          margin-right: 4px;
+        }
+        &:hover {
+          font-size: 16px;
+        }
+      }
+      .video {
+        img {
+          width: 14px;
+          height: 16px;
+        }
+        &:hover {
+          img {
+            width: 16px;
+            height: 18px;
+          }
+        }
+      }
+      .animation {
+        img {
+          width: 18px;
+          height: 12px;
+        }
+        &:hover {
+          img {
+            width: 20px;
+            height: 14px;
+          }
+        }
+      }
+      /*不可用和可用状态下的样式*/
+      .video,
+      .animation {
+        img.disabled {
+          display: none;
+        }
+      }
+      .video.disabled,
+      .animation.disabled {
+        color: #c9c9c9;
+        img.able {
+          display: none;
+        }
+        img.disabled {
+          display: inline-block;
+        }
+      }
+    }
+  }
+}
 
-  .my-video > .video-wrap {
-    height: 100%;
-  }
-  @media screen and (max-width: 700px) {
-    .player {
-      height: 100%;
+@media screen and (max-width: 700px) {
+  .player {
+    .mobile-nav-bar {
+      display: none;
+      width: 100%;
+      .px2vw(height, 100);
+      .px2vw(line-height, 100);
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      text-align: left;
+      a {
+        display: block;
+        img {
+          .px2vw(height, 54);
+          .px2vw(margin-left, 25);
+        }
+      }
     }
-    .my-video > div {
-      height: 100%;
-    }
-    .video-js {
-      height: 563px
+    /*视频播放器*/
+    .base-video {
+      flex: none;
     }
     iframe {
       width: 100%;
-      height: 100%;
-      margin-top: 0;
+      height: 210px;
+      background: #000000;
+    }
+    /*比赛详情*/
+    .details {
+      position: relative;
+      width: 100%;
+      height: auto;
+      margin: 0;
+      border-radius: 0;
+      color: #666666;
+      background: #FFF;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      -webkit-transition: all 200ms;
+      -moz-transition: all 200ms;
+      -ms-transition: all 200ms;
+      -o-transition: all 200ms;
+      transition: all 200ms;
+      .top {
+        position: relative;
+        .px2vw(width, 640);
+        .px2vw(height, 60);
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .name, .status {
+          width: auto;
+          flex: 1;
+        }
+        .name {
+          color: #333333;
+          text-align: left;
+          img {
+            .px2vw(width, 40);
+            .px2vw(height, 40);
+            margin-left: 0;
+          }
+        }
+        .time {
+          color: #333333;
+          .px2vw(width, 100);
+        }
+        .status {
+          color: #333333;
+          text-align: right;
+        }
+        /*底部细线*/
+        &:before {
+          content: '';
+          position: absolute;
+          width: 100%;
+          bottom: 0;
+          height: 1px;
+          background: #979797;
+          -webkit-transform: scaleY(0.5);
+          -moz-transform: scaleY(0.5);
+          -ms-transform: scaleY(0.5);
+          -o-transform: scaleY(0.5);
+          transform: scaleY(0.5);
+        }
+      }
+      .middle {
+        .px2vw(width, 640);
+        .px2vw(height, 90);
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .home {
+          flex: 1;
+          text-align: right;
+          font-size: 12px;
+          color: #000000;
+          img {
+            .px2vw(width, 38);
+            .px2vw(height, 38);
+            .px2vw(margin-left, 16);
+          }
+        }
+        .score {
+          font-size: 14px;
+          color: #000000;
+          .px2vw(width, 120);
+          text-align: center;
+        }
+        .guest {
+          flex: 1;
+          text-align: left;
+          font-size: 12px;
+          color: #000000;
+          img {
+            .px2vw(width, 38);
+            .px2vw(height, 38);
+            .px2vw(margin-right, 16);
+          }
+        }
+      }
+      .bottom {
+        .px2vw(width, 640);
+        .px2vw(padding-bottom, 40);
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /*视频直播和动画直播图标*/
+        .video,
+        .animation {
+          font-size: 12px;
+          .px2vw(padding-left, 20);
+          .px2vw(padding-right, 20);
+          cursor: pointer;
+          color: #27c5c3;
+          -webkit-transition: all 100ms;
+          -moz-transition: all 100ms;
+          -ms-transition: all 100ms;
+          -o-transition: all 100ms;
+          transition: all 100ms;
+          img {
+            .px2vw(margin-right, 8);
+          }
+          &:hover {
+            font-size: 12px;
+          }
+        }
+        .video {
+          img {
+            .px2vw(width, 28);
+            .px2vw(height, 32);
+          }
+          &:hover {
+            img {
+              .px2vw(width, 32);
+              .px2vw(height, 36);
+            }
+          }
+        }
+        .animation {
+          img {
+            .px2vw(width, 36);
+            .px2vw(height, 24);
+          }
+          &:hover {
+            img {
+              .px2vw(width, 40);
+              .px2vw(height, 28);
+            }
+          }
+        }
+        /*不可用和可用状态下的样式*/
+        .video,
+        .animation {
+          img.disabled {
+            display: none;
+          }
+        }
+        .video.disabled,
+        .animation.disabled {
+          color: #c9c9c9;
+          img.able {
+            display: none;
+          }
+          img.disabled {
+            display: inline-block;
+          }
+        }
+      }
+    }
+    /*去掉特效*/
+    li:hover {
+      width: 100%;
+      height: auto;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
     }
   }
-  .live-path-box .live-item {
-     border-radius: 5px;
-     background: #0c9ce2;
-     margin: 2px;
-   }
-  .live-path-box .pathColor_1 {
-    background: #0b9ce2;
-  }
-  .live-path-box .pathColor_3 {
-    background: #aaa;
-  }
+}
 </style>
