@@ -194,15 +194,15 @@ export default {
       matchDetails: {},
       currentRate: 88,
       timer: null,
-      isSocket: false,
-      msgContent: {},
-      score: [],
-      aScore: 0,
-      hScore: 0,
-      ftlive: [],
-      txtLive: [],
-      impTxtLive: [],
-      tliveTab: true
+      isSocket: false, // 当前是websocket状态
+      msgContent: {}, // 接受的消息
+      score: [], // 比分的全部信息
+      aScore: 0, // 主队当前比分
+      hScore: 0, // 客队当前比分
+      ftlive: [], // 文字直播和重要事件集合
+      txtLive: [], // 文字直播数据
+      impTxtLive: [], // 重要事件数据
+      tliveTab: true // 文字直播和重要事件切换栏状态
     }
   },
   deactivated () { // 销毁断开
