@@ -130,29 +130,36 @@
         </div>
       </div>
     </div>
+    <!-- 足球******* -->
     <!--文字直播&重要事件-->
-    <div class="text">
-      <ul class="nav">
-        <li>文字直播</li>
-        <li>重要事件</li>
-      </ul>
-      <!--文字直播-->
-      <ul class="live">
-        <li>
-          <img src="@img/details/flag.png" />
-          <div class="content">01:13 - 奥莫尼亚 首先达到7个角球</div>
-        </li>
-        <li>
-          <img src="@img/details/flag.png" />
-          <div class="content">01:13 - 奥莫尼亚 首先达到7个角球</div>
-        </li>
-        <li>
-          <img src="@img/details/flag.png" />
-          <div class="content">01:13 - 奥莫尼亚 首先达到7个角球</div>
-        </li>
-      </ul>
-      <!--重要事件-->
-    </div>
+    <template v-if="params.type === '1'">
+      <div class="text">
+        <ul class="nav">
+          <li :class="{'cur':tliveTab}" @click="tliveTab = true">文字直播</li>
+          <li :class="{'cur':!tliveTab}" @click="tliveTab = false">重要事件</li>
+        </ul>
+        <!--文字直播-->
+        <ul class="live" v-if="tliveTab">
+          <template v-if="txtLive && txtLive.length">
+            <li v-for="(item,index) in txtLive" :key="index">
+              <img src="@img/details/flag.png" />
+              <div class="content">{{item.data}}</div>
+            </li>
+          </template>
+          <p class="notData" v-else>暂无数据</p>
+        </ul>
+        <!--重要事件-->
+        <ul class="live" v-else>
+          <template v-if="impTxtLive && impTxtLive.length">
+            <li v-for="(item,index) in impTxtLive" :key="index">
+              <img src="@img/details/flag.png" />
+              <div class="content">{{item.data}}</div>
+            </li>
+          </template>
+          <p class="notData" v-else>暂无数据</p>
+        </ul>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -188,7 +195,14 @@ export default {
       currentRate: 88,
       timer: null,
       isSocket: false,
-      msgContent: {}
+      msgContent: {},
+      score: [],
+      aScore: 0,
+      hScore: 0,
+      ftlive: [],
+      txtLive: [],
+      impTxtLive: [],
+      tliveTab: true
     }
   },
   deactivated () { // 销毁断开
@@ -211,6 +225,23 @@ export default {
       if (msg && Object.keys(msg).length) {
         this.isSocket = true
         this.msgContent = msg
+        if (this.params.type === '1') {
+          this.score = (msg.score && msg.score.length) && msg.score
+          this.hScore = this.score[2][0]
+          this.aScore = this.score[3][0]
+          this.ftlive = (msg.tlive && msg.tlive.length) && msg.tlive.reverse()
+          let newTxt = []
+          let newImpTxt = []
+          this.ftlive.forEach(e => {
+            if (e.main) {
+              newImpTxt.push(e)
+            } else {
+              newTxt.push(e)
+            }
+          })
+          this.txtLive = newTxt
+          this.impTxtLive = newImpTxt
+        }
       }
     },
     loopSendMsg () { // 定时拉消息
@@ -226,11 +257,11 @@ export default {
         this.token = result.token
         this.matchDetails = result.matchinfo
         // 初始化连接
-        // if (this.token) {
-        //   const { id, type } = this.params
-        //   sendSock(id, type, this.token, this.getMsgResult)
-        //   this.loopSendMsg()
-        // }
+        if (this.token) {
+          const { id, type } = this.params
+          sendSock(id, type, this.token, this.getMsgResult)
+          this.loopSendMsg()
+        }
       }
       // setTimeout(() => {
       //   this.matchDetails = {
@@ -493,7 +524,7 @@ export default {
         &:first-child {
           .px2vw(margin-right, 140);
         }
-        &:before {
+        &.cur:before {
           content: "";
           .px2vw(width, 58);
           .px2vw(height, 8);
@@ -524,15 +555,18 @@ export default {
         img {
           .px2vw(width, 27);
           .px2vw(margin-right, 23);
+          vertical-align: top;
+          padding-top: 16px;
         }
         .content {
           display: inline-block;
+          padding: 10px;
           .px2vw(width, 600);
-          .px2vw(height, 90);
-          .px2vw(line-height, 90);
+          // .px2vw(height, 90);
+          .px2vw(line-height, 46);
           .px2vw(padding-left, 25);
           .px2vw(padding-right, 25);
-          .px2vw(font-size, 28);
+          .px2vw(font-size, 24);
           color: #333333;
           font-weight: 400;
           background: #ffffff;
@@ -542,6 +576,12 @@ export default {
           .px2vw(border-radius, 26);
         }
       }
+    }
+    .notData {
+      text-align: center;
+      padding: 20px 0;
+      font-size: 14px;
+      color: #666;
     }
   }
 }
