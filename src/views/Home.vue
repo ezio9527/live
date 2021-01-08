@@ -12,7 +12,7 @@
     <!--列表区域-->
     <BaseList :list="matchFilterList" :loading="listLoading" @load="load" @play="play"></BaseList>
     <!--底部Footer-->
-    <BaseFooter></BaseFooter>
+    <!--<BaseFooter></BaseFooter>-->
   </div>
 </template>
 
@@ -20,15 +20,15 @@
 import BaseNavBar from '@comp/BaseNavBar'
 import BaseCategory from '@comp/BaseCategory'
 import BaseList from '@comp/BaseList'
-import BaseFooter from '@comp/BaseFooter'
+// import BaseFooter from '@comp/BaseFooter'
 import { matchListApi } from '@/http/api'
 export default {
   name: 'Home',
   components: {
     BaseNavBar,
     BaseCategory,
-    BaseList,
-    BaseFooter
+    BaseList
+    // BaseFooter
   },
   data () {
     return {
