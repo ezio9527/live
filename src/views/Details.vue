@@ -91,103 +91,107 @@
         </div>
       </div>
     </div>
-    <div class="statistics">
-      <div class="title">
-        <span class="float-left">热刺</span>
-        <span class="float-right">曼城</span>
-      </div>
-      <div class="content">
-        <div class="charts">
-          <div class="item">
-            <div class="top">进攻</div>
-            <div class="bottom">
-              <span>79</span>
-              <van-circle
-                v-model="currentRate"
-                :rate="56"
-                layer-color="#E5E5E5"
-                color="#F6BD35"
-                stroke-width="120"
-              />
-              <span>79</span>
-            </div>
-          </div>
-          <div class="item">
-            <div class="top">进攻</div>
-            <div class="bottom">
-              <span>79</span>
-              <van-circle
-                v-model="currentRate"
-                :rate="56"
-                layer-color="#E5E5E5"
-                color="#F6BD35"
-                stroke-width="120"
-              />
-              <span>79</span>
-            </div>
-          </div>
-          <div class="item">
-            <div class="top">进攻</div>
-            <div class="bottom">
-              <span>79</span>
-              <van-circle
-                v-model="currentRate"
-                :rate="56"
-                layer-color="#E5E5E5"
-                color="#F6BD35"
-                stroke-width="120"
-              />
-              <span>79</span>
-            </div>
-          </div>
-        </div>
-        <div class="shoot">
-          <span class="item">
-            <img class="flag" src="@img/details/flag.png" />
-          </span>
-          <span class="item">
-            <img class="red" src="@img/details/red.png" />
-          </span>
-          <span class="item">
-            <img class="yellow" src="@img/details/yellow.png" />
-          </span>
-          <span class="item">5</span>
-          <div class="progress">
-            <span>射正球门</span>
-            <van-progress :percentage="50" :show-pivot="false" color="#F6BD35" />
-            <span>&nbsp;</span>
-          </div>
-          <span class="item align-right">5</span>
-          <span class="item align-right">
-            <img class="yellow" src="@img/details/yellow.png" />
-          </span>
-          <span class="item align-right">
-            <img class="red" src="@img/details/red.png" />
-          </span>
-          <span class="item align-right">
-            <img class="flag" src="@img/details/flag.png" />
-          </span>
-        </div>
-        <div class="shoot">
-          <span class="item">5</span>
-          <span class="item">12</span>
-          <span class="item">5</span>
-          <span class="item">5</span>
-          <div class="progress">
-            <span>射歪球门</span>
-            <van-progress :percentage="50" :show-pivot="false" color="#F6BD35" />
-            <span>&nbsp;</span>
-          </div>
-          <span class="item align-right">5</span>
-          <span class="item align-right">5</span>
-          <span class="item align-right">12</span>
-          <span class="item align-right">5</span>
-        </div>
-      </div>
-    </div>
+    <template v-if="params.type === '2'">
+      <BaseLiveBasketBallText />
+    </template>
+
     <!-- 足球******* -->
-    <!--文字直播&重要事件-->
     <template v-if="params.type === '1'">
+      <div class="statistics">
+        <div class="title">
+          <span class="float-left">热刺</span>
+          <span class="float-right">曼城</span>
+        </div>
+        <div class="content">
+          <div class="charts">
+            <div class="item">
+              <div class="top">进攻</div>
+              <div class="bottom">
+                <span>79</span>
+                <van-circle
+                  v-model="currentRate"
+                  :rate="56"
+                  layer-color="#E5E5E5"
+                  color="#F6BD35"
+                  stroke-width="120"
+                />
+                <span>79</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="top">进攻</div>
+              <div class="bottom">
+                <span>79</span>
+                <van-circle
+                  v-model="currentRate"
+                  :rate="56"
+                  layer-color="#E5E5E5"
+                  color="#F6BD35"
+                  stroke-width="120"
+                />
+                <span>79</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="top">进攻</div>
+              <div class="bottom">
+                <span>79</span>
+                <van-circle
+                  v-model="currentRate"
+                  :rate="56"
+                  layer-color="#E5E5E5"
+                  color="#F6BD35"
+                  stroke-width="120"
+                />
+                <span>79</span>
+              </div>
+            </div>
+          </div>
+          <div class="shoot">
+            <span class="item">
+              <img class="flag" src="@img/details/flag.png" />
+            </span>
+            <span class="item">
+              <img class="red" src="@img/details/red.png" />
+            </span>
+            <span class="item">
+              <img class="yellow" src="@img/details/yellow.png" />
+            </span>
+            <span class="item">5</span>
+            <div class="progress">
+              <span>射正球门</span>
+              <van-progress :percentage="50" :show-pivot="false" color="#F6BD35" />
+              <span>&nbsp;</span>
+            </div>
+            <span class="item align-right">5</span>
+            <span class="item align-right">
+              <img class="yellow" src="@img/details/yellow.png" />
+            </span>
+            <span class="item align-right">
+              <img class="red" src="@img/details/red.png" />
+            </span>
+            <span class="item align-right">
+              <img class="flag" src="@img/details/flag.png" />
+            </span>
+          </div>
+          <div class="shoot">
+            <span class="item">5</span>
+            <span class="item">12</span>
+            <span class="item">5</span>
+            <span class="item">5</span>
+            <div class="progress">
+              <span>射歪球门</span>
+              <van-progress :percentage="50" :show-pivot="false" color="#F6BD35" />
+              <span>&nbsp;</span>
+            </div>
+            <span class="item align-right">5</span>
+            <span class="item align-right">5</span>
+            <span class="item align-right">12</span>
+            <span class="item align-right">5</span>
+          </div>
+        </div>
+      </div>
+      <!--文字直播&重要事件-->
       <div class="text">
         <ul class="nav">
           <li :class="{'cur':tliveTab}" @click="tliveTab = true">文字直播</li>
@@ -229,6 +233,7 @@
 <script>
 import BaseNavBar from '@comp/BaseNavBar'
 import BaseVideoPlayer from '@comp/BaseVideoPlayer'
+import BaseLiveBasketBallText from '@comp/Live/BaseLiveBasketBallText'
 import { matchDetailApi } from '@/http/api'
 import {
   sendSock,
@@ -238,7 +243,8 @@ export default {
   name: 'Details',
   components: {
     BaseNavBar,
-    BaseVideoPlayer
+    BaseVideoPlayer,
+    BaseLiveBasketBallText
   },
   props: {
     matchId: {
