@@ -26,11 +26,6 @@ const routes = [
     component: () => import('@views/Details.vue')
   },
   {
-    path: '/123',
-    name: 'BasePlayer',
-    component: () => import('@comp/BasePlayer.vue')
-  },
-  {
     path: '/:type',
     name: 'Home',
     component: Home
