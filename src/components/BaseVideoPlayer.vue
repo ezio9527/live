@@ -46,9 +46,6 @@ export default {
   mounted () {
     // this.init()
   },
-  destroyed () {
-    this.player.destroy()
-  },
   methods: {
     init () {
       this.video.customType = {

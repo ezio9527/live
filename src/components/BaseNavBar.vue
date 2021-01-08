@@ -154,6 +154,7 @@ export default {
         position: relative;
         display: inline-block;
         margin-left: 30px;
+        font-weight: 600;
         .background {
           position: absolute;
           width: 100px;
