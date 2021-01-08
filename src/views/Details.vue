@@ -56,7 +56,11 @@
           <span>{{match.hteam_name}}</span>
           <img :src="match.hteam_logo" />
         </div>
-        <div class="score">{{match.score}}</div>
+        <div class="score" v-if="isSocket">
+          <span>{{hScore}}</span> -
+          <span>{{aScore}}</span>
+        </div>
+        <div class="score" v-else>{{match.score}}</div>
         <div class="guest line-word-hidden">
           <img :src="match.ateam_logo" />
           <span>{{match.ateam_name}}</span>
@@ -194,20 +198,28 @@
           <template v-if="txtLive && txtLive.length">
             <li v-for="(item,index) in txtLive" :key="index">
               <img src="@img/details/flag.png" />
-              <div class="content">{{item.data}}</div>
+              <div class="content">
+                <p>{{item.data}}</p>
+                <i v-if="item.position === 1" class="hColor"></i>
+                <i v-if="item.position === 2" class="aColor"></i>
+              </div>
             </li>
           </template>
-          <p class="notData" v-else>暂无数据</p>
+          <p class="notData" v-else>暂无文字直播数据</p>
         </ul>
         <!--重要事件-->
         <ul class="live" v-else>
           <template v-if="impTxtLive && impTxtLive.length">
             <li v-for="(item,index) in impTxtLive" :key="index">
               <img src="@img/details/flag.png" />
-              <div class="content">{{item.data}}</div>
+              <div class="content">
+                <p>{{item.data}}</p>
+                <i v-if="item.position === 1" class="hColor"></i>
+                <i v-if="item.position === 2" class="aColor"></i>
+              </div>
             </li>
           </template>
-          <p class="notData" v-else>暂无数据</p>
+          <p class="notData" v-else>暂无重要事件数据</p>
         </ul>
       </div>
     </template>
@@ -247,15 +259,15 @@ export default {
       matchDetails: {},
       currentRate: 88,
       timer: null,
-      isSocket: false,
-      msgContent: {},
-      score: [],
-      aScore: 0,
-      hScore: 0,
-      ftlive: [],
-      txtLive: [],
-      impTxtLive: [],
-      tliveTab: true,
+      isSocket: false, // 当前是ws状态
+      msgContent: {}, // 接收的内容
+      score: [], // 比分集合
+      hScore: 0, // 主队比分
+      aScore: 0, // 客队比分
+      ftlive: [], // 足球文字直播集合
+      txtLive: [], // 足球文字直播
+      impTxtLive: [], // 足球重要事件
+      tliveTab: true, // 足球文字直播切换栏
       // 播放器部分
       video: {
         url: '',
@@ -397,7 +409,7 @@ export default {
         this.token = result.token
         this.matchDetails = result.matchinfo
         // 初始化连接
-        if (this.token) {
+        if (this.token && result.matchinfo.status === 0) {
           const { id, type } = this.params
           sendSock(id, type, this.token, this.getMsgResult)
           this.loopSendMsg()
@@ -566,7 +578,7 @@ export default {
     margin: 0;
     border-radius: 0;
     color: #666666;
-    background: #FFF;
+    background: #fff;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
@@ -591,7 +603,8 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      .name, .status {
+      .name,
+      .status {
         width: auto;
         flex: 1;
       }
@@ -614,7 +627,7 @@ export default {
       }
       /*底部细线*/
       &:before {
-        content: '';
+        content: "";
         position: absolute;
         width: 100%;
         bottom: 0;
