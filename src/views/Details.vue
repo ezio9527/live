@@ -5,13 +5,13 @@
     <LivePlayer :matchDetails="matchDetails">
       <template #live>
         <template v-if="params.type === '1'">
-          <BasketballStatistics />
-          <BasketballText />
+          <FootballStatistics />
+          <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive" />
         </template>
         <!-- 足球******* -->
         <template v-if="params.type === '2'">
-          <FootballStatistics />
-          <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive" />
+          <BasketballStatistics />
+          <BasketballText />
         </template>
       </template>
     </LivePlayer>
