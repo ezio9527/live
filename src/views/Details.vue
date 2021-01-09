@@ -13,7 +13,7 @@
         <!--篮球-->
         <template v-if="params.type === 2">
           <BaseListItem :match="matchDetails"></BaseListItem>
-          <BasketballStatistics v-if="false" />
+          <BasketballStatistics :score="score" :match="matchDetails" />
           <BasketballText :btlive="btlive" />
         </template>
       </template>
@@ -65,7 +65,7 @@ export default {
       timer: null,
       isSocket: false, // 当前是ws状态
       msgContent: {}, // 接收的内容
-      // score: [], // 比分集合
+      score: [], // 比分集合
       // hScore: 0, // 主队比分
       // aScore: 0, // 客队比分
       ftlive: [], // 足球文字直播集合
@@ -187,6 +187,7 @@ export default {
         this.isSocket = true
         this.msgContent = msg
         const score = (msg.score && msg.score.length) && msg.score
+        this.score = score
         if (this.params.type === '1') {
           const hScore = score[2][0]
           const aScore = score[3][0]
@@ -205,8 +206,8 @@ export default {
           this.impTxtLive = newImpTxt
         }
         if (this.params.type === '2') {
-          const hScore = score[3][0]
-          const aScore = score[4][0]
+          const hScore = score[3].reduce((a, b) => (a + b))
+          const aScore = score[4].reduce((a, b) => (a + b))
           this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
           this.btlive = (msg.tlive && msg.tlive.length) && msg.tlive
         }
