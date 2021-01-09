@@ -134,7 +134,7 @@ export default {
         })
         video.quality = quality
         if (this.params.playType === 1) {
-          video.defaultQuality = this.routeParams.channel
+          video.defaultQuality = this.params.channel
         } else {
           video.defaultQuality = 0
         }
@@ -159,17 +159,17 @@ export default {
         // 根据当前播放类型选择播放地址
         if (this.params.playType === 1) {
           if (data.matchinfo.live_urls.length > 0) {
-            this.url = data.matchinfo.live_urls[this.routeParams.channel].url
+            this.url = data.matchinfo.live_urls[this.params.channel].url
             this.selectVideoSource({
-              index: this.routeParams.channel,
+              index: this.params.channel,
               value: this.url
             })
           }
         } else {
           if (data.matchinfo.live_cartoon_url.length > 0) {
-            this.url = data.matchinfo.live_cartoon_url[this.routeParams.channel].url
+            this.url = data.matchinfo.live_cartoon_url[this.params.channel].url
             this.selectAnimationSource({
-              index: this.routeParams.channel,
+              index: this.params.channel,
               value: this.url
             })
           }
