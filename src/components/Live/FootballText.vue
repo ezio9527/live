@@ -61,6 +61,8 @@ export default {
 <style scoped lang="less">
   /*文字直播*/
   .foot-text {
+    .px2vw(margin-top, 20);
+    .px2vw(margin-bottom, 20);
     .nav {
       color: #333333;
       .px2vw(font-size, 30);

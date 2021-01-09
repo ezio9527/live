@@ -113,6 +113,8 @@ export default {
 
 <style scoped lang="less">
   .football-statistics {
+    .px2vw(margin-top, 20);
+    .px2vw(margin-bottom, 20);
     .title {
       color: #333333;
       margin: auto;

@@ -41,6 +41,10 @@ export default {
 
 <style lang="less">
 .basketball-text{
+  position: relative;
+  margin: auto !important;
+  .px2vw(margin-top, 20);
+  .px2vw(margin-bottom, 20);
   // Tabs在card模式下的样式
   //整体背景色
   .van-tabs__nav.van-tabs__nav--card {

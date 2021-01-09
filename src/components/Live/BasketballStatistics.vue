@@ -72,6 +72,10 @@ export default {
 
 <style scoped lang="less">
 .basketball-statistics {
+  position: relative;
+  margin: auto;
+  .px2vw(margin-top, 20);
+  .px2vw(margin-bottom, 20);
   .px2vw(width, 700);
   .px2vw(height, 540);
   background: #FFFFFF;
