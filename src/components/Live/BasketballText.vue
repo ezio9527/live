@@ -125,26 +125,50 @@ export default {
   //调圆角，选中字体颜色，背景渐变色
   .van-tabs__nav--card .van-tab.van-tab--active {
     .px2vw(border-radius, 20);
-    color: #27C5C3;
+    color: #27c5c3;
     background: rgba(25, 171, 245, 0.1);
-    background: linear-gradient(135deg, rgba(25, 171, 245, 0.1), rgba(104, 255, 135, 0.1));
-    background: -webkit-linear-gradient(135deg, rgba(25, 171, 245, 0.1), rgba(104, 255, 135, 0.1));
-    background: -moz-linear-gradient-linear-gradient(135deg, rgba(25, 171, 245, 0.1), rgba(104, 255, 135, 0.1));
-    background: -ms-linear-gradient(135deg, rgba(25, 171, 245, 0.1), rgba(104, 255, 135, 0.1));
-    background: -o-linear-gradient(135deg, rgba(25, 171, 245, 0.1), rgba(104, 255, 135, 0.1));
+    background: linear-gradient(
+      135deg,
+      rgba(25, 171, 245, 0.1),
+      rgba(104, 255, 135, 0.1)
+    );
+    background: -webkit-linear-gradient(
+      135deg,
+      rgba(25, 171, 245, 0.1),
+      rgba(104, 255, 135, 0.1)
+    );
+    background: -moz-linear-gradient-linear-gradient(
+      135deg,
+      rgba(25, 171, 245, 0.1),
+      rgba(104, 255, 135, 0.1)
+    );
+    background: -ms-linear-gradient(
+      135deg,
+      rgba(25, 171, 245, 0.1),
+      rgba(104, 255, 135, 0.1)
+    );
+    background: -o-linear-gradient(
+      135deg,
+      rgba(25, 171, 245, 0.1),
+      rgba(104, 255, 135, 0.1)
+    );
   }
   //默认字体大小
   .van-tabs.van-tabs--card {
     .px2vw(font-size, 28);
   }
   //最后一项的延长线
-  .van-tabs.van-tabs--card .van-tabs__content .van-tab__pane .van-step:last-child .van-step__line {
+  .van-tabs.van-tabs--card
+    .van-tabs__content
+    .van-tab__pane
+    .van-step:last-child
+    .van-step__line {
     border: none;
   }
   // Tabs在card模式下的样式
   .px2vw(width, 700);
   .px2vw(border-radius, 26);
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 10px 88px 0px rgba(0, 0, 0, 0.06);
   .px2vw(padding-left, 25);
   .px2vw(padding-right, 25);
@@ -185,7 +209,7 @@ export default {
       .px2vw(width, 623);
       .px2vw(line-height, 70);
       .px2vw(border-radius, 10);
-      background: #FBFBFB;
+      background: #fbfbfb;
       color: #333333;
       .px2vw(font-size, 24);
       .px2vw(padding-left, 25);
