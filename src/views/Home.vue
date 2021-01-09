@@ -82,8 +82,19 @@ export default {
     }
   },
   created () {
+    let type = 0
     // 默认查全部分类，第一页的十条数据
-    this.qryMatchList({ pn: 0, type: 0, ps: this.pageSize })
+    switch (this.$route.params.type) {
+      case 'football':
+        type = 1
+        break
+      case 'basketball':
+        type = 2
+        break
+      default:
+        type = 0
+    }
+    this.qryMatchList({ pn: 0, type, ps: this.pageSize })
   },
   methods: {
     // 关键字搜索
