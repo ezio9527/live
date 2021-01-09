@@ -2,75 +2,25 @@
   <div class="details">
     <BaseNavBar></BaseNavBar>
     <!--播放器部分-->
-    <!--播放器-->
-    <BaseVideoPlayer ref="player" :quality="channel" :video="video" v-if="playType===1"></BaseVideoPlayer>
-    <!--动画播放器-->
-    <iframe :src="url" v-else></iframe>
-    <div class="player-score" v-loading="detailsLoading">
-      <div class="top">
-        <div class="name">
-          <img src="@img/home/football.png" v-if="match.type===1" />
-          <img src="@img/home/basketball.png" v-else />
-          <span>{{match.name}}</span>
-        </div>
-        <div class="time">{{match.matchTime}}</div>
-        <div class="status">{{match.status | interpreter('MatchType')}}</div>
-      </div>
-      <div class="middle">
-        <div class="home line-word-hidden">
-          <span>{{match.hteam_name}}</span>
-          <img :src="match.hteam_logo" />
-        </div>
-        <div class="score" v-if="isSocket">
-          <span>{{hScore}}</span> -
-          <span>{{aScore}}</span>
-        </div>
-        <div class="score" v-else>{{match.score}}</div>
-        <div class="guest line-word-hidden">
-          <img :src="match.ateam_logo" />
-          <span>{{match.ateam_name}}</span>
-        </div>
-      </div>
-      <div class="bottom">
-        <!--<div-->
-        <!--class="video"-->
-        <!--:class="{disabled: video.status===0}"-->
-        <!--v-for="(video, k) in match.live_urls"-->
-        <!--:key="'video'+k"-->
-        <!--@click="$emit('play', {type: match.type, playType: 1, channel: k, id: match.id})"-->
-        <!--&gt;-->
-        <!--<img class="able" src="@img/list/video.png" />-->
-        <!--<img class="disabled" src="@img/list/video_disabled.png" />-->
-        <!--<span>{{video.name}}</span>-->
-        <!--</div>-->
-        <div
-          class="animation"
-          :class="{disabled: match.status!==0}"
-          v-for="(animation, k) in match.live_cartoon_url"
-          :key="'animation'+k"
-          @click="$emit('play', {type: match.type, playType: 2, channel: k, id: match.id})"
-        >
-          <img class="able" src="@img/list/animation.png" />
-          <img class="disabled" src="@img/list/animation_disabled.png" />
-          <span>{{animation.name}}</span>
-        </div>
-      </div>
-    </div>
-    <template v-if="params.type === '1'">
-      <BasketballStatistics />
-      <BasketballText />
-    </template>
-    <!-- 足球******* -->
-    <template v-if="params.type === '2'">
-      <FootballStatistics />
-      <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive"/>
-    </template>
+    <LivePlayer :matchDetails="matchDetails">
+      <template #live>
+        <template v-if="params.type === '1'">
+          <BasketballStatistics/>
+          <BasketballText/>
+        </template>
+        <!-- 足球******* -->
+        <template v-if="params.type === '2'">
+          <FootballStatistics/>
+          <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive"/>
+        </template>
+      </template>
+    </LivePlayer>
   </div>
 </template>
 
 <script>
 import BaseNavBar from '@comp/BaseNavBar'
-import BaseVideoPlayer from '@comp/BaseVideoPlayer'
+import LivePlayer from '@comp/Live/LivePlayer'
 import FootballStatistics from '@comp/Live/FootballStatistics'
 import FootballText from '@comp/Live/FootballText'
 import BasketballStatistics from '@comp/Live/BasketballStatistics'
@@ -84,7 +34,7 @@ export default {
   name: 'Details',
   components: {
     BaseNavBar,
-    BaseVideoPlayer,
+    LivePlayer,
     FootballStatistics,
     FootballText,
     BasketballStatistics,
@@ -234,9 +184,10 @@ export default {
         this.isSocket = true
         this.msgContent = msg
         if (this.params.type === '1') {
-          this.score = (msg.score && msg.score.length) && msg.score
-          this.hScore = this.score[2][0]
-          this.aScore = this.score[3][0]
+          // this.score = (msg.score && msg.score.length) && msg.score
+          // this.hScore = this.score[2][0]
+          // this.aScore = this.score[3][0]
+          this.$set(this.matchDetails, 'score', (msg.score && msg.score.length) && msg.score)
           this.ftlive = (msg.tlive && msg.tlive.length) && msg.tlive.reverse()
           const newTxt = []
           const newImpTxt = []
@@ -297,186 +248,6 @@ export default {
     width: 100%;
     height: 210px;
     background: #000000;
-  }
-  /*比赛详情*/
-  .player-score {
-    position: relative;
-    width: 100%;
-    height: auto;
-    margin: 0;
-    border-radius: 0;
-    color: #666666;
-    background: #fff;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    -webkit-transition: all 200ms;
-    -moz-transition: all 200ms;
-    -ms-transition: all 200ms;
-    -o-transition: all 200ms;
-    transition: all 200ms;
-    .top {
-      position: relative;
-      .px2vw(width, 640);
-      .px2vw(height, 60);
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .name,
-      .status {
-        width: auto;
-        flex: 1;
-      }
-      .name {
-        color: #333333;
-        text-align: left;
-        img {
-          .px2vw(width, 40);
-          .px2vw(height, 40);
-          margin-left: 0;
-        }
-      }
-      .time {
-        color: #333333;
-        .px2vw(width, 100);
-      }
-      .status {
-        color: #333333;
-        text-align: right;
-      }
-      /*底部细线*/
-      &:before {
-        content: "";
-        position: absolute;
-        width: 100%;
-        bottom: 0;
-        height: 1px;
-        background: #979797;
-        -webkit-transform: scaleY(0.5);
-        -moz-transform: scaleY(0.5);
-        -ms-transform: scaleY(0.5);
-        -o-transform: scaleY(0.5);
-        transform: scaleY(0.5);
-      }
-    }
-    .middle {
-      .px2vw(width, 640);
-      .px2vw(height, 90);
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .home {
-        flex: 1;
-        text-align: right;
-        font-size: 12px;
-        color: #000000;
-        img {
-          .px2vw(width, 38);
-          .px2vw(height, 38);
-          .px2vw(margin-left, 16);
-        }
-      }
-      .score {
-        font-size: 14px;
-        color: #000000;
-        .px2vw(width, 120);
-        text-align: center;
-      }
-      .guest {
-        flex: 1;
-        text-align: left;
-        font-size: 12px;
-        color: #000000;
-        img {
-          .px2vw(width, 38);
-          .px2vw(height, 38);
-          .px2vw(margin-right, 16);
-        }
-      }
-    }
-    .bottom {
-      .px2vw(width, 640);
-      .px2vw(padding-bottom, 40);
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      /*视频直播和动画直播图标*/
-      .video,
-      .animation {
-        font-size: 12px;
-        .px2vw(padding-left, 20);
-        .px2vw(padding-right, 20);
-        cursor: pointer;
-        color: #27c5c3;
-        -webkit-transition: all 100ms;
-        -moz-transition: all 100ms;
-        -ms-transition: all 100ms;
-        -o-transition: all 100ms;
-        transition: all 100ms;
-        img {
-          .px2vw(margin-right, 8);
-        }
-        &:hover {
-          font-size: 12px;
-        }
-      }
-      .video {
-        img {
-          .px2vw(width, 28);
-          .px2vw(height, 32);
-        }
-        &:hover {
-          img {
-            .px2vw(width, 32);
-            .px2vw(height, 36);
-          }
-        }
-      }
-      .animation {
-        img {
-          .px2vw(width, 36);
-          .px2vw(height, 24);
-        }
-        &:hover {
-          img {
-            .px2vw(width, 40);
-            .px2vw(height, 28);
-          }
-        }
-      }
-      /*不可用和可用状态下的样式*/
-      .video,
-      .animation {
-        img.disabled {
-          display: none;
-        }
-      }
-      .video.disabled,
-      .animation.disabled {
-        color: #c9c9c9;
-        img.able {
-          display: none;
-        }
-        img.disabled {
-          display: inline-block;
-        }
-      }
-    }
   }
 }
 </style>
