@@ -1,7 +1,7 @@
 <template>
   <div class="live-player">
     <!--播放器部分-->
-    <template  v-if="playing">
+    <template v-if="playing">
       <BaseVideoPlayer ref="player" :quality="channel" :video="video" v-if="playType===1"></BaseVideoPlayer>
       <iframe :src="url" v-else></iframe>
     </template>
@@ -26,11 +26,11 @@
           <span class="score">{{matchDetails.score}}</span>
           <span class="half">{{matchDetails.halfScore}}</span>
           <div class="btn-group">
-            <button class="btn" @click="playing=true">
+            <button class="btn" @click="play(2)">
               <img class="animation" src="@img/list/animation.png" /><span>动画</span>
             </button>
-            <button class="btn" @click="playing=true">
-              <img class="video" src="@img/list/video.png" /><span>视频</span>
+            <button class="btn" @click="play(1)">
+              <img class="video" src="@img/list/video.png"/><span>视频</span>
             </button>
           </div>
         </div>
@@ -87,6 +87,10 @@ export default {
           halfScore: '半场 0 - 0'
         }
       }
+    },
+    video: {
+      type: Object,
+      default: () => {}
     }
   },
   data () {
@@ -99,11 +103,14 @@ export default {
       url: '', // 播放url
       channel: 0, // 播放源index
       animationActive: -1,
-      videoActive: -1,
-      video: {
-        url: '',
-        type: 'hls'
-      }
+      videoActive: -1
+    }
+  },
+  methods: {
+    play (type) {
+      this.playType = type
+      this.playing = true
+      this.$emit('play', type)
     }
   }
 }
@@ -440,6 +447,9 @@ export default {
   }
   .van-tabs.van-tabs--line.playing {
     margin-top: 0;
+    .van-tabs__nav.van-tabs__nav--line {
+      background: url("../../assets/images/details/background.png") no-repeat;
+    }
   }
   .van-tabs--line .van-tabs__wrap {
     .px2vw(height, 82);

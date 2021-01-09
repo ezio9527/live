@@ -2,17 +2,17 @@
   <div class="details">
     <BaseNavBar></BaseNavBar>
     <!--播放器部分-->
-    <LivePlayer :matchDetails="matchDetails">
+    <LivePlayer :matchDetails="matchDetails" :video="video" @play="play">
       <template #live>
         <!-- 足球 -->
         <template v-if="params.type === 1">
-          <BaseListItem :match="matchDetails" v-if="false"></BaseListItem>
+          <BaseListItem :match="matchDetails" v-if="playing" v-loading="detailsLoading"></BaseListItem>
           <FootballStatistics v-if="false" />
           <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive" />
         </template>
         <!--篮球-->
         <template v-if="params.type === 2">
-          <BaseListItem :match="matchDetails"></BaseListItem>
+          <BaseListItem :match="matchDetails" v-if="playing" v-loading="detailsLoading"></BaseListItem>
           <BasketballStatistics :score="score" :match="matchDetails" />
           <BasketballText :btlive="btlive" />
         </template>
@@ -60,7 +60,6 @@ export default {
         id: 0
       },
       token: '',
-      loading: true,
       matchDetails: {},
       timer: null,
       isSocket: false, // 当前是ws状态
@@ -73,22 +72,17 @@ export default {
       impTxtLive: [], // 足球重要事件
       btlive: [], // 篮球文字直播
       // 播放器部分
+      playing: false, // 当前播放状态
       video: {
         url: '',
         // pic: require('../../assets/'),//底图
         type: 'hls'
       },
-      autoplay: false,
-      player: null,
-      contextmenu: [],
       detailsLoading: false, // 比赛详情加载中
       match: {
         live_urls: [],
         live_cartoon_url: []
-      }, // 比赛详情
-      url: '', // 播放url
-      animationActive: -1,
-      videoActive: -1
+      } // 比赛详情
     }
   },
   deactivated () { // 销毁断开
@@ -104,13 +98,7 @@ export default {
     routeParams.channel = parseInt(routeParams.channel) // 视频播放信号
     this.params = routeParams
     // this.qryMatch(Number(routeParams.id), Number(routeParams.type))
-    // 播放器部分
-    if (routeParams.playType === 1) {
-      this.videoActive = routeParams.channel
-    } else {
-      this.animationActive = routeParams.channel
-    }
-    this.qryMatchDetails({ mid: routeParams.id, type: routeParams.playType })
+    this.qryMatchDetails({ mid: routeParams.id, type: routeParams.type })
   },
   methods: {
     // 查询比赛详情
@@ -159,18 +147,18 @@ export default {
         // 根据当前播放类型选择播放地址
         if (this.params.playType === 1) {
           if (data.matchinfo.live_urls.length > 0) {
-            this.url = data.matchinfo.live_urls[this.params.channel].url
+            const url = data.matchinfo.live_urls[this.params.channel].url
             this.selectVideoSource({
               index: this.params.channel,
-              value: this.url
+              value: url
             })
           }
         } else {
           if (data.matchinfo.live_cartoon_url.length > 0) {
-            this.url = data.matchinfo.live_cartoon_url[this.params.channel].url
+            const url = data.matchinfo.live_cartoon_url[this.params.channel].url
             this.selectAnimationSource({
               index: this.params.channel,
-              value: this.url
+              value: url
             })
           }
         }
@@ -219,6 +207,10 @@ export default {
         const { id, type } = this.params
         sendSock(id, type, this.token, this.getMsgResult)
       }, 10000)
+    },
+    play (type) {
+      this.playType = type
+      this.playing = true
     }
   }
 }
@@ -228,11 +220,15 @@ export default {
 .details {
   min-height: 100%;
   background: #fcfcfc;
-  /*播放器部分*/
-  iframe {
-    width: 100%;
-    height: 210px;
-    background: #000000;
+  .base-list-item {
+    margin: auto;
+    .px2vw(margin-top, 20);
+    .px2vw(margin-bottom, 20);
+    .px2vw(width, 700);
+    .px2vw(min-height, 220);
+    .px2vw(border-radius, 26);
+    background: #FFFFFF;
+    box-shadow: 0px 5px 44px 0px rgba(0, 0, 0, 0.06);
   }
 }
 </style>

@@ -44,7 +44,10 @@ export default {
     }
   },
   mounted () {
-    // this.init()
+    if (this.video.quality) {
+      // 传入一组直播地址，初始化
+      this.init()
+    }
   },
   methods: {
     init () {
