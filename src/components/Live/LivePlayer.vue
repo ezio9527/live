@@ -4,56 +4,6 @@
     <template  v-if="playing">
       <BaseVideoPlayer ref="player" :quality="channel" :video="video" v-if="playType===1"></BaseVideoPlayer>
       <iframe :src="url" v-else></iframe>
-      <div class="player-score">
-        <div class="top">
-          <div class="name">
-            <img src="@img/home/football.png" v-if="matchDetails.type===1" />
-            <img src="@img/home/basketball.png" v-else />
-            <span>{{matchDetails.name}}</span>
-          </div>
-          <div class="time">{{matchDetails.matchTime}}</div>
-          <div class="status">{{matchDetails.status | interpreter('MatchType')}}</div>
-        </div>
-        <div class="middle">
-          <div class="home line-word-hidden">
-            <span>{{matchDetails.hteam_name}}</span>
-            <img :src="matchDetails.hteam_logo" />
-          </div>
-          <!--<div class="score" v-if="isSocket">-->
-            <!--<span>{{hScore}}</span> - -->
-            <!--<span>{{aScore}}</span>-->
-          <!--</div>-->
-          <div class="score">{{matchDetails.score}}</div>
-          <div class="guest line-word-hidden">
-            <img :src="matchDetails.ateam_logo" />
-            <span>{{matchDetails.ateam_name}}</span>
-          </div>
-        </div>
-        <div class="bottom">
-          <!--<div-->
-          <!--class="video"-->
-          <!--:class="{disabled: video.status===0}"-->
-          <!--v-for="(video, k) in matchDetails.live_urls"-->
-          <!--:key="'video'+k"-->
-          <!--@click="$emit('play', {type: matchDetails.type, playType: 1, channel: k, id: matchDetails.id})"-->
-          <!--&gt;-->
-          <!--<img class="able" src="@img/list/video.png" />-->
-          <!--<img class="disabled" src="@img/list/video_disabled.png" />-->
-          <!--<span>{{video.name}}</span>-->
-          <!--</div>-->
-          <div
-            class="animation"
-            :class="{disabled: matchDetails.status!==0}"
-            v-for="(animation, k) in matchDetails.live_cartoon_url"
-            :key="'animation'+k"
-            @click="$emit('play', {type: matchDetails.type, playType: 2, channel: k, id: matchDetails.id})"
-          >
-            <img class="able" src="@img/list/animation.png" />
-            <img class="disabled" src="@img/list/animation_disabled.png" />
-            <span>{{animation.name}}</span>
-          </div>
-        </div>
-      </div>
     </template>
     <!--基础信息面板-->
     <div class="panel" v-loading="loading" v-else>
