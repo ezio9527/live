@@ -1,19 +1,33 @@
 <template>
   <div class="basketball-statistics">
     <div class="top">
-      <div class="left">
-        <div  class="guest">公牛</div>
-        <div  class="home">湖人</div>
+      <div class="left" v-if="matchDetails && Object.keys(matchDetails).length">
+        <div class="guest">{{matchDetails.ateam_name || '-'}}</div>
+        <div class="home">{{matchDetails.hteam_name || '-'}}</div>
       </div>
       <div class="right">
-        <div class="body"><span>8</span><span>2</span><span>1</span><span>2</span><span>3</span><span>100</span></div>
-        <div class="body"><span>12</span><span>2</span><span>0</span><span>12</span><span>76</span><span>99</span></div>
-        <div class="header"><span>一</span><span>二</span><span>三</span><span>四</span><span>OT</span><span>总分</span></div>
+        <div class="body">
+          <span v-for="(item,key) in scoreData[3]" :key="key">{{item || 0}}</span>
+        </div>
+        <div class="body">
+          <span v-for="(item,key) in scoreData[4]" :key="key">{{item || 0}}</span>
+        </div>
+        <div class="header">
+          <span>一</span>
+          <span>二</span>
+          <span>三</span>
+          <span>四</span>
+          <span>OT</span>
+          <span>总分</span>
+        </div>
       </div>
     </div>
-    <div class="bottom">
+    <div class="bottom" v-if="false">
       <div class="left">
-        <span>本节犯规数</span><span class="home">1</span><span>剩余暂停</span><span class="home">1</span>
+        <span>本节犯规数</span>
+        <span class="home">1</span>
+        <span>剩余暂停</span>
+        <span class="home">1</span>
       </div>
       <div class="middle">
         <div class="item">
@@ -54,7 +68,10 @@
         </div>
       </div>
       <div class="right">
-        <span>本节犯规数</span><span class="guest">1</span><span>剩余暂停</span><span class="guest">1</span>
+        <span>本节犯规数</span>
+        <span class="guest">1</span>
+        <span>剩余暂停</span>
+        <span class="guest">1</span>
       </div>
     </div>
   </div>
@@ -66,6 +83,32 @@ export default {
   name: 'BasketBallStatistics',
   components: {
     VanProgress: Progress
+  },
+  props: {
+    score: {
+      type: Array,
+      default: () => []
+    },
+    matchDetails: {
+      type: Object,
+      default: () => { }
+    }
+  },
+  watch: {
+    score: {
+      handler (newValue, oldValue) {
+        this.scoreData = newValue
+      },
+      deep: true
+    }
+  },
+  data () {
+    return {
+      scoreData: []
+    }
+  },
+  created () {
+    this.scoreData = this.score
   }
 }
 </script>
@@ -78,7 +121,7 @@ export default {
   .px2vw(margin-bottom, 20);
   .px2vw(width, 700);
   .px2vw(height, 540);
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 5px 44px 0px rgba(0, 0, 0, 0.06);
   .px2vw(border-radius, 26);
   -webkit-box-sizing: border-box;
@@ -100,12 +143,13 @@ export default {
       height: 1px;
       background: #979797;
       opacity: 0.3;
-      content: '';
+      content: "";
       position: absolute;
       left: 0;
       bottom: 0;
     }
-    .left, .right {
+    .left,
+    .right {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -124,7 +168,7 @@ export default {
         &:before {
           .px2vw(width, 5);
           .px2vw(height, 33);
-          content: '';
+          content: "";
           position: absolute;
           left: 0;
           top: 0;
@@ -134,17 +178,18 @@ export default {
           .px2vw(margin-bottom, 16);
         }
         &.home:before {
-          background: #F6BD35;
+          background: #f6bd35;
         }
         &.guest:before {
-          background: #27C5C3;
+          background: #27c5c3;
         }
       }
     }
     .right {
       text-align: right;
       .px2vw(font-size, 22);
-      .header, .body {
+      .header,
+      .body {
         span {
           display: inline-block;
           .px2vw(width, 80);
@@ -167,7 +212,8 @@ export default {
     display: flex;
     justify-content: space-between;
     position: relative;
-    .left, .right {
+    .left,
+    .right {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -177,10 +223,10 @@ export default {
       align-items: center;
       color: #333333;
       .home {
-        color: #F6BD35;
+        color: #f6bd35;
       }
       .guest {
-        color: #27C5C3;
+        color: #27c5c3;
       }
     }
     .middle {
