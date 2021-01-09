@@ -4,14 +4,17 @@
     <!--播放器部分-->
     <LivePlayer :matchDetails="matchDetails">
       <template #live>
-        <template v-if="params.type === '1'">
-          <BasketballStatistics/>
-          <BasketballText/>
-        </template>
         <!-- 足球******* -->
-        <template v-if="params.type === '2'">
+        <template v-if="params.type === '1'">
+          <BaseListItem></BaseListItem>
           <FootballStatistics/>
           <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive"/>
+        </template>
+        <!--篮球-->
+        <template v-if="params.type === '2'">
+          <BaseListItem></BaseListItem>
+          <BasketballStatistics/>
+          <BasketballText/>
         </template>
       </template>
     </LivePlayer>
@@ -25,6 +28,7 @@ import FootballStatistics from '@comp/Live/FootballStatistics'
 import FootballText from '@comp/Live/FootballText'
 import BasketballStatistics from '@comp/Live/BasketballStatistics'
 import BasketballText from '@comp/Live/BasketballText'
+import BaseListItem from '@comp/Live/BaseListItem'
 import { matchDetailApi } from '@/http/api'
 import {
   sendSock,
@@ -38,7 +42,8 @@ export default {
     FootballStatistics,
     FootballText,
     BasketballStatistics,
-    BasketballText
+    BasketballText,
+    BaseListItem
   },
   props: {
     matchId: {
