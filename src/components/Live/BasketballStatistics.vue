@@ -120,7 +120,7 @@ export default {
   .px2vw(margin-top, 20);
   .px2vw(margin-bottom, 20);
   .px2vw(width, 700);
-  .px2vw(height, 540);
+  // .px2vw(height, 540);
   background: #ffffff;
   box-shadow: 0px 5px 44px 0px rgba(0, 0, 0, 0.06);
   .px2vw(border-radius, 26);
@@ -138,16 +138,16 @@ export default {
     display: flex;
     justify-content: space-between;
     position: relative;
-    &:before {
-      width: 100%;
-      height: 1px;
-      background: #979797;
-      opacity: 0.3;
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-    }
+    // &:before {
+    //   width: 100%;
+    //   height: 1px;
+    //   background: #979797;
+    //   opacity: 0.3;
+    //   content: "";
+    //   position: absolute;
+    //   left: 0;
+    //   bottom: 0;
+    // }
     .left,
     .right {
       display: -webkit-box;

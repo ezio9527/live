@@ -13,7 +13,7 @@
         <!--篮球-->
         <template v-if="params.type === 2">
           <BaseListItem :match="matchDetails"></BaseListItem>
-          <BasketballStatistics :score="score" />
+          <BasketballStatistics :score="score" :match="matchDetails" />
           <BasketballText :btlive="btlive" />
         </template>
       </template>
