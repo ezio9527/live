@@ -179,6 +179,9 @@ export default {
       font-weight: 600;
     }
     .content {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
       .px2vw(width, 623);
       .px2vw(line-height, 70);
       .px2vw(border-radius, 10);
