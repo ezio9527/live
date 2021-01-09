@@ -6,14 +6,14 @@
       <template #live>
         <!-- 足球 -->
         <template v-if="params.type === 1">
-          <BaseListItem :match="matchDetails"></BaseListItem>
-          <FootballStatistics/>
+          <BaseListItem :match="matchDetails" v-if="false"></BaseListItem>
+          <FootballStatistics v-if="false" />
           <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive" />
         </template>
         <!--篮球-->
         <template v-if="params.type === 2">
           <BaseListItem :match="matchDetails"></BaseListItem>
-          <BasketballStatistics/>
+          <BasketballStatistics v-if="false" />
           <BasketballText :btlive="btlive" />
         </template>
       </template>
@@ -187,10 +187,10 @@ export default {
         this.isSocket = true
         this.msgContent = msg
         const score = (msg.score && msg.score.length) && msg.score
-        const hScore = score[2][0]
-        const aScore = score[3][0]
-        this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
         if (this.params.type === '1') {
+          const hScore = score[2][0]
+          const aScore = score[3][0]
+          this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
           this.ftlive = (msg.tlive && msg.tlive.length) && msg.tlive.reverse()
           const newTxt = []
           const newImpTxt = []
@@ -203,6 +203,12 @@ export default {
           })
           this.txtLive = newTxt
           this.impTxtLive = newImpTxt
+        }
+        if (this.params.type === '2') {
+          const hScore = score[3][0]
+          const aScore = score[4][0]
+          this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
+          this.btlive = (msg.tlive && msg.tlive.length) && msg.tlive
         }
       }
     },
