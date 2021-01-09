@@ -41,6 +41,43 @@ export default {
 
 <style lang="less">
 .basketball-text{
+  // Tabs在card模式下的样式
+  //整体背景色
+  .van-tabs__nav.van-tabs__nav--card {
+    background-color: rgba(216, 216, 216, 0.1);
+  }
+  //去外边框
+  .van-tabs__nav--card {
+    border: none;
+  }
+  //去内边框
+  .van-tabs__nav--card .van-tab {
+    border-right: none;
+  }
+  //默认字体颜色
+  .van-tabs__nav--card .van-tab {
+    color: #666666;
+  }
+  //调圆角，选中字体颜色，背景渐变色
+  .van-tabs__nav--card .van-tab.van-tab--active {
+    .px2vw(border-radius, 20);
+    color: #27C5C3;
+    background: rgba(25, 171, 245, 0.1);
+    background: linear-gradient(135deg, rgba(25, 171, 245, 0.1), rgba(104, 255, 135, 0.1));
+    background: -webkit-linear-gradient(135deg, rgba(25, 171, 245, 0.1), rgba(104, 255, 135, 0.1));
+    background: -moz-linear-gradient-linear-gradient(135deg, rgba(25, 171, 245, 0.1), rgba(104, 255, 135, 0.1));
+    background: -ms-linear-gradient(135deg, rgba(25, 171, 245, 0.1), rgba(104, 255, 135, 0.1));
+    background: -o-linear-gradient(135deg, rgba(25, 171, 245, 0.1), rgba(104, 255, 135, 0.1));
+  }
+  //默认字体大小
+  .van-tabs.van-tabs--card {
+    .px2vw(font-size, 28);
+  }
+  //最后一项的延长线
+  .van-tabs.van-tabs--card .van-tabs__content .van-tab__pane .van-step:last-child .van-step__line {
+    border: none;
+  }
+  // Tabs在card模式下的样式
   .px2vw(width, 700);
   .px2vw(border-radius, 26);
   background: #FFFFFF;
