@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="top">进攻</div>
+          <div class="top">危险进攻</div>
           <div class="bottom">
             <span>79</span>
             <van-circle
@@ -35,7 +35,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="top">进攻</div>
+          <div class="top">控球率</div>
           <div class="bottom">
             <span>79</span>
             <van-circle
@@ -50,15 +50,15 @@
         </div>
       </div>
       <div class="shoot">
-            <span class="item">
-              <img class="flag" src="@img/details/flag.png" />
-            </span>
         <span class="item">
-              <img class="red" src="@img/details/red.png" />
-            </span>
+          <img class="flag" src="@img/details/flag.png" />
+        </span>
         <span class="item">
-              <img class="yellow" src="@img/details/yellow.png" />
-            </span>
+          <img class="red" src="@img/details/red.png" />
+        </span>
+        <span class="item">
+          <img class="yellow" src="@img/details/yellow.png" />
+        </span>
         <span class="item">5</span>
         <div class="progress">
           <span>射正球门</span>
@@ -67,14 +67,14 @@
         </div>
         <span class="item align-right">5</span>
         <span class="item align-right">
-              <img class="yellow" src="@img/details/yellow.png" />
-            </span>
+          <img class="yellow" src="@img/details/yellow.png" />
+        </span>
         <span class="item align-right">
-              <img class="red" src="@img/details/red.png" />
-            </span>
+          <img class="red" src="@img/details/red.png" />
+        </span>
         <span class="item align-right">
-              <img class="flag" src="@img/details/flag.png" />
-            </span>
+          <img class="flag" src="@img/details/flag.png" />
+        </span>
       </div>
       <div class="shoot">
         <span class="item">5</span>
@@ -112,99 +112,99 @@ export default {
 </script>
 
 <style scoped lang="less">
-  .football-statistics {
-    .title {
-      color: #333333;
-      margin: auto;
-      .px2vw(margin-top, 28);
-      .px2vw(margin-bottom, 28);
-      .px2vw(width, 700);
-      .px2vw(height, 22);
-      .px2vw(line-height, 22);
-      .float-left,
-      .float-right {
-        position: relative;
-        .px2vw(padding-left, 15);
-        &:before {
-          content: "";
-          position: absolute;
-          background: #f6bd35;
-          .px2vw(width, 5);
-          .px2vw(height, 22);
-          border-radius: 100%;
-          left: 0;
-        }
+.football-statistics {
+  .title {
+    color: #333333;
+    margin: auto;
+    .px2vw(margin-top, 28);
+    .px2vw(margin-bottom, 28);
+    .px2vw(width, 700);
+    .px2vw(height, 22);
+    .px2vw(line-height, 22);
+    .float-left,
+    .float-right {
+      position: relative;
+      .px2vw(padding-left, 15);
+      &:before {
+        content: "";
+        position: absolute;
+        background: #f6bd35;
+        .px2vw(width, 5);
+        .px2vw(height, 22);
+        border-radius: 100%;
+        left: 0;
       }
-      .float-right {
-        .px2vw(padding-right, 15);
-        &:before {
-          left: auto;
-          right: 0;
+    }
+    .float-right {
+      .px2vw(padding-right, 15);
+      &:before {
+        left: auto;
+        right: 0;
+      }
+    }
+  }
+  .content {
+    margin: auto;
+    .px2vw(width, 700);
+    .px2vw(height, 344);
+    background: #ffffff;
+    -webkit-box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.06);
+    -moz-box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.06);
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.06);
+    border-radius: 26px;
+    /*统计*/
+    .charts {
+      .item {
+        display: inline-block;
+        .px2vw(width, 233);
+        text-align: center;
+        .bottom {
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: -ms-flexbox;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .van-circle {
+            .px2vw(width, 76);
+            .px2vw(height, 76);
+            .px2vw(margin, 22);
+          }
         }
       }
     }
-    .content {
-      margin: auto;
-      .px2vw(width, 700);
-      .px2vw(height, 344);
-      background: #ffffff;
-      -webkit-box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.06);
-      -moz-box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.06);
-      box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.06);
-      border-radius: 26px;
-      /*统计*/
-      .charts {
-        .item {
-          display: inline-block;
-          .px2vw(width, 233);
-          text-align: center;
-          .bottom {
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: -ms-flexbox;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            .van-circle {
-              .px2vw(width, 76);
-              .px2vw(height, 76);
-              .px2vw(margin, 22);
-            }
-          }
+    /*射门*/
+    .shoot {
+      .px2vw(margin-top, 8);
+      .px2vw(margin-bottom, 8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .item {
+        display: inline-block;
+        .px2vw(width, 40);
+        text-align: left;
+        .flag,
+        .red,
+        .yellow {
+          .px2vw(width, 27);
+        }
+        &.align-right {
+          text-align: right;
         }
       }
-      /*射门*/
-      .shoot {
-        .px2vw(margin-top, 8);
-        .px2vw(margin-bottom, 8);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .item {
+      .progress {
+        display: inline-block;
+        .px2vw(width, 305);
+        span {
           display: inline-block;
-          .px2vw(width, 40);
-          text-align: left;
-          .flag,
-          .red,
-          .yellow {
-            .px2vw(width, 27);
-          }
-          &.align-right {
-            text-align: right;
-          }
-        }
-        .progress {
-          display: inline-block;
-          .px2vw(width, 305);
-          span {
-            display: inline-block;
-            width: 100%;
-            font-size: 14px;
-            color: #333333;
-            text-align: center;
-          }
+          width: 100%;
+          font-size: 14px;
+          color: #333333;
+          text-align: center;
         }
       }
     }
   }
+}
 </style>
