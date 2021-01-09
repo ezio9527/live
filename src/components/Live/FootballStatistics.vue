@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="top">进攻</div>
+          <div class="top">危险进攻</div>
           <div class="bottom">
             <span>79</span>
             <van-circle
@@ -35,7 +35,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="top">进攻</div>
+          <div class="top">控球率</div>
           <div class="bottom">
             <span>79</span>
             <van-circle
@@ -50,15 +50,15 @@
         </div>
       </div>
       <div class="shoot">
-            <span class="item">
-              <img class="flag" src="@img/details/flag.png" />
-            </span>
         <span class="item">
-              <img class="red" src="@img/details/red.png" />
-            </span>
+          <img class="flag" src="@img/details/flag.png" />
+        </span>
         <span class="item">
-              <img class="yellow" src="@img/details/yellow.png" />
-            </span>
+          <img class="red" src="@img/details/red.png" />
+        </span>
+        <span class="item">
+          <img class="yellow" src="@img/details/yellow.png" />
+        </span>
         <span class="item">5</span>
         <div class="progress">
           <span>射正球门</span>
@@ -67,14 +67,14 @@
         </div>
         <span class="item align-right">5</span>
         <span class="item align-right">
-              <img class="yellow" src="@img/details/yellow.png" />
-            </span>
+          <img class="yellow" src="@img/details/yellow.png" />
+        </span>
         <span class="item align-right">
-              <img class="red" src="@img/details/red.png" />
-            </span>
+          <img class="red" src="@img/details/red.png" />
+        </span>
         <span class="item align-right">
-              <img class="flag" src="@img/details/flag.png" />
-            </span>
+          <img class="flag" src="@img/details/flag.png" />
+        </span>
       </div>
       <div class="shoot">
         <span class="item">5</span>

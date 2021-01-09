@@ -20,14 +20,17 @@
         </van-steps>
       </van-tab>
       <van-tab title="第二节"></van-tab>-->
-      <van-tab :title="tabList[indKont]" :key="indKont" v-for="(itemKnot,indKont) in btliveData">
-        <van-steps direction="vertical" :active="-1" v-if="itemKnot && itemKnot.length">
-          <van-step v-for="(item,index) in itemKnot" :key="index">
-            <div v-html="parseItem(item,index,indKont)"></div>
-          </van-step>
-        </van-steps>
-        <p class="notData" v-else>暂无文字直播数据</p>
-      </van-tab>
+      <template v-if="btliveData && btliveData.length">
+        <van-tab :title="tabList[indKont]" :key="indKont" v-for="(itemKnot,indKont) in btliveData">
+          <van-steps direction="vertical" :active="-1" v-if="itemKnot && itemKnot.length">
+            <van-step v-for="(item,index) in itemKnot" :key="index">
+              <div v-html="parseItem(item,index,indKont)"></div>
+            </van-step>
+          </van-steps>
+          <p class="notData" v-else>暂无文字直播数据</p>
+        </van-tab>
+      </template>
+      <van-tab v-else title="暂无数据"></van-tab>
     </van-tabs>
   </div>
 </template>

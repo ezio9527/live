@@ -37,7 +37,6 @@ function initWebSocket (agentData, type, token) {
     // 连接发生错误的回调方法
     websock.onerror = (event) => {
       console.log('WebSocket连接发生错误')
-      Toast.fail('WebSocket连接发生错误')
     }
   } else {
     Toast.fail('您的浏览器不支持WebSocket协议,请更换浏览器!')
