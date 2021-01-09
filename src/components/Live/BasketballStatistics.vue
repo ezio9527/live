@@ -1,9 +1,9 @@
 <template>
   <div class="basketball-statistics">
     <div class="top">
-      <div class="left" v-if="matchDetails && Object.keys(matchDetails).length">
-        <div class="guest">{{matchDetails.ateam_name || '-'}}</div>
-        <div class="home">{{matchDetails.hteam_name || '-'}}</div>
+      <div class="left" v-if="match && Object.keys(match).length">
+        <div class="guest">{{match.ateam_name || '-'}}</div>
+        <div class="home">{{match.hteam_name || '-'}}</div>
       </div>
       <div class="right">
         <div class="body">
@@ -89,7 +89,7 @@ export default {
       type: Array,
       default: () => []
     },
-    matchDetails: {
+    match: {
       type: Object,
       default: () => { }
     }

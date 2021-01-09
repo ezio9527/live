@@ -13,7 +13,7 @@
         <!--篮球-->
         <template v-if="params.type === 2">
           <BaseListItem :match="matchDetails" v-if="playing" v-loading="detailsLoading"></BaseListItem>
-          <BasketballStatistics :score="score" :match="matchDetails" />
+          <BasketballStatistics :score="score" :match="matchDetails" v-if="isSocket" />
           <BasketballText :btlive="btlive" />
         </template>
       </template>
@@ -227,7 +227,7 @@ export default {
     .px2vw(width, 700);
     .px2vw(min-height, 220);
     .px2vw(border-radius, 26);
-    background: #FFFFFF;
+    background: #ffffff;
     box-shadow: 0px 5px 44px 0px rgba(0, 0, 0, 0.06);
   }
 }
