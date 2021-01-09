@@ -1,5 +1,5 @@
 <template>
-  <div class="live-basketball">
+  <div class="basketball-statistics">
     <div class="top">
       <div class="left">
         <div  class="guest">公牛</div>
@@ -63,7 +63,7 @@
 <script>
 import { Progress } from 'vant'
 export default {
-  name: 'BaseBasketBallText',
+  name: 'BasketBallStatistics',
   components: {
     VanProgress: Progress
   }
@@ -71,7 +71,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.live-basketball {
+.basketball-statistics {
   .px2vw(width, 700);
   .px2vw(height, 540);
   background: #FFFFFF;

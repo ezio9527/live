@@ -91,141 +91,14 @@
         </div>
       </div>
     </div>
-    <template v-if="params.type === '2'">
-      <BaseLiveBasketBallText />
-    </template>
-
-    <!-- 足球******* -->
     <template v-if="params.type === '1'">
-      <div class="statistics">
-        <div class="title">
-          <span class="float-left">热刺</span>
-          <span class="float-right">曼城</span>
-        </div>
-        <div class="content">
-          <div class="charts">
-            <div class="item">
-              <div class="top">进攻</div>
-              <div class="bottom">
-                <span>79</span>
-                <van-circle
-                  v-model="currentRate"
-                  :rate="56"
-                  layer-color="#E5E5E5"
-                  color="#F6BD35"
-                  stroke-width="120"
-                />
-                <span>79</span>
-              </div>
-            </div>
-            <div class="item">
-              <div class="top">进攻</div>
-              <div class="bottom">
-                <span>79</span>
-                <van-circle
-                  v-model="currentRate"
-                  :rate="56"
-                  layer-color="#E5E5E5"
-                  color="#F6BD35"
-                  stroke-width="120"
-                />
-                <span>79</span>
-              </div>
-            </div>
-            <div class="item">
-              <div class="top">进攻</div>
-              <div class="bottom">
-                <span>79</span>
-                <van-circle
-                  v-model="currentRate"
-                  :rate="56"
-                  layer-color="#E5E5E5"
-                  color="#F6BD35"
-                  stroke-width="120"
-                />
-                <span>79</span>
-              </div>
-            </div>
-          </div>
-          <div class="shoot">
-            <span class="item">
-              <img class="flag" src="@img/details/flag.png" />
-            </span>
-            <span class="item">
-              <img class="red" src="@img/details/red.png" />
-            </span>
-            <span class="item">
-              <img class="yellow" src="@img/details/yellow.png" />
-            </span>
-            <span class="item">5</span>
-            <div class="progress">
-              <span>射正球门</span>
-              <van-progress :percentage="50" :show-pivot="false" color="#F6BD35" />
-              <span>&nbsp;</span>
-            </div>
-            <span class="item align-right">5</span>
-            <span class="item align-right">
-              <img class="yellow" src="@img/details/yellow.png" />
-            </span>
-            <span class="item align-right">
-              <img class="red" src="@img/details/red.png" />
-            </span>
-            <span class="item align-right">
-              <img class="flag" src="@img/details/flag.png" />
-            </span>
-          </div>
-          <div class="shoot">
-            <span class="item">5</span>
-            <span class="item">12</span>
-            <span class="item">5</span>
-            <span class="item">5</span>
-            <div class="progress">
-              <span>射歪球门</span>
-              <van-progress :percentage="50" :show-pivot="false" color="#F6BD35" />
-              <span>&nbsp;</span>
-            </div>
-            <span class="item align-right">5</span>
-            <span class="item align-right">5</span>
-            <span class="item align-right">12</span>
-            <span class="item align-right">5</span>
-          </div>
-        </div>
-      </div>
-      <!--文字直播&重要事件-->
-      <div class="text">
-        <ul class="nav">
-          <li :class="{'cur':tliveTab}" @click="tliveTab = true">文字直播</li>
-          <li :class="{'cur':!tliveTab}" @click="tliveTab = false">重要事件</li>
-        </ul>
-        <!--文字直播-->
-        <ul class="live" v-if="tliveTab">
-          <template v-if="txtLive && txtLive.length">
-            <li v-for="(item,index) in txtLive" :key="index">
-              <img src="@img/details/flag.png" />
-              <div class="content">
-                <p>{{item.data}}</p>
-                <i v-if="item.position === 1" class="hColor"></i>
-                <i v-if="item.position === 2" class="aColor"></i>
-              </div>
-            </li>
-          </template>
-          <p class="notData" v-else>暂无文字直播数据</p>
-        </ul>
-        <!--重要事件-->
-        <ul class="live" v-else>
-          <template v-if="impTxtLive && impTxtLive.length">
-            <li v-for="(item,index) in impTxtLive" :key="index">
-              <img src="@img/details/flag.png" />
-              <div class="content">
-                <p>{{item.data}}</p>
-                <i v-if="item.position === 1" class="hColor"></i>
-                <i v-if="item.position === 2" class="aColor"></i>
-              </div>
-            </li>
-          </template>
-          <p class="notData" v-else>暂无重要事件数据</p>
-        </ul>
-      </div>
+      <BasketballStatistics />
+      <BasketballText />
+    </template>
+    <!-- 足球******* -->
+    <template v-if="params.type === '2'">
+      <FootballStatistics />
+      <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive"/>
     </template>
   </div>
 </template>
@@ -233,7 +106,10 @@
 <script>
 import BaseNavBar from '@comp/BaseNavBar'
 import BaseVideoPlayer from '@comp/BaseVideoPlayer'
-import BaseLiveBasketBallText from '@comp/Live/BaseLiveBasketBallText'
+import FootballStatistics from '@comp/Live/FootballStatistics'
+import FootballText from '@comp/Live/FootballText'
+import BasketballStatistics from '@comp/Live/BasketballStatistics'
+import BasketballText from '@comp/Live/BasketballText'
 import { matchDetailApi } from '@/http/api'
 import {
   sendSock,
@@ -244,7 +120,10 @@ export default {
   components: {
     BaseNavBar,
     BaseVideoPlayer,
-    BaseLiveBasketBallText
+    FootballStatistics,
+    FootballText,
+    BasketballStatistics,
+    BasketballText
   },
   props: {
     matchId: {
@@ -263,7 +142,6 @@ export default {
       token: '',
       loading: true,
       matchDetails: {},
-      currentRate: 88,
       timer: null,
       isSocket: false, // 当前是ws状态
       msgContent: {}, // 接收的内容
@@ -273,7 +151,6 @@ export default {
       ftlive: [], // 足球文字直播集合
       txtLive: [], // 足球文字直播
       impTxtLive: [], // 足球重要事件
-      tliveTab: true, // 足球文字直播切换栏
       // 播放器部分
       video: {
         url: '',
@@ -762,178 +639,6 @@ export default {
           display: inline-block;
         }
       }
-    }
-  }
-  /*统计*/
-  .statistics {
-    .title {
-      color: #333333;
-      margin: auto;
-      .px2vw(margin-top, 28);
-      .px2vw(margin-bottom, 28);
-      .px2vw(width, 700);
-      .px2vw(height, 22);
-      .px2vw(line-height, 22);
-      .float-left,
-      .float-right {
-        position: relative;
-        .px2vw(padding-left, 15);
-        &:before {
-          content: "";
-          position: absolute;
-          background: #f6bd35;
-          .px2vw(width, 5);
-          .px2vw(height, 22);
-          border-radius: 100%;
-          left: 0;
-        }
-      }
-      .float-right {
-        .px2vw(padding-right, 15);
-        &:before {
-          left: auto;
-          right: 0;
-        }
-      }
-    }
-    .content {
-      margin: auto;
-      .px2vw(width, 700);
-      .px2vw(height, 344);
-      background: #ffffff;
-      -webkit-box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.06);
-      -moz-box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.06);
-      box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.06);
-      border-radius: 26px;
-      /*统计*/
-      .charts {
-        .item {
-          display: inline-block;
-          .px2vw(width, 233);
-          text-align: center;
-          .bottom {
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: -ms-flexbox;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            .van-circle {
-              .px2vw(width, 76);
-              .px2vw(height, 76);
-              .px2vw(margin, 22);
-            }
-          }
-        }
-      }
-      /*射门*/
-      .shoot {
-        .px2vw(margin-top, 8);
-        .px2vw(margin-bottom, 8);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .item {
-          display: inline-block;
-          .px2vw(width, 40);
-          text-align: left;
-          .flag,
-          .red,
-          .yellow {
-            .px2vw(width, 27);
-          }
-          &.align-right {
-            text-align: right;
-          }
-        }
-        .progress {
-          display: inline-block;
-          .px2vw(width, 305);
-          span {
-            display: inline-block;
-            width: 100%;
-            font-size: 14px;
-            color: #333333;
-            text-align: center;
-          }
-        }
-      }
-    }
-  }
-  /*文字直播*/
-  .text {
-    .nav {
-      color: #333333;
-      .px2vw(font-size, 30);
-      width: 100%;
-      text-align: center;
-      li {
-        position: relative;
-        display: inline-block;
-        .px2vw(padding-top, 30);
-        .px2vw(padding-bottom, 30);
-        .px2vw(margin-bottom, 17);
-        &:first-child {
-          .px2vw(margin-right, 140);
-        }
-        &.cur:before {
-          content: "";
-          .px2vw(width, 58);
-          .px2vw(height, 8);
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          margin: auto;
-          border-radius: 10px;
-          background: #0c9ce2;
-          background: -webkit-linear-gradient(#19abf5, #68ff87);
-          background: -webkit-gradient(
-            linear,
-            left top,
-            left bottom,
-            from(#19abf5),
-            to(#68ff87)
-          );
-          background: linear-gradient(#19abf5, #68ff87);
-        }
-      }
-    }
-    .live {
-      .px2vw(width, 700);
-      margin: auto;
-      li {
-        .px2vw(margin-bottom, 10);
-        img {
-          .px2vw(width, 27);
-          .px2vw(margin-right, 23);
-          vertical-align: top;
-          padding-top: 16px;
-        }
-        .content {
-          display: inline-block;
-          padding: 10px;
-          .px2vw(width, 600);
-          // .px2vw(height, 90);
-          .px2vw(line-height, 46);
-          .px2vw(padding-left, 25);
-          .px2vw(padding-right, 25);
-          .px2vw(font-size, 24);
-          color: #333333;
-          font-weight: 400;
-          background: #ffffff;
-          -webkit-box-shadow: 0px 5px 44px 0px rgba(0, 0, 0, 0.06);
-          -moz-box-shadow: 0px 5px 44px 0px rgba(0, 0, 0, 0.06);
-          box-shadow: 0px 5px 44px 0px rgba(0, 0, 0, 0.06);
-          .px2vw(border-radius, 26);
-        }
-      }
-    }
-    .notData {
-      text-align: center;
-      padding: 20px 0;
-      font-size: 14px;
-      color: #666;
     }
   }
 }

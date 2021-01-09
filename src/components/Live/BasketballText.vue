@@ -1,5 +1,5 @@
 <template>
-  <div class="live-basketball-text">
+  <div class="basketball-text">
     <p class="live-title">文字直播</p>
     <van-tabs type="card" v-model="tabActive">
       <van-tab title="第一节">
@@ -40,7 +40,7 @@ export default {
 </script>
 
 <style lang="less">
-.live-basketball-text{
+.basketball-text{
   .px2vw(width, 700);
   .px2vw(border-radius, 26);
   background: #FFFFFF;
