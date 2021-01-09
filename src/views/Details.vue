@@ -28,7 +28,7 @@ import FootballStatistics from '@comp/Live/FootballStatistics'
 import FootballText from '@comp/Live/FootballText'
 import BasketballStatistics from '@comp/Live/BasketballStatistics'
 import BasketballText from '@comp/Live/BasketballText'
-import BaseListItem from '@comp/Live/BaseListItem'
+import BaseListItem from '@comp/BaseListItem'
 import { matchDetailApi } from '@/http/api'
 import {
   sendSock,
