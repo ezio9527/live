@@ -45,7 +45,7 @@
           <span>{{animation.name}}</span>
         </div>
         <!--啥信号都没有-->
-        <div class="none" v-if="match.live_urls.length === 0 && match.live_cartoon_url.length === 0">
+        <div class="none" v-if="!match.live_urls || !match.live_cartoon_url || (match.live_urls.length === 0 && match.live_cartoon_url.length === 0)">
           <img src="@img/list/video_hd_disabled.png"/>
           <span>暂无更多信号</span>
         </div>
@@ -62,7 +62,11 @@ export default {
   props: {
     match: {
       type: Object,
-      default: () => {}
+      default: () => {
+        return {
+          type: 0
+        }
+      }
     }
   },
   computed: {

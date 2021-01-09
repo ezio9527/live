@@ -4,17 +4,17 @@
     <!--播放器部分-->
     <LivePlayer :matchDetails="matchDetails">
       <template #live>
-        <!-- 足球******* -->
-        <template v-if="params.type === '1'">
-          <BaseListItem></BaseListItem>
+        <!-- 足球 -->
+        <template v-if="params.type === 1">
+          <BaseListItem :match="matchDetails"></BaseListItem>
           <FootballStatistics/>
-          <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive"/>
+          <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive" />
         </template>
         <!--篮球-->
-        <template v-if="params.type === '2'">
-          <BaseListItem></BaseListItem>
+        <template v-if="params.type === 2">
+          <BaseListItem :match="matchDetails"></BaseListItem>
           <BasketballStatistics/>
-          <BasketballText/>
+          <BasketballText :btlive="btlive" />
         </template>
       </template>
     </LivePlayer>
@@ -54,10 +54,10 @@ export default {
   data () {
     return {
       params: {
-        type: '',
-        playType: '',
-        channel: '',
-        id: ''
+        type: 1,
+        playType: 1,
+        channel: 0,
+        id: 0
       },
       token: '',
       loading: true,
@@ -65,12 +65,13 @@ export default {
       timer: null,
       isSocket: false, // 当前是ws状态
       msgContent: {}, // 接收的内容
-      score: [], // 比分集合
-      hScore: 0, // 主队比分
-      aScore: 0, // 客队比分
+      // score: [], // 比分集合
+      // hScore: 0, // 主队比分
+      // aScore: 0, // 客队比分
       ftlive: [], // 足球文字直播集合
       txtLive: [], // 足球文字直播
       impTxtLive: [], // 足球重要事件
+      btlive: [], // 篮球文字直播
       // 播放器部分
       video: {
         url: '',
@@ -85,9 +86,7 @@ export default {
         live_urls: [],
         live_cartoon_url: []
       }, // 比赛详情
-      playType: 1, // 播放类型: 1视频 2动画
       url: '', // 播放url
-      channel: 0, // 播放源index
       animationActive: -1,
       videoActive: -1
     }
@@ -100,19 +99,18 @@ export default {
   },
   created () {
     const routeParams = this.$route.params
+    routeParams.type = parseInt(routeParams.type) // 比赛类型：1足球2篮球
+    routeParams.playType = parseInt(routeParams.playType) // 播放类型：1视频直播2动画直播
+    routeParams.channel = parseInt(routeParams.channel) // 视频播放信号
     this.params = routeParams
     // this.qryMatch(Number(routeParams.id), Number(routeParams.type))
     // 播放器部分
-    const id = this.$route.params.id // 比赛ID
-    const type = this.$route.params.type // 比赛类型
-    this.playType = parseInt(this.$route.params.playType) // 播放类型：1视频直播2动画直播
-    this.channel = parseInt(this.$route.params.channel) // 视频播放信号
-    if (this.playType === 1) {
-      this.videoActive = this.channel
+    if (routeParams.playType === 1) {
+      this.videoActive = routeParams.channel
     } else {
-      this.animationActive = this.channel
+      this.animationActive = routeParams.channel
     }
-    this.qryMatchDetails({ mid: id, type })
+    this.qryMatchDetails({ mid: routeParams.id, type: routeParams.playType })
   },
   methods: {
     // 查询比赛详情
@@ -135,8 +133,8 @@ export default {
           quality[index].type = 'customHls'
         })
         video.quality = quality
-        if (this.playType === 1) {
-          video.defaultQuality = this.channel
+        if (this.params.playType === 1) {
+          video.defaultQuality = this.routeParams.channel
         } else {
           video.defaultQuality = 0
         }
@@ -159,19 +157,19 @@ export default {
           }
         })
         // 根据当前播放类型选择播放地址
-        if (this.playType === 1) {
+        if (this.params.playType === 1) {
           if (data.matchinfo.live_urls.length > 0) {
-            this.url = data.matchinfo.live_urls[this.channel].url
+            this.url = data.matchinfo.live_urls[this.routeParams.channel].url
             this.selectVideoSource({
-              index: this.channel,
+              index: this.routeParams.channel,
               value: this.url
             })
           }
         } else {
           if (data.matchinfo.live_cartoon_url.length > 0) {
-            this.url = data.matchinfo.live_cartoon_url[this.channel].url
+            this.url = data.matchinfo.live_cartoon_url[this.routeParams.channel].url
             this.selectAnimationSource({
-              index: this.channel,
+              index: this.routeParams.channel,
               value: this.url
             })
           }
@@ -188,11 +186,11 @@ export default {
       if (msg && Object.keys(msg).length) {
         this.isSocket = true
         this.msgContent = msg
+        const score = (msg.score && msg.score.length) && msg.score
+        const hScore = score[2][0]
+        const aScore = score[3][0]
+        this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
         if (this.params.type === '1') {
-          // this.score = (msg.score && msg.score.length) && msg.score
-          // this.hScore = this.score[2][0]
-          // this.aScore = this.score[3][0]
-          this.$set(this.matchDetails, 'score', (msg.score && msg.score.length) && msg.score)
           this.ftlive = (msg.tlive && msg.tlive.length) && msg.tlive.reverse()
           const newTxt = []
           const newImpTxt = []
@@ -215,31 +213,6 @@ export default {
         sendSock(id, type, this.token, this.getMsgResult)
       }, 10000)
     }
-    // async qryMatch (mid, type) { // 请求详情数据
-    //   const result = await matchDetailApi({ mid, type })
-    //   if (result) {
-    //     this.token = result.token
-    //     this.matchDetails = result.matchinfo
-    //     // 初始化连接
-    //     if (this.token && result.matchinfo.status === 0) {
-    //       const { id, type } = this.params
-    //       sendSock(id, type, this.token, this.getMsgResult)
-    //       this.loopSendMsg()
-    //     }
-    //   }
-    //   // setTimeout(() => {
-    //   //   this.matchDetails = {
-    //   //     name: '英超  第15轮',
-    //   //     matchTime: '12-24 21:00',
-    //   //     hteam_name: '热刺',
-    //   //     ateam_name: '曼城',
-    //   //     score: '2 - 1',
-    //   //     des: '加时 12',
-    //   //     halfScore: '半场 0 - 0'
-    //   //   }
-    //   //   this.loading = false
-    //   // }, 2000)
-    // }
   }
 }
 </script>

@@ -2,21 +2,32 @@
   <div class="basketball-text">
     <p class="live-title">文字直播</p>
     <van-tabs type="card" v-model="tabActive">
-      <van-tab title="第一节">
+      <!-- <van-tab title="第二节">
         <van-steps direction="vertical" :active="-1">
           <van-step>
-            <p><span class="title">第一节 00:00</span><span class="sub-title">18-9</span></p>
+            <p>
+              <span class="title">第一节 00:00</span>
+              <span class="sub-title">18-9</span>
+            </p>
             <p class="content">本节比赛开始</p>
           </van-step>
           <van-step>
-            <p><span class="title">第一节 00:15</span></p>
+            <p>
+              <span class="title">第一节 00:15</span>
+            </p>
             <p class="content">乔哈特 三分 跳投 不中</p>
           </van-step>
         </van-steps>
       </van-tab>
-      <van-tab title="第二节"></van-tab>
-      <van-tab title="第三节"></van-tab>
-      <van-tab title="第四节"></van-tab>
+      <van-tab title="第二节"></van-tab>-->
+      <van-tab :title="tabList[indKont]" :key="indKont" v-for="(itemKnot,indKont) in btliveData">
+        <van-steps direction="vertical" :active="-1" v-if="itemKnot && itemKnot.length">
+          <van-step v-for="(item,index) in itemKnot" :key="index">
+            <div v-html="parseItem(item,index,indKont)"></div>
+          </van-step>
+        </van-steps>
+        <p class="notData" v-else>暂无文字直播数据</p>
+      </van-tab>
     </van-tabs>
   </div>
 </template>
@@ -25,26 +36,72 @@
 import { Tab, Tabs, Steps, Step } from 'vant'
 export default {
   name: 'BaseBasketBallText',
+  props: {
+    btlive: {
+      type: Array,
+      default: () => []
+    }
+  },
   components: {
     VanTab: Tab,
     VanTabs: Tabs,
     VanSteps: Steps,
     VanStep: Step
   },
+  watch: {
+    btlive: {
+      handler (newValue, oldValue) {
+        this.btliveData = newValue
+      },
+      deep: true
+    }
+  },
   data () {
     return {
-      tabActive: ''
+      tabActive: '',
+      tabList: [
+        '第一节',
+        '第二节',
+        '第三节',
+        '第四节',
+        '第五节',
+        '第六节',
+        '第七节',
+        '第八节'
+      ],
+      btliveData: []
+    }
+  },
+  created () {
+    this.btliveData = this.btlive
+  },
+  methods: {
+    parseItem (item, index, indKont) {
+      const Data = JSON.parse(JSON.stringify(item)).split('^')
+      return `
+        <p>
+          <span class="title">${this.tabList[indKont]} ${Data[1]}</span>
+          <span class="sub-title">${Data[4]}</span>
+        </p>
+        <p class="content">${Data[5]}</p>
+      `
     }
   }
 }
 </script>
 
 <style lang="less">
-.basketball-text{
+.basketball-text {
   position: relative;
   margin: auto !important;
   .px2vw(margin-top, 20);
   .px2vw(margin-bottom, 20);
+  .notData {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 14px;
+    color: #666;
+  }
   // Tabs在card模式下的样式
   //整体背景色
   .van-tabs__nav.van-tabs__nav--card {

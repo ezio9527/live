@@ -7,8 +7,8 @@
     </ul>
     <!--文字直播-->
     <ul class="live" v-if="tliveTab">
-      <template v-if="txtLive && txtLive.length">
-        <li v-for="(item,index) in txtLive" :key="index">
+      <template v-if="txtLiveData && txtLiveData.length">
+        <li v-for="(item,index) in txtLiveData" :key="index">
           <img src="@img/details/flag.png" />
           <div class="content">
             <p>{{item.data}}</p>
@@ -21,8 +21,8 @@
     </ul>
     <!--重要事件-->
     <ul class="live" v-else>
-      <template v-if="impTxtLive && impTxtLive.length">
-        <li v-for="(item,index) in impTxtLive" :key="index">
+      <template v-if="impTxtLiveData && impTxtLiveData.length">
+        <li v-for="(item,index) in impTxtLiveData" :key="index">
           <img src="@img/details/flag.png" />
           <div class="content">
             <p>{{item.data}}</p>
@@ -50,11 +50,32 @@ export default {
       default: () => []
     }
   },
+  watch: {
+    txtLive: {
+      handler (newValue, oldValue) {
+        this.txtLiveData = newValue
+      },
+      deep: true
+    },
+    impTxtLive: {
+      handler (newValue, oldValue) {
+        this.impTxtLiveData = newValue
+      },
+      deep: true
+    }
+  },
   data () {
     return {
+      txtLiveData: [],
+      impTxtLiveData: [],
       tliveTab: true // 足球文字直播切换栏
     }
+  },
+  created () {
+    this.txtLiveData = this.txtLive
+    this.impTxtLiveData = this.impTxtLive
   }
+
 }
 </script>
 

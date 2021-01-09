@@ -26,6 +26,10 @@ const routes = [
     component: () => import('@views/Details.vue')
   },
   {
+    path: '/test',
+    component: () => import('@comp/Live/LivePlayer.vue')
+  },
+  {
     path: '/:type',
     name: 'Home',
     component: Home
