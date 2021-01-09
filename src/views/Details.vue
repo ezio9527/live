@@ -11,7 +11,7 @@
         <!-- 足球******* -->
         <template v-if="params.type === '2'">
           <BasketballStatistics />
-          <BasketballText />
+          <BasketballText :btlive="btlive" />
         </template>
       </template>
     </LivePlayer>
@@ -60,12 +60,13 @@ export default {
       timer: null,
       isSocket: false, // 当前是ws状态
       msgContent: {}, // 接收的内容
-      score: [], // 比分集合
-      hScore: 0, // 主队比分
-      aScore: 0, // 客队比分
+      // score: [], // 比分集合
+      // hScore: 0, // 主队比分
+      // aScore: 0, // 客队比分
       ftlive: [], // 足球文字直播集合
       txtLive: [], // 足球文字直播
       impTxtLive: [], // 足球重要事件
+      btlive: [], // 篮球文字直播
       // 播放器部分
       video: {
         url: '',
@@ -183,14 +184,11 @@ export default {
       if (msg && Object.keys(msg).length) {
         this.isSocket = true
         this.msgContent = msg
+        const score = (msg.score && msg.score.length) && msg.score
+        const hScore = score[2][0]
+        const aScore = score[3][0]
+        this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
         if (this.params.type === '1') {
-          // this.score = (msg.score && msg.score.length) && msg.score
-          // this.hScore = this.score[2][0]
-          // this.aScore = this.score[3][0]
-          const score = (msg.score && msg.score.length) && msg.score
-          const hScore = score[2][0]
-          const aScore = score[3][0]
-          this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
           this.ftlive = (msg.tlive && msg.tlive.length) && msg.tlive.reverse()
           const newTxt = []
           const newImpTxt = []
@@ -204,6 +202,9 @@ export default {
           this.txtLive = newTxt
           this.impTxtLive = newImpTxt
         }
+        if (this.params.type === '2') {
+          this.btlive = (msg.tlive && msg.tlive.length) && msg.tlive
+        }
       }
     },
     loopSendMsg () { // 定时拉消息
@@ -213,31 +214,6 @@ export default {
         sendSock(id, type, this.token, this.getMsgResult)
       }, 10000)
     }
-    // async qryMatch (mid, type) { // 请求详情数据
-    //   const result = await matchDetailApi({ mid, type })
-    //   if (result) {
-    //     this.token = result.token
-    //     this.matchDetails = result.matchinfo
-    //     // 初始化连接
-    //     if (this.token && result.matchinfo.status === 0) {
-    //       const { id, type } = this.params
-    //       sendSock(id, type, this.token, this.getMsgResult)
-    //       this.loopSendMsg()
-    //     }
-    //   }
-    //   // setTimeout(() => {
-    //   //   this.matchDetails = {
-    //   //     name: '英超  第15轮',
-    //   //     matchTime: '12-24 21:00',
-    //   //     hteam_name: '热刺',
-    //   //     ateam_name: '曼城',
-    //   //     score: '2 - 1',
-    //   //     des: '加时 12',
-    //   //     halfScore: '半场 0 - 0'
-    //   //   }
-    //   //   this.loading = false
-    //   // }, 2000)
-    // }
   }
 }
 </script>

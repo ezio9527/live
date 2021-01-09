@@ -2,21 +2,32 @@
   <div class="basketball-text">
     <p class="live-title">文字直播</p>
     <van-tabs type="card" v-model="tabActive">
-      <van-tab title="第一节">
+      <!-- <van-tab title="第二节">
         <van-steps direction="vertical" :active="-1">
           <van-step>
-            <p><span class="title">第一节 00:00</span><span class="sub-title">18-9</span></p>
+            <p>
+              <span class="title">第一节 00:00</span>
+              <span class="sub-title">18-9</span>
+            </p>
             <p class="content">本节比赛开始</p>
           </van-step>
           <van-step>
-            <p><span class="title">第一节 00:15</span></p>
+            <p>
+              <span class="title">第一节 00:15</span>
+            </p>
             <p class="content">乔哈特 三分 跳投 不中</p>
           </van-step>
         </van-steps>
       </van-tab>
-      <van-tab title="第二节"></van-tab>
-      <van-tab title="第三节"></van-tab>
-      <van-tab title="第四节"></van-tab>
+      <van-tab title="第二节"></van-tab>-->
+      <van-tab :title="tabList[indKont]" :key="indKont" v-for="(itemKnot,indKont) in btliveData">
+        <van-steps direction="vertical" :active="-1" v-if="itemKnot && itemKnot.length">
+          <van-step v-for="(item,index) in itemKnot" :key="index">
+            <div v-html="parseItem(item,index,indKont)"></div>
+          </van-step>
+        </van-steps>
+        <p class="notData" v-else>暂无文字直播数据</p>
+      </van-tab>
     </van-tabs>
   </div>
 </template>
@@ -25,22 +36,68 @@
 import { Tab, Tabs, Steps, Step } from 'vant'
 export default {
   name: 'BaseBasketBallText',
+  props: {
+    btlive: {
+      type: Array,
+      default: () => []
+    }
+  },
   components: {
     VanTab: Tab,
     VanTabs: Tabs,
     VanSteps: Steps,
     VanStep: Step
   },
+  watch: {
+    btlive: {
+      handler (newValue, oldValue) {
+        this.btliveData = newValue
+      },
+      deep: true
+    }
+  },
   data () {
     return {
-      tabActive: ''
+      tabActive: '',
+      tabList: [
+        '第一节',
+        '第二节',
+        '第三节',
+        '第四节',
+        '第五节',
+        '第六节',
+        '第七节',
+        '第八节'
+      ],
+      btliveData: []
+    }
+  },
+  created () {
+    this.btliveData = this.btlive
+  },
+  methods: {
+    parseItem (item, index, indKont) {
+      const Data = JSON.parse(JSON.stringify(item)).split('^')
+      return `
+        <p>
+          <span class="title">${this.tabList[indKont]} ${Data[1]}</span>
+          <span class="sub-title">${Data[4]}</span>
+        </p>
+        <p class="content">${Data[5]}</p>
+      `
     }
   }
 }
 </script>
 
 <style lang="less">
-.basketball-text{
+.basketball-text {
+  .notData {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 14px;
+    color: #666;
+  }
   // Tabs在card模式下的样式
   //整体背景色
   .van-tabs__nav.van-tabs__nav--card {
@@ -61,26 +118,50 @@ export default {
   //调圆角，选中字体颜色，背景渐变色
   .van-tabs__nav--card .van-tab.van-tab--active {
     .px2vw(border-radius, 20);
-    color: #27C5C3;
+    color: #27c5c3;
     background: rgba(25, 171, 245, 0.1);
-    background: linear-gradient(135deg, rgba(25, 171, 245, 0.1), rgba(104, 255, 135, 0.1));
-    background: -webkit-linear-gradient(135deg, rgba(25, 171, 245, 0.1), rgba(104, 255, 135, 0.1));
-    background: -moz-linear-gradient-linear-gradient(135deg, rgba(25, 171, 245, 0.1), rgba(104, 255, 135, 0.1));
-    background: -ms-linear-gradient(135deg, rgba(25, 171, 245, 0.1), rgba(104, 255, 135, 0.1));
-    background: -o-linear-gradient(135deg, rgba(25, 171, 245, 0.1), rgba(104, 255, 135, 0.1));
+    background: linear-gradient(
+      135deg,
+      rgba(25, 171, 245, 0.1),
+      rgba(104, 255, 135, 0.1)
+    );
+    background: -webkit-linear-gradient(
+      135deg,
+      rgba(25, 171, 245, 0.1),
+      rgba(104, 255, 135, 0.1)
+    );
+    background: -moz-linear-gradient-linear-gradient(
+      135deg,
+      rgba(25, 171, 245, 0.1),
+      rgba(104, 255, 135, 0.1)
+    );
+    background: -ms-linear-gradient(
+      135deg,
+      rgba(25, 171, 245, 0.1),
+      rgba(104, 255, 135, 0.1)
+    );
+    background: -o-linear-gradient(
+      135deg,
+      rgba(25, 171, 245, 0.1),
+      rgba(104, 255, 135, 0.1)
+    );
   }
   //默认字体大小
   .van-tabs.van-tabs--card {
     .px2vw(font-size, 28);
   }
   //最后一项的延长线
-  .van-tabs.van-tabs--card .van-tabs__content .van-tab__pane .van-step:last-child .van-step__line {
+  .van-tabs.van-tabs--card
+    .van-tabs__content
+    .van-tab__pane
+    .van-step:last-child
+    .van-step__line {
     border: none;
   }
   // Tabs在card模式下的样式
   .px2vw(width, 700);
   .px2vw(border-radius, 26);
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 10px 88px 0px rgba(0, 0, 0, 0.06);
   .px2vw(padding-left, 25);
   .px2vw(padding-right, 25);
@@ -118,7 +199,7 @@ export default {
       .px2vw(width, 623);
       .px2vw(line-height, 70);
       .px2vw(border-radius, 10);
-      background: #FBFBFB;
+      background: #fbfbfb;
       color: #333333;
       .px2vw(font-size, 24);
       .px2vw(padding-left, 25);
