@@ -5,13 +5,13 @@
     <LivePlayer :matchDetails="matchDetails">
       <template #live>
         <template v-if="params.type === '1'">
-          <BasketballStatistics/>
-          <BasketballText/>
+          <BasketballStatistics />
+          <BasketballText />
         </template>
         <!-- 足球******* -->
         <template v-if="params.type === '2'">
-          <FootballStatistics/>
-          <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive"/>
+          <FootballStatistics />
+          <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive" />
         </template>
       </template>
     </LivePlayer>
@@ -187,7 +187,10 @@ export default {
           // this.score = (msg.score && msg.score.length) && msg.score
           // this.hScore = this.score[2][0]
           // this.aScore = this.score[3][0]
-          this.$set(this.matchDetails, 'score', (msg.score && msg.score.length) && msg.score)
+          const score = (msg.score && msg.score.length) && msg.score
+          const hScore = score[2][0]
+          const aScore = score[3][0]
+          this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
           this.ftlive = (msg.tlive && msg.tlive.length) && msg.tlive.reverse()
           const newTxt = []
           const newImpTxt = []
