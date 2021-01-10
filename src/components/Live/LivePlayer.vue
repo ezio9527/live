@@ -3,7 +3,7 @@
     <!--播放器部分-->
     <template v-if="playing">
       <BaseVideoPlayer ref="player" :quality="channel" :video="video" v-if="playType===1"></BaseVideoPlayer>
-      <iframe :src="url" v-else></iframe>
+      <iframe :src="animation" v-else></iframe>
     </template>
     <!--基础信息面板-->
     <div class="panel" v-loading="loading" v-else>
@@ -91,6 +91,10 @@ export default {
     video: {
       type: Object,
       default: () => {}
+    },
+    animation: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -100,7 +104,6 @@ export default {
       tabActive: 0, // 菜单
       // 比赛详情
       playType: 1, // 播放类型: 1视频 2动画
-      url: '', // 播放url
       channel: 0, // 播放源index
       animationActive: -1,
       videoActive: -1
