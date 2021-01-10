@@ -18,13 +18,12 @@
       <div class="content">
         <div class="home_team">
           <img class="team_logo" src="@img/list/team_default_logo.png" />
-          <span class="team_name">{{matchDetails.hteam_name}}</span>
-          <span class="team_des">英超第8</span>
+          <span class="team_name line-word-hidden">{{matchDetails.hteam_name}}</span>
         </div>
         <div class="info">
-          <span class="des">{{matchDetails.des}}</span>
+          <!--<span class="des">{{matchDetails.des}}</span>-->
           <span class="score">{{matchDetails.score}}</span>
-          <span class="half">{{matchDetails.halfScore}}</span>
+          <!--<span class="half">{{matchDetails.halfScore}}</span>-->
           <div class="btn-group">
             <button class="btn" @click="play(2)">
               <img class="animation" src="@img/list/animation.png" /><span>动画</span>
@@ -36,8 +35,7 @@
         </div>
         <div class="guest_team">
           <img class="team_logo" src="@img/list/team_default_logo.png" />
-          <span class="team_name">{{matchDetails.ateam_name}}</span>
-          <span class="team_des">英超第8</span>
+          <span class="team_name line-word-hidden">{{matchDetails.ateam_name}}</span>
         </div>
       </div>
     </div>
@@ -365,23 +363,27 @@ export default {
       /*主队，客队*/
       .home_team,
       .guest_team {
-        justify-content: flex-end;
+        justify-content: center;
+        .px2vw(width, 158);
+        .px2vw(height, 210);
         .team_logo {
           .px2vw(width, 92);
           .px2vw(height, 92);
+          .px2vw(margin-bottom, 18);
           border-radius: 100%;
         }
         .team_name {
+          text-align: center;
           font-size: 16px;
           color: #ffffff;
-        }
-        .team_des {
-          font-size: 12px;
-          color: #d8d8d8;
-          color: rgba(255, 255, 255, 0.6);
+          display: inline-block;
+          width: 100%;
         }
       }
       .info {
+        justify-content: flex-end;
+        .px2vw(width, 220);
+        .px2vw(height, 210);
         .px2vw(margin-left, 60);
         .px2vw(margin-right, 60);
         color: #ffffff;
@@ -399,6 +401,7 @@ export default {
         .score {
           .px2vw(font-size, 45);
           font-weight: 600;
+          .px2vw(margin-bottom, 60);
         }
         .half {
           .px2vw(font-size, 24);

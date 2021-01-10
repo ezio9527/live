@@ -9,15 +9,6 @@ module.exports = {
           // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
           hack: `true; @import "${themePath}";`
         }
-      },
-      css: {
-        // 注意：以下配置在 Vue CLI v4 与 v3 之间存在差异。
-        // Vue CLI v3 用户可参考 css-loader v1 文档
-        // https://github.com/webpack-contrib/css-loader/tree/v1.0.1
-        modules: {
-          localIdentName: '[name]-[hash]'
-        },
-        localsConvention: 'camelCaseOnly'
       }
     }
   },
@@ -28,6 +19,28 @@ module.exports = {
       .set('@comp', path.resolve('src/components'))
       .set('@img', path.resolve('src/assets/images'))
       .set('@data', path.resolve('src/assets/data'))
+    // config.module
+    //   .rule('css')
+    //   .test(/\.css$/)
+    //   .oneOf('vue')
+    //   .resourceQuery(/\?vue/)
+    //   .use('px2rem')
+    //   .loader('px2rem-loader')
+    //   .options({
+    //     remUnit: 75,
+    //     remPrecision: 10
+    //   })
+    // config.module
+    //   .rule('less')
+    //   .oneOf('vue')
+    //   .resourceQuery(/\?vue/)
+    //   .use('px2rem')
+    //   .loader('px2rem-loader')
+    //   .before('postcss-loader')
+    //   .options({
+    //     remUnit: 75,
+    //     remPrecision: 10
+    //   })
   },
   devServer: {
     proxy: {

@@ -2,7 +2,7 @@
   <div class="details">
     <BaseNavBar></BaseNavBar>
     <!--播放器部分-->
-    <LivePlayer :matchDetails="matchDetails" :video="video" @play="play">
+    <LivePlayer :matchDetails="matchDetails" :video="video" :animation="animation" @play="play">
       <template #live>
         <!-- 足球 -->
         <template v-if="params.type === 1">
@@ -73,11 +73,13 @@ export default {
       btlive: [], // 篮球文字直播
       // 播放器部分
       playing: false, // 当前播放状态
+      // 视频播放参数
       video: {
         url: '',
-        // pic: require('../../assets/'),//底图
         type: 'hls'
       },
+      // 动画播放参数
+      animation: '',
       detailsLoading: false, // 比赛详情加载中
       match: {
         live_urls: [],
@@ -113,6 +115,7 @@ export default {
           sendSock(id, type, this.token, this.getMsgResult)
           this.loopSendMsg()
         }
+        // 设置视频播放地址参数
         const video = {}
         const quality = []
         data.matchinfo.live_urls.forEach((item, index) => {
@@ -127,6 +130,10 @@ export default {
           video.defaultQuality = 0
         }
         this.video = video
+        // 设置动画播放地址参数
+        if (data.matchinfo.live_cartoon_url.length > 0) {
+          this.animation = data.matchinfo.live_cartoon_url[this.params.channel].url
+        }
         this.match = data.matchinfo
         // 处理一下比赛时间格式
         data.matchinfo.matchTime = new Date(data.matchinfo.matchtime.replace(/-/g, '/')).format('hh:mm')
