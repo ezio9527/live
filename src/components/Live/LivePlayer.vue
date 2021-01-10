@@ -481,4 +481,15 @@ export default {
   }
   // tabs菜单
 }
+@media screen and (max-width: 1024px) {
+  .base-video {
+    width: 100%;
+    height: 250px;
+  }
+  iframe {
+    width: 100%;
+    height: 210px;
+    border: none;
+  }
+}
 </style>

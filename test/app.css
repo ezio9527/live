@@ -2286,7 +2286,7 @@
 }
 
 .desktop-header .games-container .games-inner .games .item .game-icon-chess {
-  background: url(../../images/game_icon_chess.png)
+  background: url(../src/assets/images/game_icon_chess.png)
 }
 
 .desktop-header .games-container .games-inner .games .item .game-icon-601 {
@@ -2362,7 +2362,7 @@
 }
 
 .desktop-header .games-container .games-inner .games .item .game-icon-vgame {
-  background: url(../../images/game_icon_vgame.png);
+  background: url(../src/assets/images/game_icon_vgame.png);
   background-position: 0 0
 }
 
@@ -2511,7 +2511,7 @@
 }
 
 .desktop-header .games-container .games-inner .games .item .game-icon-keno {
-  background: url(../../images/game_icon_keno.png)
+  background: url(../src/assets/images/game_icon_keno.png)
 }
 
 .desktop-header .games-container .games-inner .games .item .game-icon-1 {
@@ -2639,7 +2639,7 @@
 }
 
 .desktop-header .games-container .games-inner .games .item .game-icon-financial {
-  background: url(../../images/game_icon_financial.png)
+  background: url(../src/assets/images/game_icon_financial.png)
 }
 
 .desktop-header .games-container .games-inner .games .item .game-icon-401 {
@@ -2691,7 +2691,7 @@
 }
 
 .desktop-header .games-container .games-inner .games .item .game-icon-live {
-  background: url(../../images/game_icon_live.png)
+  background: url(../src/assets/images/game_icon_live.png)
 }
 
 .desktop-header .games-container .games-inner .games .item .game-icon-801 {
@@ -4174,17 +4174,17 @@ select::-ms-expand {
   margin: 5px auto 0;
   width: 200px;
   height: 56px;
-  background: url(../../images/logo-black-cn.png) no-repeat;
+  background: url(../src/assets/images/logo-black-cn.png) no-repeat;
   background-size: 100%
 }
 
 .lang-vi .login .box .logo .logo-images {
-  background: url(../../images/logo-white-vi.png) no-repeat;
+  background: url(../src/assets/images/logo-white-vi.png) no-repeat;
   background-size: 100%
 }
 
 .lang-en .login .box .logo .logo-images {
-  background: url(../../images/logo-black-en.png) no-repeat;
+  background: url(../src/assets/images/logo-black-en.png) no-repeat;
   background-size: 100%
 }
 
@@ -4375,17 +4375,17 @@ select::-ms-expand {
   margin: 5px auto 0;
   width: 200px;
   height: 56px;
-  background: url(../../images/logo-black-cn.png) no-repeat;
+  background: url(../src/assets/images/logo-black-cn.png) no-repeat;
   background-size: 100%
 }
 
 .lang-vi .login .box .logo .logo-images {
-  background: url(../../images/logo-white-vi.png) no-repeat;
+  background: url(../src/assets/images/logo-white-vi.png) no-repeat;
   background-size: 100%
 }
 
 .lang-en .login .box .logo .logo-images {
-  background: url(../../images/logo-black-en.png) no-repeat;
+  background: url(../src/assets/images/logo-black-en.png) no-repeat;
   background-size: 100%
 }
 
@@ -4736,8 +4736,8 @@ select::-ms-expand {
 
 @font-face {
   font-family: bbicon;
-  src: url(../../font/icomoon.eot);
-  src: url(../../font/icomoon.eot#iefix) format("embedded-opentype"), url(../../font/icomoon.ttf) format("truetype"), url(../../font/icomoon.woff) format("woff"), url(../../images/icomoon.svg#icomoon) format("svg");
+  src: url(font/icomoon.eot);
+  src: url(font/icomoon.eot#iefix) format("embedded-opentype"), url(font/icomoon.ttf) format("truetype"), url(font/icomoon.woff) format("woff"), url(../src/assets/images/icomoon.svg#icomoon) format("svg");
   font-weight: 400;
   font-style: normal;
   font-display: block

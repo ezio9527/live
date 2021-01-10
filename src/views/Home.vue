@@ -154,7 +154,6 @@ export default {
     -ms-flex-direction: column;
     -webkit-flex-direction: column;
     height: 100%;
-    background: #f0f2f5;
     /*列表头*/
     .list-header {
       position: relative;
@@ -183,7 +182,7 @@ export default {
       flex: 1;
     }
   }
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 1024px) {
     .home {
       background: #FFFFFF;
       /*列表头*/

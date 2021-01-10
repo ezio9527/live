@@ -164,7 +164,7 @@ body, html {
 
 @font-face {
   font-family: cube-icon;
-  src: url(../../font/cubeic.woff) format("woff"), url(../../font/cubeic.ttf) format("truetype")
+  src: url(font/cubeic.woff) format("woff"), url(font/cubeic.ttf) format("truetype")
 }
 
 [class*=" cubeic-"], [class^=cubeic-] {

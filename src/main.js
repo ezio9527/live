@@ -7,7 +7,7 @@ import './plugs'
 import '@/filter/index'
 import { Input, Loading, InfiniteScroll, Backtop } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import 'lib-flexible/flexible'
+// import 'lib-flexible/flexible'
 
 Vue.use(Input).use(Loading).use(InfiniteScroll).use(Backtop)
 

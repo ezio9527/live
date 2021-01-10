@@ -116,7 +116,7 @@ export default {
     }
   }
 
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 1024px) {
     .base-video {
       width: 100%;
       height: 250px;

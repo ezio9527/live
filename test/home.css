@@ -695,18 +695,18 @@ header .logo {
   float: left;
   margin: 8px 5px 0;
   height: 40px;
-  background: url(../../images/logo-mobile-cn.png) no-repeat;
+  background: url(../src/assets/images/logo-mobile-cn.png) no-repeat;
   background-size: auto 60%
 }
 
 .lang-vi header .logo {
-  background: url(../../images/logo-white-vi.png) no-repeat;
+  background: url(../src/assets/images/logo-white-vi.png) no-repeat;
   width: 26px;
   background-size: auto 67%
 }
 
 .lang-en header .logo {
-  background: url(../../images/logo-white-en.png) no-repeat;
+  background: url(../src/assets/images/logo-white-en.png) no-repeat;
   width: 32px;
   background-size: auto 67%
 }
@@ -1119,7 +1119,7 @@ header .head-nav .horizontal-scroll-list-wrap .head_sel a {
   float: left;
   top: 6px;
   margin-left: 5px;
-  background: url(../../images/sportIcon1.png) no-repeat
+  background: url(../src/assets/images/sportIcon1.png) no-repeat
 }
 
 .scroll-list-wrap-live .team-group .sport-icon-1 {
@@ -1287,7 +1287,7 @@ header .head-nav .horizontal-scroll-list-wrap .head_sel a {
 }
 
 .teamIfo-box .team-ifo .logo {
-  background-image: url(../../images/sportIcon.png);
+  background-image: url(../src/assets/images/sportIcon.png);
   text-align: center;
   background-repeat: no-repeat;
   /*margin-bottom: 10px;*/
@@ -4231,13 +4231,13 @@ td .green {
   width: 140px;
   height: 44px;
   margin-top: 14px;
-  background: url(../../images/logo-mobile-cn.png) no-repeat;
+  background: url(../src/assets/images/logo-mobile-cn.png) no-repeat;
   background-size: auto 70%
 }
 
 
 .lang-vi .header-top .logo-top {
-  background: url(../../images/logo-white-vi.png) no-repeat;
+  background: url(../src/assets/images/logo-white-vi.png) no-repeat;
   background-size: auto 70%
 }
 
@@ -4632,7 +4632,7 @@ td .green {
   top: -2px;
   float: left;
   margin-left: 5px;
-  background: url(../../images/sportIcon1.png) no-repeat
+  background: url(../src/assets/images/sportIcon1.png) no-repeat
 }
 
 .detail-team-top .team-group .sport-icon-1 {
@@ -4788,7 +4788,7 @@ td .green {
   margin: 0 5px;
   overflow: hidden;
   position: relative;
-  background-image: url(../../images/sportIcon.png)
+  background-image: url(../src/assets/images/sportIcon.png)
 }
 
 .detail-team-ifo-box .team-ifo .logo img {
@@ -7865,32 +7865,32 @@ td .green {
 }
 
 .gamesmap .content .games-list-container .game-box .game-item.chess {
-  background: url(../../images/bg_chess.png) no-repeat;
+  background: url(../src/assets/images/bg_chess.png) no-repeat;
   background-size: cover
 }
 
 .gamesmap .content .games-list-container .game-box .game-item.financial {
-  background: url(../../images/bg_financial.png) no-repeat;
+  background: url(../src/assets/images/bg_financial.png) no-repeat;
   background-size: cover
 }
 
 .gamesmap .content .games-list-container .game-box .game-item.keno {
-  background: url(../../images/bg_keno.png) no-repeat;
+  background: url(../src/assets/images/bg_keno.png) no-repeat;
   background-size: cover
 }
 
 .gamesmap .content .games-list-container .game-box .game-item.live {
-  background: url(../../images/bg_live.png) no-repeat;
+  background: url(../src/assets/images/bg_live.png) no-repeat;
   background-size: cover
 }
 
 .gamesmap .content .games-list-container .game-box .game-item.sports {
-  background: url(../../images/bg_sports.png) no-repeat;
+  background: url(../src/assets/images/bg_sports.png) no-repeat;
   background-size: cover
 }
 
 .gamesmap .content .games-list-container .game-box .game-item.vgame {
-  background: url(../../images/bg_vgame.png) no-repeat;
+  background: url(../src/assets/images/bg_vgame.png) no-repeat;
   background-size: cover
 }
 
@@ -7950,27 +7950,27 @@ td .green {
 }
 
 .gamesmap .content .games-list-container .game-box .game-icon-chess {
-  background: url(../../images/game_icon_mobile_chess.png)
+  background: url(../src/assets/images/game_icon_mobile_chess.png)
 }
 
 .gamesmap .content .games-list-container .game-box .game-icon-financial {
-  background: url(../../images/game_icon_mobile_financial.png)
+  background: url(../src/assets/images/game_icon_mobile_financial.png)
 }
 
 .gamesmap .content .games-list-container .game-box .game-icon-keno {
-  background: url(../../images/game_icon_mobile_keno.png)
+  background: url(../src/assets/images/game_icon_mobile_keno.png)
 }
 
 .gamesmap .content .games-list-container .game-box .game-icon-live {
-  background: url(../../images/game_icon_mobile_live.png)
+  background: url(../src/assets/images/game_icon_mobile_live.png)
 }
 
 .gamesmap .content .games-list-container .game-box .game-icon-sports {
-  background: url(../../images/game_icon_mobile_sports.png)
+  background: url(../src/assets/images/game_icon_mobile_sports.png)
 }
 
 .gamesmap .content .games-list-container .game-box .game-icon-vgame {
-  background: url(../../images/game_icon_mobile_vgame.png)
+  background: url(../src/assets/images/game_icon_mobile_vgame.png)
 }
 
 .gamesmap .content .games-list-container .game-box .game-icon-football {

@@ -108,7 +108,7 @@ export default {
       margin-right: 4px;
     }
   }
-  .time {width: 65px; color: #27C5C3;}
+  .time {width: 65px; color: #27C5C3;text-align: center}
   .status {width: 100px;}
   .home, .guest {
     flex-direction: column;
@@ -192,7 +192,7 @@ export default {
     .status {color: #FB4B4B;}
   }
 }
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 1024px) {
   .base-list-item {
     display: -webkit-box;
     display: -webkit-flex;

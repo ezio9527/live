@@ -16,11 +16,6 @@ const routes = [
     component: () => import('@views/Player.vue')
   },
   {
-    path: '/mine',
-    name: 'Mine',
-    component: () => import('@views/Mine.vue')
-  },
-  {
     path: '/details/:type/:playType/:channel/:id',
     name: 'Details',
     component: () => import('@views/Details.vue')

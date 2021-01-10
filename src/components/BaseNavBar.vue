@@ -233,7 +233,7 @@ export default {
       }
     }
   }
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 1024px) {
     .base-nav-bar {
       .px2vw(height, 140);
       /*内容区域*/

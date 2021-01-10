@@ -277,7 +277,7 @@ export default {
   .my-video > .video-wrap {
     height: 100%;
   }
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 1024px) {
     .player2 {
       height: 100%;
     }

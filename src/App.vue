@@ -16,15 +16,15 @@ export default {
   },
   mounted () {
     // eruda.init()
-    if (document.body.clientWidth > 700) {
+    if (document.body.clientWidth > 1024) {
       this.$store.commit('setScreenByPc')
     } else {
       this.$store.commit('setScreenByMobile')
     }
-    this.desktop = document.body.clientWidth > 700
+    this.desktop = document.body.clientWidth > 1024
     window.onresize = () => {
-      this.desktop = document.body.clientWidth > 700
-      if (document.body.clientWidth > 700) {
+      this.desktop = document.body.clientWidth > 1024
+      if (document.body.clientWidth > 1024) {
         this.$store.commit('setScreenByPc')
       } else {
         this.$store.commit('setScreenByMobile')
