@@ -2,7 +2,13 @@
   <div class="details">
     <BaseNavBar></BaseNavBar>
     <!--播放器部分-->
-    <LivePlayer :matchDetails="matchDetails" :video="video" :animation="animation" @play="play">
+    <LivePlayer
+      :matchDetails="matchDetails"
+      :video="video"
+      :animation="animation"
+      @tabsChanges="tabsChanges"
+      @play="play"
+    >
       <template #live>
         <!-- 足球 -->
         <template v-if="params.type === 1">
@@ -29,7 +35,7 @@ import FootballText from '@comp/Live/FootballText'
 import BasketballStatistics from '@comp/Live/BasketballStatistics'
 import BasketballText from '@comp/Live/BasketballText'
 import BaseListItem from '@comp/BaseListItem'
-import { matchDetailApi } from '@/http/api'
+import { matchDetailApi, detailTabs } from '@/http/api'
 import {
   sendSock,
   handleWebsocketClose
@@ -98,11 +104,16 @@ export default {
     routeParams.type = parseInt(routeParams.type) // 比赛类型：1足球2篮球
     routeParams.playType = parseInt(routeParams.playType) // 播放类型：1视频直播2动画直播
     routeParams.channel = parseInt(routeParams.channel) // 视频播放信号
+    routeParams.id = parseInt(routeParams.id) // 视频播放信号
     this.params = routeParams
-    // this.qryMatch(Number(routeParams.id), Number(routeParams.type))
     this.qryMatchDetails({ mid: routeParams.id, type: routeParams.type })
   },
   methods: {
+    async tabsChanges (val) {
+      const { id, type } = this.params
+      const result = await detailTabs({ mid: id, type, tabtype: val })
+      console.log('🚀 ~ file: Details.vue ~ line 115 ~ tabsChanges ~ result', result)
+    },
     // 查询比赛详情
     qryMatchDetails (datas = {}) {
       this.detailsLoading = true

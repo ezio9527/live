@@ -26,10 +26,12 @@
           <!--<span class="half">{{matchDetails.halfScore}}</span>-->
           <div class="btn-group">
             <button class="btn" @click="play(2)">
-              <img class="animation" src="@img/list/animation.png" /><span>动画</span>
+              <img class="animation" src="@img/list/animation.png" />
+              <span>动画</span>
             </button>
             <button class="btn" @click="play(1)">
-              <img class="video" src="@img/list/video.png"/><span>视频</span>
+              <img class="video" src="@img/list/video.png" />
+              <span>视频</span>
             </button>
           </div>
         </div>
@@ -40,21 +42,31 @@
       </div>
     </div>
     <!--菜单-->
-    <van-tabs v-model="tabActive" animated :class="{playing}">
+    <van-tabs v-model="tabActive" @change="tabsChange" animated :class="{playing}">
       <van-tab title="直播">
-        <slot name="live"><van-empty description="暂无直播信息"></van-empty></slot>
+        <slot name="live">
+          <van-empty description="暂无直播信息"></van-empty>
+        </slot>
       </van-tab>
       <van-tab title="统计">
-        <slot name="statistics"><van-empty description="暂无统计信息"></van-empty></slot>
+        <slot name="statistics">
+          <van-empty description="暂无统计信息"></van-empty>
+        </slot>
       </van-tab>
       <van-tab title="聊天">
-        <slot name="chat"><van-empty description="暂无聊天信息"></van-empty></slot>
+        <slot name="chat">
+          <van-empty description="暂无聊天信息"></van-empty>
+        </slot>
       </van-tab>
       <van-tab title="数据">
-        <slot name="data"><van-empty description="暂无数据信息"></van-empty></slot>
+        <slot name="data">
+          <van-empty description="暂无数据信息"></van-empty>
+        </slot>
       </van-tab>
       <van-tab title="会员">
-        <slot name="vip"><van-empty description="暂无会员信息"></van-empty></slot>
+        <slot name="vip">
+          <van-empty description="暂无会员信息"></van-empty>
+        </slot>
       </van-tab>
     </van-tabs>
   </div>
@@ -88,7 +100,7 @@ export default {
     },
     video: {
       type: Object,
-      default: () => {}
+      default: () => { }
     },
     animation: {
       type: String,
@@ -107,11 +119,17 @@ export default {
       videoActive: -1
     }
   },
+  created () {
+    this.$emit('tabsChanges', this.tabActive)
+  },
   methods: {
     play (type) {
       this.playType = type
       this.playing = true
       this.$emit('play', type)
+    },
+    tabsChange (val) {
+      this.$emit('tabsChanges', val)
     }
   }
 }
@@ -477,7 +495,7 @@ export default {
     .px2vw(width, 46);
     .px2vw(height, 6);
     .px2vw(bottom, 12);
-    background-color: #FFFFFF;
+    background-color: #ffffff;
   }
   // tabs菜单
 }

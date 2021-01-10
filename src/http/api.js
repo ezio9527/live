@@ -12,3 +12,7 @@ export function matchListApi (data) {
 export function matchDetailApi (data) {
   return http.get('/match/detail', { params: data })
 }
+// 比赛详情
+export function detailTabs (data) {
+  return http.get('/match/detail/tabs', { params: data })
+}

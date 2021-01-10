@@ -18,7 +18,7 @@ function initWebSocket (agentData, type, token) {
   if ('WebSocket' in window) {
     isClose = false
     tokens = token
-    var typeName = types === '1' ? 'zuqiu' : 'lanqiu'
+    var typeName = types === 1 ? 'zuqiu' : 'lanqiu'
     var url = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/api/ws/live/detail/${typeName}?token=${tokens}`
     console.log(url)
     websock = new WebSocket(url)
