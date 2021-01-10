@@ -200,7 +200,7 @@ export default {
         this.msgContent = msg
         const score = (msg.score && msg.score.length) && msg.score
         this.score = score
-        if (this.params.type === '1') {
+        if (this.params.type === 1) {
           const hScore = score[2][0]
           const aScore = score[3][0]
           this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
@@ -217,7 +217,7 @@ export default {
           this.txtLive = newTxt
           this.impTxtLive = newImpTxt
         }
-        if (this.params.type === '2') {
+        if (this.params.type === 2) {
           const hScore = score[3].reduce((a, b) => (a + b))
           const aScore = score[4].reduce((a, b) => (a + b))
           this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
