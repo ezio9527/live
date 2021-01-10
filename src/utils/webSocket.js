@@ -54,7 +54,7 @@ function websocketonmessage (e) {
 // 数据发送
 function websocketsend (agentData) {
   if (agentData) {
-    console.log('数据发送', agentData)
+    console.log('数据发送')
     if (typeof agentData === 'string') {
       websock.send(agentData)
     } else {

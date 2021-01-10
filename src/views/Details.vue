@@ -13,7 +13,7 @@
         <!-- 足球 -->
         <template v-if="params.type === 1">
           <BaseListItem :match="matchDetails" v-if="playing" v-loading="detailsLoading"></BaseListItem>
-          <FootballStatistics v-if="false" />
+          <FootballStatistics :match="matchDetails" :fStats="fStats" v-if="isSocket" />
           <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive" />
         </template>
         <!--篮球-->
@@ -79,6 +79,7 @@ export default {
       // hScore: 0, // 主队比分
       // aScore: 0, // 客队比分
       ftlive: [], // 足球文字直播集合
+      fStats: [], // 足球技术统计
       txtLive: [], // 足球文字直播
       impTxtLive: [], // 足球重要事件
       btlive: [], // 篮球文字直播
@@ -114,11 +115,16 @@ export default {
     this.params = routeParams
     this.qryMatchDetails({ mid: routeParams.id, type: routeParams.type })
   },
+  mounted () {
+
+  },
   methods: {
     async tabsChanges (val) {
       const { id, type } = this.params
-      const result = await detailTabs({ mid: id, type, tabtype: val })
-      console.log('🚀 ~ file: Details.vue ~ line 115 ~ tabsChanges ~ result', result)
+      const result = await detailTabs({ mid: id, type, tabtype: val + 1 })
+      if (result && result) {
+        this.extractData(JSON.parse(result))
+      }
     },
     // 查询比赛详情
     qryMatchDetails (datas = {}) {
@@ -196,34 +202,38 @@ export default {
         msg = JSON.parse(msg)
       }
       if (msg && Object.keys(msg).length) {
-        this.isSocket = true
-        this.msgContent = msg
-        const score = (msg.score && msg.score.length) && msg.score
-        this.score = score
-        if (this.params.type === 1) {
-          const hScore = score[2][0]
-          const aScore = score[3][0]
-          this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
-          this.ftlive = (msg.tlive && msg.tlive.length) && msg.tlive.reverse()
-          const newTxt = []
-          const newImpTxt = []
-          this.ftlive.forEach(e => {
-            if (e.main) {
-              newImpTxt.push(e)
-            } else {
-              newTxt.push(e)
-            }
-          })
-          this.txtLive = newTxt
-          this.impTxtLive = newImpTxt
-        }
-        if (this.params.type === 2) {
-          const hScore = score[3].reduce((a, b) => (a + b))
-          const aScore = score[4].reduce((a, b) => (a + b))
-          this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
-          this.btlive = (msg.tlive && msg.tlive.length) && msg.tlive
-          this.bStats = (msg.stats && msg.stats.length) && msg.stats
-        }
+        this.extractData(msg)
+      }
+    },
+    extractData (msg) { // 提取数据
+      this.isSocket = true
+      this.msgContent = msg
+      const score = (msg.score && msg.score.length) && msg.score
+      this.score = score
+      if (this.params.type === 1) {
+        const hScore = score[2][0]
+        const aScore = score[3][0]
+        this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
+        this.ftlive = (msg.tlive && msg.tlive.length) && msg.tlive.reverse()
+        this.fStats = (msg.stats && msg.stats.length) && msg.stats
+        const newTxt = []
+        const newImpTxt = []
+        this.ftlive.forEach(e => {
+          if (e.main) {
+            newImpTxt.push(e)
+          } else {
+            newTxt.push(e)
+          }
+        })
+        this.txtLive = newTxt
+        this.impTxtLive = newImpTxt
+      }
+      if (this.params.type === 2) {
+        const hScore = score[3].reduce((a, b) => (a + b))
+        const aScore = score[4].reduce((a, b) => (a + b))
+        this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
+        this.btlive = (msg.tlive && msg.tlive.length) && msg.tlive
+        this.bStats = (msg.stats && msg.stats.length) && msg.stats
       }
     },
     loopSendMsg () { // 定时拉消息

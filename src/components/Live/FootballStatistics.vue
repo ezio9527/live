@@ -1,51 +1,51 @@
 <template>
   <div class="football-statistics">
     <div class="title">
-      <span class="float-left">热刺</span>
-      <span class="float-right">曼城</span>
+      <span class="float-left">{{match.hteam_name || '-'}}</span>
+      <span class="float-right">{{match.ateam_name || '-'}}</span>
     </div>
     <div class="content">
       <div class="charts">
         <div class="item">
           <div class="top">进攻</div>
           <div class="bottom">
-            <span>79</span>
+            <span>{{fStatsCalc(23).home}}</span>
             <van-circle
               v-model="currentRate"
-              :rate="56"
+              :rate="percentageCalc(23)"
               layer-color="#E5E5E5"
               color="#F6BD35"
               stroke-width="120"
             />
-            <span>79</span>
+            <span>{{fStatsCalc(23).away}}</span>
           </div>
         </div>
         <div class="item">
           <div class="top">危险进攻</div>
           <div class="bottom">
-            <span>79</span>
+            <span>{{fStatsCalc(24).home}}</span>
             <van-circle
               v-model="currentRate"
-              :rate="56"
+              :rate="percentageCalc(24)"
               layer-color="#E5E5E5"
               color="#F6BD35"
               stroke-width="120"
             />
-            <span>79</span>
+            <span>{{fStatsCalc(24).away}}</span>
           </div>
         </div>
         <div class="item">
           <div class="top">控球率</div>
           <div class="bottom">
-            <span>79</span>
+            <span>{{fStatsCalc(25).home}}</span>
             <van-circle
               v-model="currentRate"
-              :rate="56"
+              :rate="percentageCalc(25)"
               layer-color="#E5E5E5"
               color="#F6BD35"
               stroke-width="120"
             />
-            <span>79</span>
+            <span>{{fStatsCalc(25).away}}</span>
           </div>
         </div>
       </div>
@@ -59,13 +59,13 @@
         <span class="item">
           <img class="yellow" src="@img/details/yellow.png" />
         </span>
-        <span class="item">5</span>
+        <span class="item">{{fStatsCalc(21).home}}</span>
         <div class="progress">
           <span>射正球门</span>
-          <van-progress :percentage="50" :show-pivot="false" color="#F6BD35" />
+          <van-progress :percentage="percentageCalc(21)" :show-pivot="false" color="#F6BD35" />
           <span>&nbsp;</span>
         </div>
-        <span class="item align-right">5</span>
+        <span class="item align-right">{{fStatsCalc(21).away}}</span>
         <span class="item align-right">
           <img class="yellow" src="@img/details/yellow.png" />
         </span>
@@ -77,19 +77,19 @@
         </span>
       </div>
       <div class="shoot">
-        <span class="item">5</span>
-        <span class="item">12</span>
-        <span class="item">5</span>
-        <span class="item">5</span>
+        <span class="item">{{fStatsCalc(2).home}}</span>
+        <span class="item">{{fStatsCalc(4).home}}</span>
+        <span class="item">{{fStatsCalc(3).home}}</span>
+        <span class="item">{{fStatsCalc(22).home}}</span>
         <div class="progress">
           <span>射歪球门</span>
-          <van-progress :percentage="50" :show-pivot="false" color="#F6BD35" />
+          <van-progress :percentage="percentageCalc(22)" :show-pivot="false" color="#F6BD35" />
           <span>&nbsp;</span>
         </div>
-        <span class="item align-right">5</span>
-        <span class="item align-right">5</span>
-        <span class="item align-right">12</span>
-        <span class="item align-right">5</span>
+        <span class="item align-right">{{fStatsCalc(22).away}}</span>
+        <span class="item align-right">{{fStatsCalc(3).away}}</span>
+        <span class="item align-right">{{fStatsCalc(4).away}}</span>
+        <span class="item align-right">{{fStatsCalc(2).away}}</span>
       </div>
     </div>
   </div>
@@ -103,110 +103,144 @@ export default {
     VanProgress: Progress,
     VanCircle: Circle
   },
+  props: {
+    fStats: {
+      type: Array,
+      default: () => []
+    },
+    match: {
+      type: Object,
+      default: () => { }
+    }
+  },
+  watch: {
+    fStats: {
+      handler (newValue, oldValue) {
+        this.fStatsData = newValue
+      },
+      deep: true
+    }
+  },
   data () {
     return {
-      currentRate: 88
+      currentRate: 88,
+      fStatsData: []
+    }
+  },
+  created () {
+    this.fStatsData = this.fStats
+  },
+  methods: {
+    fStatsCalc (key) {
+      const itemData = this.fStatsData.find(e => (e.type === key))
+      return itemData
+    },
+    percentageCalc (key) {
+      const hteamV = this.fStatsCalc(key).home
+      const ateamV = this.fStatsCalc(key).away
+      const res = hteamV / (hteamV + ateamV)
+      return res.toFixed(2) * 100
     }
   }
 }
 </script>
 
 <style scoped lang="less">
-  .football-statistics {
-    .px2vw(margin-top, 20);
-    .px2vw(margin-bottom, 20);
-    .title {
-      color: #333333;
-      margin: auto;
-      .px2vw(margin-top, 28);
-      .px2vw(margin-bottom, 28);
-      .px2vw(width, 700);
-      .px2vw(height, 22);
-      .px2vw(line-height, 22);
-      .float-left,
-      .float-right {
-        position: relative;
-        .px2vw(padding-left, 15);
-        &:before {
-          content: "";
-          position: absolute;
-          background: #f6bd35;
-          .px2vw(width, 5);
-          .px2vw(height, 22);
-          border-radius: 100%;
-          left: 0;
-        }
+.football-statistics {
+  .px2vw(margin-top, 20);
+  .px2vw(margin-bottom, 20);
+  .title {
+    color: #333333;
+    margin: auto;
+    .px2vw(margin-top, 28);
+    .px2vw(margin-bottom, 28);
+    .px2vw(width, 700);
+    .px2vw(height, 22);
+    .px2vw(line-height, 22);
+    .float-left,
+    .float-right {
+      position: relative;
+      .px2vw(padding-left, 15);
+      &:before {
+        content: "";
+        position: absolute;
+        background: #f6bd35;
+        .px2vw(width, 5);
+        .px2vw(height, 22);
+        border-radius: 100%;
+        left: 0;
       }
-      .float-right {
-        .px2vw(padding-right, 15);
-        &:before {
-          left: auto;
-          right: 0;
+    }
+    .float-right {
+      .px2vw(padding-right, 15);
+      &:before {
+        left: auto;
+        right: 0;
+      }
+    }
+  }
+  .content {
+    margin: auto;
+    .px2vw(width, 700);
+    .px2vw(height, 344);
+    background: #ffffff;
+    -webkit-box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.06);
+    -moz-box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.06);
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.06);
+    border-radius: 26px;
+    /*统计*/
+    .charts {
+      .item {
+        display: inline-block;
+        .px2vw(width, 233);
+        text-align: center;
+        .bottom {
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: -ms-flexbox;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .van-circle {
+            .px2vw(width, 76);
+            .px2vw(height, 76);
+            .px2vw(margin, 22);
+          }
         }
       }
     }
-    .content {
-      margin: auto;
-      .px2vw(width, 700);
-      .px2vw(height, 344);
-      background: #ffffff;
-      -webkit-box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.06);
-      -moz-box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.06);
-      box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.06);
-      border-radius: 26px;
-      /*统计*/
-      .charts {
-        .item {
-          display: inline-block;
-          .px2vw(width, 233);
-          text-align: center;
-          .bottom {
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: -ms-flexbox;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            .van-circle {
-              .px2vw(width, 76);
-              .px2vw(height, 76);
-              .px2vw(margin, 22);
-            }
-          }
+    /*射门*/
+    .shoot {
+      .px2vw(margin-top, 8);
+      .px2vw(margin-bottom, 8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .item {
+        display: inline-block;
+        .px2vw(width, 40);
+        text-align: left;
+        .flag,
+        .red,
+        .yellow {
+          .px2vw(width, 27);
+        }
+        &.align-right {
+          text-align: right;
         }
       }
-      /*射门*/
-      .shoot {
-        .px2vw(margin-top, 8);
-        .px2vw(margin-bottom, 8);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .item {
+      .progress {
+        display: inline-block;
+        .px2vw(width, 305);
+        span {
           display: inline-block;
-          .px2vw(width, 40);
-          text-align: left;
-          .flag,
-          .red,
-          .yellow {
-            .px2vw(width, 27);
-          }
-          &.align-right {
-            text-align: right;
-          }
-        }
-        .progress {
-          display: inline-block;
-          .px2vw(width, 305);
-          span {
-            display: inline-block;
-            width: 100%;
-            font-size: 14px;
-            color: #333333;
-            text-align: center;
-          }
+          width: 100%;
+          font-size: 14px;
+          color: #333333;
+          text-align: center;
         }
       }
     }
   }
+}
 </style>
