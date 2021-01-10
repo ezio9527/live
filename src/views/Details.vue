@@ -13,7 +13,7 @@
         <!-- 足球 -->
         <template v-if="params.type === 1">
           <BaseListItem :match="matchDetails" v-if="playing" v-loading="detailsLoading"></BaseListItem>
-          <FootballStatistics />
+          <FootballStatistics v-if="false" />
           <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive" />
         </template>
         <!--篮球-->
