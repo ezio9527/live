@@ -19,7 +19,7 @@ function initWebSocket (agentData, type, token) {
     isClose = false
     tokens = token
     var typeName = types === '1' ? 'zuqiu' : 'lanqiu'
-    var url = `${location.protocol === 'https' ? 'wss' : 'ws'}://${location.host}/ws/live/detail/${typeName}?token=${tokens}`
+    var url = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/ws/live/detail/${typeName}?token=${tokens}`
     console.log(url)
     websock = new WebSocket(url)
     websock.onmessage = (e) => {
