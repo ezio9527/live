@@ -13,13 +13,18 @@
         <!-- 足球 -->
         <template v-if="params.type === 1">
           <BaseListItem :match="matchDetails" v-if="playing" v-loading="detailsLoading"></BaseListItem>
-          <FootballStatistics v-if="false" />
+          <FootballStatistics />
           <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive" />
         </template>
         <!--篮球-->
         <template v-if="params.type === 2">
           <BaseListItem :match="matchDetails" v-if="playing" v-loading="detailsLoading"></BaseListItem>
-          <BasketballStatistics :score="score" :match="matchDetails" v-if="isSocket" />
+          <BasketballStatistics
+            :score="score"
+            :bStats="bStats"
+            :match="matchDetails"
+            v-if="isSocket"
+          />
           <BasketballText :btlive="btlive" />
         </template>
       </template>
@@ -77,6 +82,7 @@ export default {
       txtLive: [], // 足球文字直播
       impTxtLive: [], // 足球重要事件
       btlive: [], // 篮球文字直播
+      bStats: [], // 篮球技术统计
       // 播放器部分
       playing: false, // 当前播放状态
       // 视频播放参数
@@ -216,6 +222,7 @@ export default {
           const aScore = score[4].reduce((a, b) => (a + b))
           this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
           this.btlive = (msg.tlive && msg.tlive.length) && msg.tlive
+          this.bStats = (msg.stats && msg.stats.length) && msg.stats
         }
       }
     },

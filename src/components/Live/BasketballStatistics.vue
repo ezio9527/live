@@ -24,56 +24,72 @@
         </div>
       </div>
     </div>
-    <div class="bottom" v-if="false">
+    <div class="bottom">
       <div class="left">
         <span>本节犯规数</span>
-        <span class="home">1</span>
+        <span class="home">{{bStatsData[4][1]}}</span>
         <span>剩余暂停</span>
-        <span class="home">1</span>
+        <span class="home">{{bStatsData[3][1]}}</span>
       </div>
       <div class="middle">
         <div class="item">
-          <span>12</span>
+          <span>{{bStatsData[0][1]}}</span>
           <div class="progress">
             <span>3分球得分</span>
-            <van-progress :percentage="50" :show-pivot="false" color="#F6BD35" />
+            <van-progress
+              :percentage="percentageCalc(bStatsData[0])"
+              :show-pivot="false"
+              color="#F6BD35"
+            />
             <span>&nbsp;</span>
           </div>
-          <span>12</span>
+          <span>{{bStatsData[0][2]}}</span>
         </div>
         <div class="item">
-          <span>12</span>
+          <span>{{bStatsData[1][1]}}</span>
           <div class="progress">
             <span>2分球得分</span>
-            <van-progress :percentage="50" :show-pivot="false" color="#F6BD35" />
+            <van-progress
+              :percentage="percentageCalc(bStatsData[1])"
+              :show-pivot="false"
+              color="#F6BD35"
+            />
             <span>&nbsp;</span>
           </div>
-          <span>12</span>
+          <span>{{bStatsData[1][2]}}</span>
         </div>
         <div class="item">
-          <span>12</span>
+          <span>{{bStatsData[2][1]}}</span>
           <div class="progress">
             <span>罚球得分</span>
-            <van-progress :percentage="50" :show-pivot="false" color="#F6BD35" />
+            <van-progress
+              :percentage="percentageCalc(bStatsData[2])"
+              :show-pivot="false"
+              color="#F6BD35"
+            />
             <span>&nbsp;</span>
           </div>
-          <span>12</span>
+          <span>{{bStatsData[2][2]}}</span>
         </div>
         <div class="item">
-          <span>12</span>
+          <span>{{bStatsData[5][1]}}</span>
           <div class="progress">
-            <span>发球命中率(%)</span>
-            <van-progress :percentage="50" :show-pivot="false" color="#F6BD35" />
+            <span>罚球命中率(%)</span>
+            <van-progress
+              :percentage="percentageCalc(bStatsData[5])"
+              :show-pivot="false"
+              color="#F6BD35"
+            />
             <span>&nbsp;</span>
           </div>
-          <span>12</span>
+          <span>{{bStatsData[5][1]}}</span>
         </div>
       </div>
       <div class="right">
         <span>本节犯规数</span>
-        <span class="guest">1</span>
+        <span class="guest">{{bStatsData[4][2]}}</span>
         <span>剩余暂停</span>
-        <span class="guest">1</span>
+        <span class="guest">{{bStatsData[3][2]}}</span>
       </div>
     </div>
   </div>
@@ -91,6 +107,10 @@ export default {
       type: Array,
       default: () => []
     },
+    bStats: {
+      type: Array,
+      default: () => []
+    },
     match: {
       type: Object,
       default: () => { }
@@ -102,15 +122,31 @@ export default {
         this.scoreData = newValue
       },
       deep: true
+    },
+    bStats: {
+      handler (newValue, oldValue) {
+        this.bStatsData = newValue
+      },
+      deep: true
     }
   },
   data () {
     return {
-      scoreData: []
+      scoreData: [],
+      bStatsData: []
     }
   },
   created () {
     this.scoreData = this.score
+    this.bStatsData = this.bStats
+  },
+  methods: {
+    percentageCalc (data) {
+      const hteamV = data[1]
+      const ateamV = data[2]
+      const res = hteamV / (hteamV + ateamV)
+      return res.toFixed(2) * 100
+    }
   }
 }
 </script>
