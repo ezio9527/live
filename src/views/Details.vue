@@ -128,7 +128,7 @@ export default {
     async tabsChanges (val) {
       const { id, type } = this.params
       const result = await detailTabs({ mid: id, type, tabtype: val + 1 })
-      if (result && result) {
+      if (result && result.length) {
         this.extractData(JSON.parse(result))
       }
     },
