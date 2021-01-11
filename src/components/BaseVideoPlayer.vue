@@ -40,7 +40,8 @@ export default {
   data () {
     return {
       player: null,
-      loading: true
+      loading: true,
+      num: 0
     }
   },
   mounted () {
@@ -88,17 +89,19 @@ export default {
         this.$emit('ended')
       })
       player.on('error', () => {
-        // const len = this.details && this.details.live_urls.length
+        // const len = this.urlArray.length
         // const num = this.num++
         // if (num < len) {
-        //   this.url = this.details.live_urls[num].url
-        //   this.selectVideoSource({
-        //     index: this.channel,
-        //     value: this.url
+        //   const curUrl = this.urlArray[num]
+        //   this.player.switchVideo({
+        //     url: curUrl
         //   })
+        //   const hls = new Hls();
+        //   hls.loadSource(curUrl);
+        //   hls.attachMedia(this.player);
         //   console.log('value:', this.url)
         // }
-        this.$emit('error')
+        // this.$emit('error')
       })
     }
   }
