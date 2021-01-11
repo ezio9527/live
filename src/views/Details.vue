@@ -222,16 +222,13 @@ export default {
         this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
         this.ftlive = (msg.tlive && msg.tlive.length) && msg.tlive.reverse()
         this.fStats = (msg.stats && msg.stats.length) && msg.stats
-        const newTxt = []
         const newImpTxt = []
         this.ftlive.forEach(e => {
           if (e.main) {
             newImpTxt.push(e)
-          } else {
-            newTxt.push(e)
           }
         })
-        this.txtLive = newTxt
+        this.txtLive = this.ftlive
         this.impTxtLive = newImpTxt
       }
       if (this.params.type === 2) {

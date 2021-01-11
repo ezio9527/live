@@ -1,9 +1,9 @@
 <template>
   <div class="base-video" ref="wrap">
     <!--<div class="loading" :class="{hidden: !loading}">-->
-      <!--<img src="@img/nav/football_unselected.png" v-if="ball===1">-->
-      <!--<img src="@img/nav/basketball_unselected.png" v-else>-->
-      <!--<span>视频加载中...</span>-->
+    <!--<img src="@img/nav/football_unselected.png" v-if="ball===1">-->
+    <!--<img src="@img/nav/basketball_unselected.png" v-else>-->
+    <!--<span>视频加载中...</span>-->
     <!--</div>-->
   </div>
 </template>
@@ -21,7 +21,7 @@ export default {
     },
     video: {
       type: Object,
-      default: () => {}
+      default: () => { }
     }
   },
   watch: {
@@ -58,7 +58,7 @@ export default {
           hls.attachMedia(video)
         }
       }
-      this.player = new DPlayer({
+      const player = this.player = new DPlayer({
         container: this.$refs.wrap,
         autoplay: false,
         theme: '#FADFA3',
@@ -72,87 +72,115 @@ export default {
         mutex: true,
         video: this.video
       })
+      player.on('play', () => {
+        this.$emit('play')
+      })
+      player.on('pause', () => {
+        this.$emit('pause')
+      })
+      player.on('canplay', () => {
+        this.$emit('canplay')
+      })
+      player.on('playing', () => {
+        this.$emit('playing')
+      })
+      player.on('ended', () => {
+        this.$emit('ended')
+      })
+      player.on('error', () => {
+        // const len = this.details && this.details.live_urls.length
+        // const num = this.num++
+        // if (num < len) {
+        //   this.url = this.details.live_urls[num].url
+        //   this.selectVideoSource({
+        //     index: this.channel,
+        //     value: this.url
+        //   })
+        //   console.log('value:', this.url)
+        // }
+        this.$emit('error')
+      })
     }
   }
 }
 </script>
 
 <style scoped lang="less">
-  .base-video {
-    position: relative;
-    width: 1200px;
+.base-video {
+  position: relative;
+  width: 1200px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
+  .video-js {
+    width: 100%;
+    flex: 1;
+  }
+  .loading {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 1;
+    color: #999999;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
-    .video-js {
-      width: 100%;
-      flex: 1;
+    justify-content: center;
+    align-items: center;
+    img {
+      margin-right: 20px;
+      -webkit-animation: loading 1300ms linear infinite;
+      animation: loading 1300ms linear infinite;
     }
-    .loading {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      margin: auto;
-      z-index: 1;
-      color: #999999;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      img {
-        margin-right: 20px;
-        -webkit-animation: loading 1300ms linear infinite;
-        animation: loading 1300ms linear infinite;
-      }
-      &.hidden {
-        display: none;
-      }
+    &.hidden {
+      display: none;
     }
   }
+}
 
-  @media screen and (max-width: 1024px) {
-    .base-video {
-      width: 100%;
-      height: 250px;
-    }
+@media screen and (max-width: 1024px) {
+  .base-video {
+    width: 100%;
+    height: 250px;
   }
+}
 
-  @-webkit-keyframes loading {
-    from {
-      -webkit-transform: rotate(0deg);
-      -moz-transform: rotate(0deg);
-      -ms-transform: rotate(0deg);
-      -o-transform: rotate(0deg);
-      transform: rotate(0deg);
-    }
-    to {
-      -webkit-transform: rotate(1turn);
-      -moz-transform: rotate(1turn);
-      -ms-transform: rotate(1turn);
-      -o-transform: rotate(1turn);
-      transform: rotate(1turn);
-    }
+@-webkit-keyframes loading {
+  from {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
   }
-  @keyframes loading {
-    from {
-      -webkit-transform: rotate(0deg);
-      -moz-transform: rotate(0deg);
-      -ms-transform: rotate(0deg);
-      -o-transform: rotate(0deg);
-      transform: rotate(0deg);
-    }
-    to {
-      -webkit-transform: rotate(1turn);
-      -moz-transform: rotate(1turn);
-      -ms-transform: rotate(1turn);
-      -o-transform: rotate(1turn);
-      transform: rotate(1turn);
-    }
+  to {
+    -webkit-transform: rotate(1turn);
+    -moz-transform: rotate(1turn);
+    -ms-transform: rotate(1turn);
+    -o-transform: rotate(1turn);
+    transform: rotate(1turn);
   }
+}
+@keyframes loading {
+  from {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(1turn);
+    -moz-transform: rotate(1turn);
+    -ms-transform: rotate(1turn);
+    -o-transform: rotate(1turn);
+    transform: rotate(1turn);
+  }
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="basketball-text">
     <p class="live-title">文字直播</p>
-    <van-tabs type="card" v-model="tabActive">
+    <van-tabs type="card" v-model="tabActive" @rendered="autoTabs">
       <!-- <van-tab title="第二节">
         <van-steps direction="vertical" :active="-1">
           <van-step>
@@ -63,7 +63,7 @@ export default {
   },
   data () {
     return {
-      tabActive: '',
+      tabActive: 2,
       tabList: [
         '第一节',
         '第二节',
@@ -79,8 +79,13 @@ export default {
   },
   created () {
     this.btliveData = this.btlive
+    // this.autoTabs()
   },
   methods: {
+    autoTabs (val) {
+      var endLength = this.btlive && this.btlive.length - 1
+      this.tabActive = endLength
+    },
     parseItem (item, index, indKont) {
       const Data = JSON.parse(JSON.stringify(item)).split('^')
       const scoreNum = Data[4].split('-')
