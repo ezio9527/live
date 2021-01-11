@@ -23,9 +23,11 @@
       <template v-if="btliveData && btliveData.length">
         <van-tab :title="tabList[indKont]" :key="indKont" v-for="(itemKnot,indKont) in btliveData">
           <van-steps direction="vertical" :active="-1" v-if="itemKnot && itemKnot.length">
-            <van-step v-for="(item,index) in itemKnot" :key="index">
-              <div v-html="parseItem(item,index,indKont)"></div>
-            </van-step>
+            <div style="display:flex;flex-direction:column-reverse;">
+              <van-step v-for="(item,index) in itemKnot" :key="index">
+                <div v-html="parseItem(item,index,indKont)"></div>
+              </van-step>
+            </div>
           </van-steps>
           <p class="notData" v-else>暂无文字直播数据</p>
         </van-tab>
@@ -81,10 +83,13 @@ export default {
   methods: {
     parseItem (item, index, indKont) {
       const Data = JSON.parse(JSON.stringify(item)).split('^')
+      const scoreNum = Data[4].split('-')
+      const scoreHteam = scoreNum[1]
+      const scoreAteam = scoreNum[0]
       return `
         <p>
           <span class="title">${this.tabList[indKont]} ${Data[1]}</span>
-          <span class="sub-title">${Data[4]}</span>
+          <span class="sub-title">${scoreHteam}-${scoreAteam}</span>
         </p>
         <p class="content">${Data[5]}</p>
       `
