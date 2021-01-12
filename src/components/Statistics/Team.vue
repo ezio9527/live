@@ -3,9 +3,9 @@
     <van-tabs type="card" v-model="tabActive">
       <van-tab title="罗斯托夫火车头">
         <div class="header"><span class="player">球员</span><span class="basketball"></span><span class="first">首发</span><span class="time">时间</span><span class="score">得分</span><span class="shoot">投篮</span><span class="three">三分</span></div>
-        <div class="content bg"><span class="player">明道加斯·库兹明斯卡斯</span><span class="basketball"></span><span class="first">9</span><span class="time">8</span><span class="score">12</span><span class="shoot">2-1</span><span class="three">9-0</span></div>
-        <div class="content"><span class="player">明道加斯·库兹明斯卡斯</span><span class="basketball"></span><span class="first">9</span><span class="time">8</span><span class="score">12</span><span class="shoot">2-1</span><span class="three">9-0</span></div>
-        <div class="content bg"><span class="player">明道加斯·库兹明斯卡斯</span><span class="basketball"></span><span class="first">9</span><span class="time">8</span><span class="score">12</span><span class="shoot">2-1</span><span class="three">9-0</span></div>
+        <div class="content bg"><span class="player">明道加斯·库兹明斯卡斯</span><span class="basketball hidden"><img src="@img/details/basketball.png"></span><span class="first">9</span><span class="time">8</span><span class="score">12</span><span class="shoot">2-1</span><span class="three">9-0</span></div>
+        <div class="content"><span class="player">明道加斯·库兹明斯卡斯</span><span class="basketball"><img src="@img/details/basketball.png"></span><span class="first">9</span><span class="time">8</span><span class="score">12</span><span class="shoot">2-1</span><span class="three">9-0</span></div>
+        <div class="content bg"><span class="player">明道加斯·库兹明斯卡斯</span><span class="basketball"><img src="@img/details/basketball.png"></span><span class="first">9</span><span class="time">8</span><span class="score">12</span><span class="shoot">2-1</span><span class="three">9-0</span></div>
       </van-tab>
       <van-tab title="菲尼克斯太阳"></van-tab>
     </van-tabs>
@@ -85,6 +85,10 @@ export default {
   /*篮球*/
   .basketball {
     .px2vw(width, 60);
+    img {
+      .px2vw(width, 30);
+      .px2vw(height, 30);
+    }
   }
   /*首发*/
   .first {
@@ -105,6 +109,11 @@ export default {
   /*三分*/
   .three {
     .px2vw(width, 80);
+  }
+  .hidden {
+    img {
+      display: none;
+    }
   }
   // Tabs在card模式下的样式
   //整体背景色
