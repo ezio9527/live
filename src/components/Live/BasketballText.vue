@@ -2,24 +2,24 @@
   <div class="basketball-text">
     <p class="live-title">文字直播</p>
     <van-tabs type="card" v-model="tabActive" @rendered="autoTabs">
-      <!-- <van-tab title="第二节">
-        <van-steps direction="vertical" :active="-1">
-          <van-step>
-            <p>
-              <span class="title">第一节 00:00</span>
-              <span class="sub-title">18-9</span>
-            </p>
-            <p class="content">本节比赛开始</p>
-          </van-step>
-          <van-step>
-            <p>
-              <span class="title">第一节 00:15</span>
-            </p>
-            <p class="content">乔哈特 三分 跳投 不中</p>
-          </van-step>
-        </van-steps>
-      </van-tab>
-      <van-tab title="第二节"></van-tab>-->
+      <!--<van-tab title="第二节">-->
+        <!--<van-steps direction="vertical" :active="-1">-->
+          <!--<van-step>-->
+            <!--<p>-->
+              <!--<span class="title">第一节 00:00</span>-->
+              <!--<span class="sub-title">18-9</span>-->
+            <!--</p>-->
+            <!--<p class="content">本节比赛开始</p>-->
+          <!--</van-step>-->
+          <!--<van-step>-->
+            <!--<p>-->
+              <!--<span class="title">第一节 00:15</span>-->
+            <!--</p>-->
+            <!--<p class="content">乔哈特 三分 跳投 不中</p>-->
+          <!--</van-step>-->
+        <!--</van-steps>-->
+      <!--</van-tab>-->
+      <!--<van-tab title="第二节"></van-tab>-->
       <template v-if="btliveData && btliveData.length">
         <van-tab :title="tabList[indKont]" :key="indKont" v-for="(itemKnot,indKont) in btliveData">
           <van-steps direction="vertical" :active="-1" v-if="itemKnot && itemKnot.length">
@@ -107,8 +107,9 @@ export default {
 .basketball-text {
   position: relative;
   margin: auto !important;
-  .px2vw(margin-top, 20);
-  .px2vw(margin-bottom, 20);
+  .px2vw(margin-top, 20) !important;
+  .px2vw(margin-bottom, 20) !important;
+  .px2vw(padding-top, 30) !important;
   .notData {
     text-align: center;
     padding: 20px 0;
@@ -124,12 +125,11 @@ export default {
   .van-tabs__nav--card {
     border: none;
   }
-  //去内边框
   .van-tabs__nav--card .van-tab {
+    //去内边框
     border-right: none;
-  }
-  //默认字体颜色
-  .van-tabs__nav--card .van-tab {
+    padding: 0;
+    //默认字体颜色
     color: #666666;
   }
   //调圆角，选中字体颜色，背景渐变色

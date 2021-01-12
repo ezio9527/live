@@ -2,8 +2,8 @@
   <div class="basketball-statistics">
     <div class="top">
       <div class="left" v-if="match && Object.keys(match).length">
-        <div class="guest">{{match.ateam_name || '-'}}</div>
-        <div class="home">{{match.hteam_name || '-'}}</div>
+        <div class="guest line-word-hidden">{{match.ateam_name || '-'}}</div>
+        <div class="home line-word-hidden">{{match.hteam_name || '-'}}</div>
       </div>
       <div class="right">
         <div class="body">
@@ -176,16 +176,16 @@ export default {
     display: flex;
     justify-content: space-between;
     position: relative;
-    // &:before {
-    //   width: 100%;
-    //   height: 1px;
-    //   background: #979797;
-    //   opacity: 0.3;
-    //   content: "";
-    //   position: absolute;
-    //   left: 0;
-    //   bottom: 0;
-    // }
+    &:before {
+      width: 100%;
+      height: 1px;
+      background: #979797;
+      opacity: 0.3;
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+    }
     .left,
     .right {
       display: -webkit-box;
@@ -198,10 +198,11 @@ export default {
     .left {
       .px2vw(font-size, 24);
       div {
-        .px2vw(width, 80);
+        .px2vw(width, 200);
         .px2vw(height, 33);
         .px2vw(line-height, 33);
-        text-align: right;
+        .px2vw(padding-left, 10);
+        text-align: left;
         position: relative;
         &:before {
           .px2vw(width, 5);
