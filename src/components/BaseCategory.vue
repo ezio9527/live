@@ -1,7 +1,7 @@
 <template>
   <div class="base-category">
     <ul class="container" v-loading="categoryLoading">
-      <li :class="{active: id===category.id}" @click="change(category.id)" v-for="(category, index) in categoryFilterList" :key="index">{{category.name}}</li>
+      <li :class="{active: id===category.id}" @click="change(category.id, category.type)" v-for="(category, index) in categoryFilterList" :key="index">{{category.name}}</li>
     </ul>
   </div>
 </template>
@@ -49,9 +49,9 @@ export default {
       })
     },
     // 选中比赛分类
-    change (id) {
+    change (id, type) {
       this.id = id
-      this.$emit('categoryChange', id)
+      this.$emit('categoryChange', { id, type })
     }
   }
 }

@@ -110,11 +110,11 @@ export default {
       this.qryMatchList({ type: this.typeId, cid: this.categoryId, pn: this.pageIndex, ps: this.pageSize })
     },
     // 切换比赛分类
-    categoryIdChange (id) {
+    categoryIdChange ({ id, type }) {
       this.searchKey = ''
       this.categoryId = id
       this.pageIndex = 0
-      this.qryMatchList({ type: this.typeId, cid: this.categoryId, pn: this.pageIndex, ps: this.pageSize })
+      this.qryMatchList({ type: type, cid: this.categoryId, pn: this.pageIndex, ps: this.pageSize })
     },
     // 列表的load事件
     load () {
