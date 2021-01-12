@@ -8,12 +8,12 @@
     <!--基础信息面板-->
     <div class="panel" v-loading="loading" v-else>
       <div class="title">
-        <img class="back" src="@img/details/back.png" />
+        <img class="back" src="@img/details/back.png" @click="$router.push({name: 'Home'})"/>
         <div>
           <span class="name">{{matchDetails.name}}</span>
           <span class="time">{{matchDetails.matchTime}}</span>
         </div>
-        <img class="share" src="@img/details/share.png" />
+        <img class="share" src="@img/details/share.png" ref="share"/>
       </div>
       <div class="content">
         <div class="home_team">
@@ -42,7 +42,7 @@
       </div>
     </div>
     <!--菜单-->
-    <van-tabs v-model="tabActive" @change="tabsChange" animated :class="{playing}">
+    <van-tabs v-model="tabActive" @change="tabsChange" animated :class="{playing}" :swipeable="true" sticky>
       <van-tab title="直播">
         <slot name="live">
           <van-empty description="暂无直播信息"></van-empty>
@@ -73,8 +73,9 @@
 </template>
 
 <script>
-import { Tab, Tabs, Empty } from 'vant'
+import { Tab, Tabs, Empty, Toast } from 'vant'
 import BaseVideoPlayer from '@comp/BaseVideoPlayer'
+import ClipboardJS from 'clipboard'
 export default {
   name: 'LivePlayer',
   components: {
@@ -121,6 +122,17 @@ export default {
   },
   created () {
     this.$emit('tabsChanges', this.tabActive)
+    const clipboard = new ClipboardJS('.share', {
+      target: () => {
+        return this.$refs.share
+      }
+    })
+    clipboard.on('success', e => {
+      Toast('钱包地址已复制')
+    })
+    clipboard.on('error', e => {
+      Toast('钱包地址复制失败')
+    })
   },
   methods: {
     play (type) {
@@ -137,6 +149,12 @@ export default {
 
 <style lang="less">
 .live-player {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   /*播放器*/
   .base-video {
     .px2vw(height, 342);
@@ -327,7 +345,6 @@ export default {
     .px2vw(height, 424);
     background: url("../../assets/images/details/background.png") no-repeat;
     background-size: 100% 100%;
-    overflow: hidden;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -468,12 +485,22 @@ export default {
   // tabs菜单
   .van-tabs.van-tabs--line {
     .px2vw(margin-top, -82);
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    justify-content: center;
   }
   .van-tabs.van-tabs--line.playing {
     margin-top: 0;
     .van-tabs__nav.van-tabs__nav--line {
       background: url("../../assets/images/details/background.png") no-repeat;
     }
+  }
+  .van-tabs__content.van-tabs__content--animated {
+    overflow: hidden scroll;
   }
   .van-tabs--line .van-tabs__wrap {
     .px2vw(height, 82);

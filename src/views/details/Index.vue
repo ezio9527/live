@@ -1,6 +1,6 @@
 <template>
   <div class="details">
-    <BaseNavBar></BaseNavBar>
+    <!--<BaseNavBar></BaseNavBar>-->
     <!--播放器部分-->
     <LivePlayer
       :matchDetails="matchDetails"
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import BaseNavBar from '@comp/BaseNavBar'
+// import BaseNavBar from '@comp/BaseNavBar'
 import LivePlayer from './LivePlayer'
 import FootballStatistics from '@comp/Live/FootballStatistics'
 import FootballText from '@comp/Live/FootballText'
@@ -48,7 +48,7 @@ import {
 export default {
   name: 'Details',
   components: {
-    BaseNavBar,
+    // BaseNavBar,
     LivePlayer,
     FootballStatistics,
     FootballText,
@@ -256,8 +256,13 @@ export default {
 
 <style scoped lang="less">
 .details {
-  min-height: 100%;
+  height: 100%;
   background: #fcfcfc;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
   .base-list-item {
     margin: auto;
     .px2vw(margin-top, 20);
