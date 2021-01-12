@@ -22,7 +22,9 @@ const routes = [
   },
   {
     path: '/test',
-    component: () => import('@comp/Statistics/Team.vue')
+    // component: () => import('@comp/Statistics/Team.vue')
+    // component: () => import('@comp/Statistics/BasketballTeamChart.vue')
+    component: () => import('@comp/Statistics/BasketballPlayerChart.vue')
   },
   {
     path: '/:type',
