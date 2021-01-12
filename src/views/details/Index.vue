@@ -34,7 +34,7 @@
 
 <script>
 import BaseNavBar from '@comp/BaseNavBar'
-import LivePlayer from 'LivePlayer'
+import LivePlayer from './LivePlayer'
 import FootballStatistics from '@comp/Live/FootballStatistics'
 import FootballText from '@comp/Live/FootballText'
 import BasketballStatistics from '@comp/Live/BasketballStatistics'
