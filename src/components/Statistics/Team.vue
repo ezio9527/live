@@ -1,13 +1,62 @@
 <template>
   <div class="team">
     <van-tabs type="card" v-model="tabActive">
-      <van-tab title="罗斯托夫火车头">
-        <div class="header"><span class="player">球员</span><span class="basketball"></span><span class="first">首发</span><span class="time">时间</span><span class="score">得分</span><span class="shoot">投篮</span><span class="three">三分</span></div>
-        <div class="content bg"><span class="player">明道加斯·库兹明斯卡斯</span><span class="basketball hidden"><img src="@img/details/basketball.png"></span><span class="first">9</span><span class="time">8</span><span class="score">12</span><span class="shoot">2-1</span><span class="three">9-0</span></div>
-        <div class="content"><span class="player">明道加斯·库兹明斯卡斯</span><span class="basketball"><img src="@img/details/basketball.png"></span><span class="first">9</span><span class="time">8</span><span class="score">12</span><span class="shoot">2-1</span><span class="three">9-0</span></div>
-        <div class="content bg"><span class="player">明道加斯·库兹明斯卡斯</span><span class="basketball"><img src="@img/details/basketball.png"></span><span class="first">9</span><span class="time">8</span><span class="score">12</span><span class="shoot">2-1</span><span class="three">9-0</span></div>
+      <van-tab title="主队名称">
+        <div class="header">
+          <span class="player">球员</span>
+          <span class="basketball"></span>
+          <span class="first">首发</span>
+          <span class="time">时间</span>
+          <span class="score">得分</span>
+          <span class="shoot">投篮</span>
+          <span class="three">三分</span>
+        </div>
+        <div
+          class="content bg"
+          v-for="(item,index) in hteamPlayers"
+          :key="index"
+          v-html="parseTeam(item)"
+        ></div>
+        <div class="content">
+          <span class="player">明道加斯·库兹明斯卡斯</span>
+          <span class="basketball">
+            <img src="@img/details/basketball.png" />
+          </span>
+          <span class="first">9</span>
+          <span class="time">8</span>
+          <span class="score">12</span>
+          <span class="shoot">2-1</span>
+          <span class="three">9-0</span>
+        </div>
+        <div class="content bg">
+          <span class="player">明道加斯·库兹明斯卡斯</span>
+          <span class="basketball">
+            <img src="@img/details/basketball.png" />
+          </span>
+          <span class="first">9</span>
+          <span class="time">8</span>
+          <span class="score">12</span>
+          <span class="shoot">2-1</span>
+          <span class="three">9-0</span>
+        </div>
       </van-tab>
-      <van-tab title="菲尼克斯太阳"></van-tab>
+      <van-tab title="客队名称">
+        <div class="header">
+          <span class="player">球员</span>
+          <span class="basketball"></span>
+          <span class="first">首发</span>
+          <span class="time">时间</span>
+          <span class="score">得分</span>
+          <span class="shoot">投篮</span>
+          <span class="three">三分</span>
+        </div>
+        <div
+          class="content bg"
+          v-for="(item,index) in ateamPlayers"
+          :key="index"
+          v-html="parseTeam(item)"
+        ></div>
+      </van-tab>
     </van-tabs>
   </div>
 </template>
@@ -30,12 +79,38 @@ export default {
   },
   data () {
     return {
-      tabActive: 0
+      tabActive: 0,
+      domain: 'https://cdn.sportnanoapi.com/basketball/player/',
+      hteamPlayers: [],
+      ateamPlayers: []
     }
   },
   created () {
+    const lanqiuData = require('@/utils/lanqiuApi.json')
+    const bTeamData = lanqiuData.players
+    this.hteamPlayers = bTeamData[0]
+    this.ateamPlayers = bTeamData[1]
   },
   methods: {
+    parseTeam (item) {
+      const Data = JSON.parse(JSON.stringify(item[6])).split('^')
+      const first = Data[16] === '0' ? '是' : '否'
+      const time = Data[0]
+      const score = Data[13]
+      const shoot = Data[1]
+      const three = Data[2]
+      return `
+        <span class="player">${item[1]}</span>
+        <span class="basketball">
+          <img src="${item[4]}" />
+        </span>
+        <span class="first">${first}</span>
+        <span class="time">${time}</span>
+        <span class="score">${score}</span>
+        <span class="shoot">${shoot}</span>
+        <span class="three">${three}</span>
+      `
+    }
   }
 }
 </script>
@@ -58,7 +133,13 @@ export default {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   /*列表样式*/
-  .player, .basketball, .first, .time, .score, .shoot, .three {
+  .player,
+  .basketball,
+  .first,
+  .time,
+  .score,
+  .shoot,
+  .three {
     display: inline-block;
     text-align: center;
   }

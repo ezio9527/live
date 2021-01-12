@@ -1,0 +1,408 @@
+{
+    "awayrank": "{\"lanban\":{\"name_zh\":\"兰兹博格\",\"lanban\":6,\"qiuyi\":\"1\",\"name_zht\":\"Landsberg\",\"logo\":\"https://cdn.sportnanoapi.com/basketball/player/b3f192a6c0c855b90ad95b19340d290b.jpg\",\"zhugong\":4,\"defen\":35,\"playerid\":14780,\"name_en\":\"S.蘭特斯保格\"},\"zhugong\":{\"name_zh\":\"兰兹博格\",\"lanban\":6,\"qiuyi\":\"1\",\"name_zht\":\"Landsberg\",\"logo\":\"https://cdn.sportnanoapi.com/basketball/player/b3f192a6c0c855b90ad95b19340d290b.jpg\",\"zhugong\":4,\"defen\":35,\"playerid\":14780,\"name_en\":\"S.蘭特斯保格\"},\"defen\":{\"name_zh\":\"兰兹博格\",\"lanban\":6,\"qiuyi\":\"1\",\"name_zht\":\"Landsberg\",\"logo\":\"https://cdn.sportnanoapi.com/basketball/player/b3f192a6c0c855b90ad95b19340d290b.jpg\",\"zhugong\":4,\"defen\":35,\"playerid\":14780,\"name_en\":\"S.蘭特斯保格\"}}",
+    "players": [
+        [
+            [
+                43673,
+                "阿斯基亚·图桑特·布克",
+                "",
+                "Askia Toussaint Booker",
+                "https://cdn.sportnanoapi.com/basketball/player/d881cc431df30c03705b5636c800b79c.png",
+                "31",
+                "20^6-10^3-3^2-3^0^0^3^4^0^0^1^3^0^17^1^1^0"
+            ],
+            [
+                13315,
+                "沈梓捷",
+                "沈梓捷",
+                "Zijie Shen",
+                "https://cdn.sportnanoapi.com/basketball/player/1939b5e420898b1ad3120c2203b2a93a.jpg",
+                "11",
+                "22^4-9^0-0^3-4^0^0^8^0^1^1^3^1^0^11^1^1^0"
+            ],
+            [
+                13381,
+                "贺希宁",
+                "賀希寧",
+                "Xining He",
+                "https://cdn.sportnanoapi.com/basketball/player/286d766f58309bff79f2d46c9f6513b7.jpg",
+                "3",
+                "23^5-8^0-3^0-0^0^0^7^3^1^0^3^0^0^10^1^1^0"
+            ],
+            [
+                13133,
+                "顾全",
+                "顧全",
+                "Quan Gu",
+                "https://cdn.sportnanoapi.com/basketball/player/31c07e11223c8bf366af843f09968a42.jpg",
+                "12",
+                "18^3-10^2-6^1-2^0^0^3^0^2^0^0^2^0^9^1^1^0"
+            ],
+            [
+                13396,
+                "卢艺文",
+                "盧藝文",
+                "Yiwen Lu",
+                "https://cdn.sportnanoapi.com/basketball/player/fef216bc6c695970be0e3ab8ec514b2c.jpg",
+                "9",
+                "23^0-6^0-4^1-2^0^0^5^0^2^0^0^0^0^1^1^1^0"
+            ],
+            [
+                13241,
+                "杨林祎",
+                "楊林祎",
+                "Linyi Yang",
+                "https://cdn.sportnanoapi.com/basketball/player/faa5111029158c650f60589c365e32f8.jpg",
+                "6",
+                "11^1-3^0-1^0-0^0^0^1^0^0^0^1^0^0^2^1^1^1"
+            ],
+            [
+                13640,
+                "肯尼-伯顿",
+                "",
+                "Kenny Burton",
+                "https://cdn.sportnanoapi.com/basketball/player/052f0a4d2f5e0264fa74d9bab0f539b8.png",
+                "2",
+                "9^0-3^0-1^2-2^0^0^4^0^0^0^1^2^0^2^1^1^1"
+            ],
+            [
+                14777,
+                "卢鹏羽",
+                "盧鵬羽",
+                "Pengyu Lu",
+                "https://cdn.sportnanoapi.com/basketball/player/586f03ae29ad189c91dd3da88c2c9429.jpg",
+                "2",
+                "5^1-3^0-1^0-0^0^0^0^0^0^0^0^2^0^2^1^1^1"
+            ],
+            [
+                13672,
+                "赵义明",
+                "趙義明",
+                "Yiming Zhao",
+                "https://cdn.sportnanoapi.com/basketball/player/169a2c6a97fe17bbe9c5f2e605a494d2.jpg",
+                "19",
+                "3^0-1^0-0^1-2^0^0^2^0^0^0^0^2^0^1^1^1^1"
+            ],
+            [
+                12976,
+                "买尔丹",
+                "買爾丹-吐爾遜",
+                "Erdan Mai",
+                "https://cdn.sportnanoapi.com/basketball/player/ea8364efbdab86cbd047857b6585058c.jpg",
+                "33",
+                "6^0-0^0-0^0-0^0^0^0^0^0^0^0^1^0^0^1^1^1"
+            ],
+            [
+                12801,
+                "于梁",
+                "于梁",
+                "Liang Yu",
+                "https://cdn.sportnanoapi.com/basketball/player/fdaf5655601aa2495ce3547f34a8eb26.png",
+                "35",
+                "2^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^1^1^1"
+            ],
+            [
+                13245,
+                "郭晓鹏",
+                "郭曉鵬",
+                "Xiaopeng Guo",
+                "https://cdn.sportnanoapi.com/basketball/player/665082f0222271ddd32be546a86b0878.jpg",
+                "1",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                13317,
+                "刘春庆",
+                "",
+                "Chunqing Liu",
+                "https://cdn.sportnanoapi.com/basketball/player/4bb2428d40a2e1d66746ae4e1e9921c2.jpg",
+                "5",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                13057,
+                "常亚松",
+                "常亞松",
+                "Yasong Chang",
+                "https://cdn.sportnanoapi.com/basketball/player/ef7b8de144585ebf40c0623b854b20c5.png",
+                "21",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                13635,
+                "李柏润",
+                "李柏潤",
+                "Bairun Li",
+                "https://cdn.sportnanoapi.com/basketball/player/5d946599d65d5641249d10d0d447c47c.jpg",
+                "8",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                13599,
+                "白昊天",
+                "白昊天",
+                "Haotian Bai",
+                "https://cdn.sportnanoapi.com/basketball/player/4ada090ec97163cd4c9adc22ccf5e76b.jpg",
+                "10",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                13602,
+                "容子峰",
+                "容子峰",
+                "Zifeng Rong",
+                "https://cdn.sportnanoapi.com/basketball/player/b054ece3f74a5a01d02325b0e45e8ec9.jpg",
+                "25",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                13060,
+                "何忠勉",
+                "何忠勉",
+                "Zhongmian He",
+                "https://cdn.sportnanoapi.com/basketball/player/3f2d3b178aee0ed50d0b76a6ac601617.jpg",
+                "20",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                47783,
+                "孟翔",
+                "孟翔",
+                "Xiang Meng",
+                "https://cdn.sportnanoapi.com/basketball/player/9bb43fa348138ad8d8c29cf878419ff4.jpg",
+                "18",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                13601,
+                "李想",
+                "李想",
+                "Xiang Li",
+                "https://cdn.sportnanoapi.com/basketball/player/36d63d6f068a94b929dbcc3d7c9095d5.jpg",
+                "16",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                13477,
+                "侯兴宇",
+                "",
+                "Xingyu Hou",
+                "https://cdn.sportnanoapi.com/basketball/player/0cdc2a7b91104dc4d8afd8d4db0fc562.png",
+                "15",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                13673,
+                "陈柏石",
+                "陳柏石",
+                "Baishi Chen",
+                "https://cdn.sportnanoapi.com/basketball/player/1124391c6241e8d0f51fde38beba8ff0.jpg",
+                "27",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ]
+        ],
+        [
+            [
+                14780,
+                "兰兹博格",
+                "S.蘭特斯保格",
+                "Landsberg",
+                "https://cdn.sportnanoapi.com/basketball/player/b3f192a6c0c855b90ad95b19340d290b.jpg",
+                "1",
+                "23^6-13^0-3^6-8^0^0^6^4^0^0^1^1^0^18^1^1^0"
+            ],
+            [
+                13578,
+                "程帅澎",
+                "程帥澎",
+                "Shuaipeng Cheng",
+                "https://cdn.sportnanoapi.com/basketball/player/ebdda35b9b17c952b52e9c44692d1a20.jpg",
+                "6",
+                "21^5-10^2-4^2-4^0^0^0^1^1^0^0^3^0^14^1^1^0"
+            ],
+            [
+                13177,
+                "朱旭航",
+                "朱旭航",
+                "Xuhang Zhu",
+                "https://cdn.sportnanoapi.com/basketball/player/c572a51d19c89e4ee15de31960df491b.jpg",
+                "21",
+                "23^3-8^2-6^0-0^0^0^6^1^0^0^2^1^0^8^1^1^0"
+            ],
+            [
+                13250,
+                "吴前",
+                "吳前",
+                "Qian Wu",
+                "https://cdn.sportnanoapi.com/basketball/player/2479278217cf330db6def187ea43a523.jpg",
+                "33",
+                "22^1-8^1-4^2-2^0^0^3^4^1^0^2^2^0^5^1^1^0"
+            ],
+            [
+                12806,
+                "张大宇",
+                "張大宇",
+                "Dayu Zhang",
+                "https://cdn.sportnanoapi.com/basketball/player/b3938a41e71209a81a6242de0203f41e.jpg",
+                "24",
+                "11^1-1^0-0^0-0^0^0^3^0^1^2^0^4^0^2^1^1^0"
+            ],
+            [
+                13580,
+                "刘泽一",
+                "劉澤一",
+                "Zeyi Liu",
+                "https://cdn.sportnanoapi.com/basketball/player/f41dc95378f6ea4a3908acd74cdf576a.jpg",
+                "10",
+                "15^2-4^0-0^0-0^0^0^6^1^2^0^1^3^0^4^1^1^1"
+            ],
+            [
+                13513,
+                "陆文博",
+                "陸文博",
+                "Wenbo Lu",
+                "https://cdn.sportnanoapi.com/basketball/player/a295476850a0ff2bb0593f2dc3f21256.jpg",
+                "8",
+                "9^1-2^0-1^0-0^0^0^2^0^0^0^0^0^0^2^1^1^1"
+            ],
+            [
+                13581,
+                "王奕博",
+                "王奕博",
+                "Yibo Wang",
+                "https://cdn.sportnanoapi.com/basketball/player/d5c52ea599e2d9ccac67d41666b1f43c.jpg",
+                "15",
+                "9^1-1^0-0^0-0^0^0^0^1^0^0^0^0^0^2^1^1^1"
+            ],
+            [
+                20506,
+                "尼克·拉科塞维奇",
+                "",
+                "Nick Rakocevic",
+                "https://cdn.sportnanoapi.com/basketball/player/8dca402b20a5062f4f595f9f0e619d39.png",
+                "31",
+                "6^1-3^0-0^0-0^0^0^1^0^1^0^1^1^0^2^1^1^1"
+            ],
+            [
+                13638,
+                "林孝天",
+                "林孝天",
+                "Xiaotian Lin",
+                "https://cdn.sportnanoapi.com/basketball/player/1d0ef681d9d5a9987c0f541caad6d202.jpg",
+                "5",
+                "3^1-1^0-0^0-0^0^0^0^0^0^0^0^0^0^2^1^1^1"
+            ],
+            [
+                13303,
+                "赖俊豪",
+                "賴俊豪",
+                "Junhao Lai",
+                "https://cdn.sportnanoapi.com/basketball/player/a16bf9e81f10d01fe23030c3314c01a5.jpg",
+                "17",
+                "2^0-1^0-0^0-0^0^0^1^0^0^0^0^0^0^0^1^1^1"
+            ],
+            [
+                54837,
+                "时振恺",
+                "",
+                "Zhenkai Shi",
+                "https://cdn.sportnanoapi.com/basketball/player/125714977182c7f4bad2ce048431f81c.png",
+                "18",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                54835,
+                "吕杭迅",
+                "",
+                "Hangxun Lv",
+                "https://cdn.sportnanoapi.com/basketball/player/c2f2af348884930cd49b0fa7a1efdce2.png",
+                "16",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                54834,
+                "尚祖宇",
+                "",
+                "Zuyu Shang",
+                "https://cdn.sportnanoapi.com/basketball/player/bfa9f99e8e0be75e1b1c0d13c6996e34.jpg",
+                "14",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                54839,
+                "陆翊铭",
+                "",
+                "Yiming Lu",
+                "https://cdn.sportnanoapi.com/basketball/player/f595b549fcaa4f2baff86b7f9ab8e40b.png",
+                "13",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                54838,
+                "李林峰",
+                "",
+                "Linfeng Li",
+                "https://cdn.sportnanoapi.com/basketball/player/50eb8381d47923c1bc52d0af3d890328.jpg",
+                "7",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                54836,
+                "张洪硕",
+                "",
+                "Hongshuo Zhang",
+                "https://cdn.sportnanoapi.com/basketball/player/6ff634d0811105ac1ed7c5dff3cda60b.png",
+                "34",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                13641,
+                "王仔路",
+                "王仔路",
+                "Zilu Wang",
+                "https://cdn.sportnanoapi.com/basketball/player/06b1895b06009c6cf155381027d28c9d.jpg",
+                "23",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                13639,
+                "孙岩松",
+                "孫岩松",
+                "Yansong Sun",
+                "https://cdn.sportnanoapi.com/basketball/player/eac328668112ed554534028a60803211.jpg",
+                "9",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                13472,
+                "张正昕",
+                "張正昕",
+                "Zhengxin Zhang",
+                "https://cdn.sportnanoapi.com/basketball/player/a174b0b743d792ce8dfdf20ca334aa30.jpg",
+                "28",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                13579,
+                "李耀强",
+                "李耀強",
+                "Yaoqiang Li",
+                "https://cdn.sportnanoapi.com/basketball/player/8254dd00c9732de938dc443d69dc6844.png",
+                "11",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ],
+            [
+                13395,
+                "付磊",
+                "付磊",
+                "Lei Fu",
+                "https://cdn.sportnanoapi.com/basketball/player/869e0c418c16b9c70d7ef7dafd9e3e69.jpg",
+                "3",
+                "0^0-0^0-0^0-0^0^0^0^0^0^0^0^0^0^0^0^1^1"
+            ]
+        ],
+        "0^20-53^5-19^10-15^0^0^33^7^6^1^9^13^0^55",
+        "0^22-52^5-18^10-14^0^0^28^12^6^2^7^15^0^59"
+    ],
+    "homerank": "{\"lanban\":{\"name_zh\":\"沈梓捷\",\"lanban\":8,\"qiuyi\":\"11\",\"name_zht\":\"Zijie Shen\",\"logo\":\"https://cdn.sportnanoapi.com/basketball/player/1939b5e420898b1ad3120c2203b2a93a.jpg\",\"zhugong\":0,\"defen\":30,\"playerid\":13315,\"name_en\":\"沈梓捷\"},\"zhugong\":{\"name_zh\":\"阿斯基亚·图桑特·布克\",\"lanban\":3,\"qiuyi\":\"31\",\"name_zht\":\"Askia Toussaint Booker\",\"logo\":\"https://cdn.sportnanoapi.com/basketball/player/d881cc431df30c03705b5636c800b79c.png\",\"zhugong\":4,\"defen\":35,\"playerid\":43673,\"name_en\":\"\"},\"defen\":{\"name_zh\":\"阿斯基亚·图桑特·布克\",\"lanban\":3,\"qiuyi\":\"31\",\"name_zht\":\"Askia Toussaint Booker\",\"logo\":\"https://cdn.sportnanoapi.com/basketball/player/d881cc431df30c03705b5636c800b79c.png\",\"zhugong\":4,\"defen\":35,\"playerid\":43673,\"name_en\":\"\"}}"
+}
