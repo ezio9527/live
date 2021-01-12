@@ -18,11 +18,11 @@ const routes = [
   {
     path: '/details/:type/:playType/:channel/:id',
     name: 'Details',
-    component: () => import('@views/Details.vue')
+    component: () => import('@views/details/Index.vue')
   },
   {
     path: '/test',
-    component: () => import('@comp/Live/LivePlayer.vue')
+    component: () => import('@comp/../views/details/LivePlayer.vue')
   },
   {
     path: '/:type',
