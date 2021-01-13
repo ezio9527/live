@@ -4,7 +4,6 @@
       <van-tab title="主队名称">
         <div class="header">
           <span class="player">球员</span>
-          <span class="basketball">1</span>
           <span class="first">首发</span>
           <span class="time">时间</span>
           <span class="score">得分</span>
@@ -17,7 +16,7 @@
           :key="index"
           v-html="parseTeam(item)"
         ></div>
-        <div class="content">
+        <!-- <div class="content">
           <span class="player">明道加斯·库兹明斯卡斯</span>
           <span class="basketball">
             <img src="@img/details/basketball.png" />
@@ -38,7 +37,7 @@
           <span class="score">12</span>
           <span class="shoot">2-1</span>
           <span class="three">9-0</span>
-        </div>
+        </div>-->
       </van-tab>
       <van-tab title="客队名称">
         <div class="header">
@@ -99,17 +98,12 @@ export default {
       const score = Data[13]
       const shoot = Data[1]
       const three = Data[2]
-      return `
-        <span class="player">${item[1]}</span>
-        <span class="basketball">
-          <img src="${item[4]}" />
-        </span>
+      return `<span class="player">${item[1]}</span>
         <span class="first">${first}</span>
         <span class="time">${time}</span>
         <span class="score">${score}</span>
         <span class="shoot">${shoot}</span>
-        <span class="three">${three}</span>
-      `
+        <span class="three">${three}</span>`
     }
   }
 }
@@ -156,7 +150,7 @@ export default {
     color: #999999;
   }
   .content {
-    color: #666666;
+    display: flex;
     /*间隔的背景色*/
     &:nth-child(2n-1) {
       background: rgba(205, 205, 205, 0.1);

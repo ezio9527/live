@@ -45,7 +45,7 @@
               <van-progress
                 :percentage="percentageCalc(bStatsData[0],false)"
                 :show-pivot="false"
-                color="#F6BD35"
+                color="#27c5c3"
               />
             </div>
             <span>&nbsp;</span>
@@ -65,7 +65,7 @@
               <van-progress
                 :percentage="percentageCalc(bStatsData[1],false)"
                 :show-pivot="false"
-                color="#F6BD35"
+                color="#27c5c3"
               />
             </div>
             <span>&nbsp;</span>
@@ -85,7 +85,7 @@
               <van-progress
                 :percentage="percentageCalc(bStatsData[2],false)"
                 :show-pivot="false"
-                color="#F6BD35"
+                color="#27c5c3"
               />
             </div>
             <span>&nbsp;</span>
@@ -105,7 +105,7 @@
               <van-progress
                 :percentage="percentageCalc(bStatsData[5],false)"
                 :show-pivot="false"
-                color="#F6BD35"
+                color="#27c5c3"
               />
             </div>
             <span>&nbsp;</span>

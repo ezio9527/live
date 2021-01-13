@@ -6,49 +6,20 @@
     </div>
     <div class="content">
       <div class="charts">
-        <div class="item">
-          <div class="top">进攻</div>
+        <div class="item" v-for="(item,index) in circleMap" :key="index">
+          <div class="top">{{item.name}}</div>
           <div class="bottom">
-            <span>{{fStatsCalc(23).home}}</span>
+            <span>{{fStatsCalc(item.key).home}}</span>
             <van-circle
               :clockwise="false"
-              v-model="currentRate"
-              :rate="percentageCalc(23)"
+              v-model="item.currentRate"
+              :rate="percentageRate(item.key)"
               layer-color="#E5E5E5"
+              speed="50"
               color="#F6BD35"
               stroke-width="120"
             />
-            <span>{{fStatsCalc(23).away}}</span>
-          </div>
-        </div>
-        <div class="item">
-          <div class="top">危险进攻</div>
-          <div class="bottom">
-            <span>{{fStatsCalc(24).home}}</span>
-            <van-circle
-              :clockwise="false"
-              v-model="currentRate"
-              :rate="percentageCalc(24)"
-              layer-color="#E5E5E5"
-              color="#F6BD35"
-              stroke-width="120"
-            />
-            <span>{{fStatsCalc(24).away}}</span>
-          </div>
-        </div>
-        <div class="item">
-          <div class="top">控球率</div>
-          <div class="bottom">
-            <span>{{fStatsCalc(25).home}}</span>
-            <van-circle
-              :clockwise="false"
-              v-model="currentRate"
-              :rate="percentageCalc(25)"
-              layer-color="#E5E5E5"
-              color="#F6BD35"
-              stroke-width="120"
-            />
-            <span>{{fStatsCalc(25).away}}</span>
+            <span>{{fStatsCalc(item.key).away}}</span>
           </div>
         </div>
       </div>
@@ -74,7 +45,7 @@
             <van-progress
               :percentage="percentageCalc(21,false)"
               :show-pivot="false"
-              color="#F6BD35"
+              color="#27c5c3"
             />
           </div>
           <span>&nbsp;</span>
@@ -106,7 +77,7 @@
             <van-progress
               :percentage="percentageCalc(22,false)"
               :show-pivot="false"
-              color="#F6BD35"
+              color="#27c5c3"
             />
           </div>
           <span>&nbsp;</span>
@@ -148,7 +119,12 @@ export default {
   },
   data () {
     return {
-      currentRate: 88,
+      circleMap: [
+        { key: 23, name: '进攻', currentRate: 0 },
+        { key: 24, name: '危险进攻', currentRate: 0 },
+        { key: 25, name: '控球率', currentRate: 0 }
+      ],
+      currentRate: 0,
       fStatsData: []
     }
   },
@@ -159,6 +135,13 @@ export default {
     fStatsCalc (key) {
       const itemData = this.fStatsData.find(e => (e.type === key))
       return itemData
+    },
+    percentageRate (key) {
+      const hteamV = this.fStatsCalc(key).home
+      const ateamV = this.fStatsCalc(key).away
+      const count = hteamV + ateamV
+      const res = hteamV / count
+      return Number(res).toFixed(2) * 100
     },
     percentageCalc (key, isHteam) {
       const hteamV = this.fStatsCalc(key).home
@@ -201,6 +184,7 @@ export default {
       .px2vw(padding-right, 15);
       &:before {
         left: auto;
+        background: #27c5c3;
         right: 0;
       }
     }
