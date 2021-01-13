@@ -30,11 +30,12 @@
       </template>
       <template #statistics>
         <!-- 足球 -->
-        <template v-if="params.type === 1">
-        </template>
+        <template v-if="params.type === 1"></template>
         <!--篮球-->
         <template v-if="params.type === 2">
+          <BasketballPlayerChart></BasketballPlayerChart>
           <BasketballTeam></BasketballTeam>
+          <BasketballTeamChart></BasketballTeamChart>
         </template>
       </template>
     </LivePlayer>
@@ -49,7 +50,9 @@ import FootballText from '@comp/Live/FootballText'
 import BasketballStatistics from '@comp/Live/BasketballStatistics'
 import BasketballText from '@comp/Live/BasketballText'
 import BaseListItem from '@comp/BaseListItem'
+import BasketballPlayerChart from '@comp/Statistics/BasketballPlayerChart'
 import BasketballTeam from '@comp/Statistics/BasketballTeam'
+import BasketballTeamChart from '@comp/Statistics/BasketballTeamChart'
 import { matchDetailApi, detailTabs } from '@/http/api'
 import {
   sendSock,
@@ -65,7 +68,9 @@ export default {
     BasketballStatistics,
     BasketballText,
     BaseListItem,
-    BasketballTeam
+    BasketballPlayerChart,
+    BasketballTeam,
+    BasketballTeamChart
   },
   props: {
     matchId: {
