@@ -124,9 +124,9 @@ export default {
   .px2vw(margin-bottom, 20) !important;
   .px2vw(padding-top, 30) !important;
   .px2vw(padding-bottom, 30) !important;
-  .px2vw(padding-left, 30);
-  .px2vw(padding-right, 30);
-  .px2vw(border-radius, 26);
+  .px2vw(padding-left, 30) !important;
+  .px2vw(padding-right, 30) !important;
+  .px2vw(border-radius, 26) !important;
   .px2vw(font-size, 24) !important;
   box-shadow: 0px 10px 88px 0px rgba(0, 0, 0, 0.06);
   -webkit-box-sizing: border-box;
@@ -142,6 +142,9 @@ export default {
   .three {
     display: inline-block;
     text-align: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
   }
   .player {
     text-align: left;
@@ -245,7 +248,7 @@ export default {
   }
   //默认字体大小
   .van-tabs.van-tabs--card {
-    .px2vw(font-size, 28);
+    font-size: 14px;
   }
   //最后一项的延长线
   .van-tabs.van-tabs--card
