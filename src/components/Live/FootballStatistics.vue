@@ -11,6 +11,7 @@
           <div class="bottom">
             <span>{{fStatsCalc(23).home}}</span>
             <van-circle
+              :clockwise="false"
               v-model="currentRate"
               :rate="percentageCalc(23)"
               layer-color="#E5E5E5"
@@ -25,6 +26,7 @@
           <div class="bottom">
             <span>{{fStatsCalc(24).home}}</span>
             <van-circle
+              :clockwise="false"
               v-model="currentRate"
               :rate="percentageCalc(24)"
               layer-color="#E5E5E5"
@@ -39,6 +41,7 @@
           <div class="bottom">
             <span>{{fStatsCalc(25).home}}</span>
             <van-circle
+              :clockwise="false"
               v-model="currentRate"
               :rate="percentageCalc(25)"
               layer-color="#E5E5E5"
@@ -51,29 +54,40 @@
       </div>
       <div class="shoot">
         <span class="item">
-          <img class="flag" src="@img/details/flag.png" />
+          <img class="flag" src="@img/minIcon/tlive2.png" />
         </span>
         <span class="item">
-          <img class="red" src="@img/details/red.png" />
+          <img class="red" src="@img/minIcon/tlive4.png" />
         </span>
         <span class="item">
-          <img class="yellow" src="@img/details/yellow.png" />
+          <img class="yellow" src="@img/minIcon/tlive3.png" />
         </span>
         <span class="item">{{fStatsCalc(21).home}}</span>
         <div class="progress">
           <span>射正球门</span>
-          <van-progress :percentage="percentageCalc(21)" :show-pivot="false" color="#F6BD35" />
+          <div class="progressView">
+            <van-progress
+              :percentage="percentageCalc(21,true)"
+              :show-pivot="false"
+              color="#F6BD35"
+            />
+            <van-progress
+              :percentage="percentageCalc(21,false)"
+              :show-pivot="false"
+              color="#F6BD35"
+            />
+          </div>
           <span>&nbsp;</span>
         </div>
         <span class="item align-right">{{fStatsCalc(21).away}}</span>
         <span class="item align-right">
-          <img class="yellow" src="@img/details/yellow.png" />
+          <img class="yellow" src="@img/minIcon/tlive3.png" />
         </span>
         <span class="item align-right">
-          <img class="red" src="@img/details/red.png" />
+          <img class="red" src="@img/minIcon/tlive4.png" />
         </span>
         <span class="item align-right">
-          <img class="flag" src="@img/details/flag.png" />
+          <img class="flag" src="@img/minIcon/tlive2.png" />
         </span>
       </div>
       <div class="shoot">
@@ -83,7 +97,18 @@
         <span class="item">{{fStatsCalc(22).home}}</span>
         <div class="progress">
           <span>射歪球门</span>
-          <van-progress :percentage="percentageCalc(22)" :show-pivot="false" color="#F6BD35" />
+          <div class="progressView">
+            <van-progress
+              :percentage="percentageCalc(22,true)"
+              :show-pivot="false"
+              color="#F6BD35"
+            />
+            <van-progress
+              :percentage="percentageCalc(22,false)"
+              :show-pivot="false"
+              color="#F6BD35"
+            />
+          </div>
           <span>&nbsp;</span>
         </div>
         <span class="item align-right">{{fStatsCalc(22).away}}</span>
@@ -135,10 +160,11 @@ export default {
       const itemData = this.fStatsData.find(e => (e.type === key))
       return itemData
     },
-    percentageCalc (key) {
+    percentageCalc (key, isHteam) {
       const hteamV = this.fStatsCalc(key).home
       const ateamV = this.fStatsCalc(key).away
-      const res = hteamV / (hteamV + ateamV)
+      const count = hteamV + ateamV
+      const res = isHteam ? hteamV / count : ateamV / count
       return res.toFixed(2) * 100
     }
   }
@@ -223,7 +249,7 @@ export default {
         .flag,
         .red,
         .yellow {
-          .px2vw(width, 27);
+          .px2vw(height, 27);
         }
         &.align-right {
           text-align: right;
@@ -238,6 +264,21 @@ export default {
           font-size: 14px;
           color: #333333;
           text-align: center;
+        }
+      }
+      .progressView {
+        display: flex;
+        justify-content: space-between;
+        .van-progress {
+          margin: 2px;
+          width: 100%;
+          position: relative;
+        }
+        .van-progress:first-child {
+          -moz-transform: scaleX(-1);
+          -webkit-transform: scaleX(-1);
+          -o-transform: scaleX(-1);
+          transform: scaleX(-1);
         }
       }
     }
