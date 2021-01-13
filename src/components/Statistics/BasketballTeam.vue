@@ -2,7 +2,7 @@
   <div class="team">
     <van-tabs type="card" v-model="tabActive">
       <van-tab title="主队名称">
-        <div class="header">
+        <div class="flex header">
           <span class="player">球员</span>
           <span class="first">首发</span>
           <span class="time">时间</span>
@@ -11,7 +11,7 @@
           <span class="three">三分</span>
         </div>
         <div
-          class="content"
+          class="flex content"
           v-for="(item,index) in hteamPlayers"
           :key="index"
           v-html="parseTeam(item)"
@@ -40,7 +40,7 @@
         </div>-->
       </van-tab>
       <van-tab title="客队名称">
-        <div class="header">
+        <div class="flex header">
           <span class="player">球员</span>
           <span class="basketball"></span>
           <span class="first">首发</span>
@@ -50,7 +50,7 @@
           <span class="three">三分</span>
         </div>
         <div
-          class="content bg"
+          class="content"
           v-for="(item,index) in ateamPlayers"
           :key="index"
           v-html="parseTeam(item)"
@@ -115,11 +115,11 @@ export default {
   margin: auto !important;
   .px2vw(width, 700);
   .px2vw(margin-top, 20) !important;
-  .px2vw(margin-bottom, 20) !important;
+  // .px2vw(margin-bottom, 20) !important;
   .px2vw(padding-top, 30) !important;
   .px2vw(padding-bottom, 30) !important;
-  .px2vw(padding-left, 30) !important;
-  .px2vw(padding-right, 30) !important;
+  // .px2vw(padding-left, 30) !important;
+  // .px2vw(padding-right, 30) !important;
   .px2vw(border-radius, 26) !important;
   .px2vw(font-size, 24) !important;
   box-shadow: 0px 10px 88px 0px rgba(0, 0, 0, 0.06);
@@ -127,72 +127,97 @@ export default {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   /*列表样式*/
-  .player,
-  .basketball,
-  .first,
-  .time,
-  .score,
-  .shoot,
-  .three {
-    display: inline-block;
-    text-align: center;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-  .player {
-    text-align: left;
-  }
-  .header .content {
-    .px2vw(height, 80);
-  }
-  .header {
-    color: #999999;
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    span {
+      display: block;
+      width: 100%;
+      line-height: 18px;
+      color: #666;
+      text-align: center;
+      font-size: 12px;
+      margin-right: -10px;
+      &:first-child {
+        text-align-last: left;
+        width: 100px;
+        flex-shrink: 0;
+        margin-right: 10px;
+      }
+    }
   }
   .content {
-    display: flex;
-    /*间隔的背景色*/
-    &:nth-child(2n-1) {
+    &:nth-child(2n) {
       background: rgba(205, 205, 205, 0.1);
     }
   }
-  /*球员*/
-  .player {
-    .px2vw(width, 210);
-  }
-  /*篮球*/
-  .basketball {
-    .px2vw(width, 60);
-    img {
-      .px2vw(width, 30);
-      .px2vw(height, 30);
-    }
-  }
-  /*首发*/
-  .first {
-    .px2vw(width, 60);
-  }
-  /*时间*/
-  .time {
-    .px2vw(width, 70);
-  }
-  /*得分*/
-  .score {
-    .px2vw(width, 80);
-  }
-  /*投篮*/
-  .shoot {
-    .px2vw(width, 80);
-  }
-  /*三分*/
-  .three {
-    .px2vw(width, 80);
-  }
-  .hidden {
-    img {
-      display: none;
-    }
-  }
+  // .player,
+  // .basketball,
+  // .first,
+  // .time,
+  // .score,
+  // .shoot,
+  // .three {
+  //   display: inline-block;
+  //   text-align: center;
+  //   -webkit-box-sizing: border-box;
+  //   -moz-box-sizing: border-box;
+  //   box-sizing: border-box;
+  // }
+  // .player {
+  //   text-align: left;
+  // }
+  // .header .content {
+  //   .px2vw(height, 80);
+  // }
+  // .header {
+  //   color: #999999;
+  // }
+  // .content {
+  //   display: flex;
+  //   /*间隔的背景色*/
+  //   &:nth-child(2n-1) {
+  //     background: rgba(205, 205, 205, 0.1);
+  //   }
+  // }
+  // /*球员*/
+  // .player {
+  //   .px2vw(width, 210);
+  // }
+  // /*篮球*/
+  // .basketball {
+  //   .px2vw(width, 60);
+  //   img {
+  //     .px2vw(width, 30);
+  //     .px2vw(height, 30);
+  //   }
+  // }
+  // /*首发*/
+  // .first {
+  //   .px2vw(width, 60);
+  // }
+  // /*时间*/
+  // .time {
+  //   .px2vw(width, 70);
+  // }
+  // /*得分*/
+  // .score {
+  //   .px2vw(width, 80);
+  // }
+  // /*投篮*/
+  // .shoot {
+  //   .px2vw(width, 80);
+  // }
+  // /*三分*/
+  // .three {
+  //   .px2vw(width, 80);
+  // }
+  // .hidden {
+  //   img {
+  //     display: none;
+  //   }
+  // }
   // Tabs在card模式下的样式
   //整体背景色
   .van-tabs__nav.van-tabs__nav--card {

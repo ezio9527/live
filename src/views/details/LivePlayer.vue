@@ -9,12 +9,12 @@
     <!--基础信息面板-->
     <div class="panel" v-loading="loading" v-else>
       <div class="title">
-        <img class="back" src="@img/details/back.png" @click="$router.push({name: 'Home'})"/>
+        <img class="back" src="@img/details/back.png" @click="$router.push({name: 'Home'})" />
         <div>
           <span class="name">{{matchDetails.name}}</span>
           <span class="time">{{matchDetails.matchTime}}</span>
         </div>
-        <img class="share" src="@img/details/share.png" ref="share"/>
+        <img class="share" src="@img/details/share.png" ref="share" />
       </div>
       <div class="content">
         <div class="home_team">
@@ -158,7 +158,7 @@ export default {
   flex-direction: column;
   /*返回*/
   .header-back {
-    color: #FFFFFF;
+    color: #ffffff;
     position: absolute;
     z-index: 1;
     .px2vw(right, 40);

@@ -143,7 +143,12 @@ export default {
       const { id, type } = this.params
       const result = await detailTabs({ mid: id, type, tabtype: val + 1 })
       if (result && result.length) {
-        this.extractData(JSON.parse(result))
+        if (type === 2 && val === 1) { // 篮球统计
+          console.log('🚀 ~ file: Index.vue ~ line 147 ~ tabsChanges ~ 篮球统计')
+          console.log(result)
+        } else {
+          this.extractData(JSON.parse(result))
+        }
       }
     },
     // 查询比赛详情
