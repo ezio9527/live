@@ -49,7 +49,7 @@
           <van-empty description="暂无直播信息"></van-empty>
         </slot>
       </van-tab>
-      <van-tab title="统计">
+      <van-tab title="统计" v-if="matchData.hascount === 1 && matchDetails.type === 2">
         <slot name="statistics">
           <van-empty description="暂无统计信息"></van-empty>
         </slot>
@@ -100,6 +100,10 @@ export default {
         }
       }
     },
+    matchData: {
+      type: Object,
+      default: () => { }
+    },
     video: {
       type: Object,
       default: () => { }
@@ -107,6 +111,14 @@ export default {
     animation: {
       type: String,
       default: ''
+    }
+  },
+  watch: {
+    matchData: {
+      handler (newValue, oldValue) {
+        this.matchData = newValue
+      },
+      deep: true
     }
   },
   data () {

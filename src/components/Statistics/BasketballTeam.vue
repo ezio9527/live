@@ -65,9 +65,9 @@ import { Tab, Tabs } from 'vant'
 export default {
   name: 'BasketballTeam',
   props: {
-    btlive: {
-      type: Array,
-      default: () => []
+    statisticsData: {
+      type: Object,
+      default: () => { }
     }
   },
   components: {
@@ -85,7 +85,8 @@ export default {
     }
   },
   created () {
-    const lanqiuData = require('@/utils/lanqiuApi.json')
+    // const lanqiuData = require('@/utils/lanqiuApi.json')
+    const lanqiuData = this.statisticsData
     const bTeamData = lanqiuData.players
     this.hteamPlayers = bTeamData[0]
     this.ateamPlayers = bTeamData[1]

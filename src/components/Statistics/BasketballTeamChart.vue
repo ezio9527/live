@@ -37,6 +37,10 @@ export default {
     VanProgress: Progress
   },
   props: {
+    statisticsData: {
+      type: Object,
+      default: () => { }
+    }
   },
   watch: {
   },
@@ -55,7 +59,8 @@ export default {
     }
   },
   created () {
-    const lanqiuData = require('@/utils/lanqiuApi.json')
+    // const lanqiuData = require('@/utils/lanqiuApi.json')
+    const lanqiuData = this.statisticsData
     const bTeamData = lanqiuData.players
     this.hteamCount = bTeamData[2] && bTeamData[2].split('^')
     this.ateamCount = bTeamData[3] && bTeamData[3].split('^')

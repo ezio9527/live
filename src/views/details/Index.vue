@@ -4,6 +4,7 @@
     <!--播放器部分-->
     <LivePlayer
       :matchDetails="matchDetails"
+      :matchData="matchData"
       :video="video"
       :animation="animation"
       @tabsChanges="tabsChanges"
@@ -87,7 +88,9 @@ export default {
         id: 0
       },
       token: '',
+      matchData: {},
       matchDetails: {},
+      statisticsData: {},
       timer: null,
       isSocket: false, // 当前是ws状态
       msgContent: {}, // 接收的内容
@@ -141,11 +144,15 @@ export default {
   methods: {
     async tabsChanges (val) {
       const { id, type } = this.params
-      const result = await detailTabs({ mid: id, type, tabtype: val + 1 })
+      const tabtype = val + 1
+      const result = await detailTabs({ mid: id, type, tabtype })
       if (result && result.length) {
-        if (type === 2 && val === 1) { // 篮球统计
-          console.log('🚀 ~ file: Index.vue ~ line 147 ~ tabsChanges ~ 篮球统计')
-          console.log(result)
+        if (type === 2 && tabtype === 2) { // 篮球统计
+          if (typeof msg === 'string') {
+            this.statisticsData = JSON.parse(result)
+          } else {
+            this.statisticsData = result
+          }
         } else {
           this.extractData(JSON.parse(result))
         }
@@ -156,6 +163,7 @@ export default {
       this.detailsLoading = true
       matchDetailApi(datas).then(data => {
         this.token = data.token
+        this.matchData = data
         this.matchDetails = data.matchinfo
         // 初始化连接
         if (this.token && data.matchinfo.status === 0) {

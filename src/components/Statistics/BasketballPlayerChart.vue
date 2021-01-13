@@ -37,6 +37,10 @@
 export default {
   name: 'BasketballPlayerChart',
   props: {
+    statisticsData: {
+      type: Object,
+      default: () => { }
+    }
   },
   watch: {
   },
@@ -52,7 +56,8 @@ export default {
     }
   },
   created () {
-    const lanqiuData = require('@/utils/lanqiuApi.json')
+    // const lanqiuData = require('@/utils/lanqiuApi.json')
+    const lanqiuData = this.statisticsData
     this.homerank = JSON.parse(lanqiuData.homerank)
     this.awayrank = JSON.parse(lanqiuData.awayrank)
   },
