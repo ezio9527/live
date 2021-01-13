@@ -181,6 +181,11 @@ export default {
         } else {
           video.defaultQuality = 0
         }
+        // quality[0] = {
+        //   url: 'http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8',
+        //   name: '测试',
+        //   type: 'customHls'
+        // }
         this.video = video
         this.match = data.matchinfo
         // 处理一下比赛时间格式
@@ -256,6 +261,7 @@ export default {
   /*播放器*/
   .base-video, iframe {
     flex: 1;
+    background: #000;
   }
   iframe {
     width: 1200px;
