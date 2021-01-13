@@ -42,7 +42,7 @@
       </div>
     </div>
     <!--菜单-->
-    <van-tabs v-model="tabActive" @change="tabsChange" animated :class="{playing}" :swipeable="true" sticky>
+    <van-tabs v-model="tabActive" @change="tabsChange" :class="{playing}" :swipeable="true">
       <van-tab title="直播">
         <slot name="live">
           <van-empty description="暂无直播信息"></van-empty>
@@ -128,10 +128,10 @@ export default {
       }
     })
     clipboard.on('success', e => {
-      Toast('钱包地址已复制')
+      Toast('地址已复制')
     })
     clipboard.on('error', e => {
-      Toast('钱包地址复制失败')
+      Toast('地址复制失败')
     })
   },
   methods: {
@@ -149,15 +149,15 @@ export default {
 
 <style lang="less">
 .live-player {
+  height: 100%;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   /*播放器*/
   .base-video {
-    .px2vw(height, 342);
+    .px2vw(height, 424);
   }
   /*比赛详情*/
   .player-score {
@@ -492,6 +492,7 @@ export default {
     flex-direction: column;
     overflow: hidden;
     justify-content: center;
+    flex: 1;
   }
   .van-tabs.van-tabs--line.playing {
     margin-top: 0;
@@ -499,7 +500,8 @@ export default {
       background: url("../../assets/images/details/background.png") no-repeat;
     }
   }
-  .van-tabs__content.van-tabs__content--animated {
+  .van-tabs__content {
+    flex: 1;
     overflow: hidden scroll;
   }
   .van-tabs--line .van-tabs__wrap {

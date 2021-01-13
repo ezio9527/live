@@ -54,9 +54,13 @@ export default {
     init () {
       this.video.customType = {
         customHls: function (video, player) {
-          const hls = new Hls()
-          hls.loadSource(video.src)
-          hls.attachMedia(video)
+          try {
+            const hls = new Hls()
+            hls.loadSource(video.src)
+            hls.attachMedia(video)
+          } catch (e) {
+            console.log(e)
+          }
         }
       }
       const player = this.player = new DPlayer({
@@ -73,6 +77,29 @@ export default {
         mutex: true,
         video: this.video
       })
+      // player.on('abort', () => { debugger })
+      // player.on('canplay', () => { debugger })
+      // player.on('canplaythrough', () => { debugger })
+      // player.on('durationchange', () => { debugger })
+      // player.on('emptied', () => { debugger })
+      // player.on('ended', () => { debugger })
+      // player.on('error', () => { debugger })
+      // player.on('loadeddata', () => { debugger })
+      // player.on('loadedmetadata', () => { debugger })
+      // player.on('loadstart', () => { debugger })
+      // player.on('mozaudioavailable', () => { debugger })
+      // player.on('pause', () => { debugger })
+      // player.on('play', () => { debugger })
+      // player.on('playing', () => { debugger })
+      // player.on('progress', () => { debugger })
+      // player.on('ratechange', () => { debugger })
+      // player.on('seeked', () => { debugger })
+      // player.on('seeking', () => { debugger })
+      // player.on('stalled', () => { debugger })
+      // player.on('suspend', () => { debugger })
+      // player.on('timeupdate', () => { debugger })
+      // player.on('volumechange', () => { debugger })
+      // player.on('waiting', () => { debugger })
       player.on('play', () => {
         this.$emit('play')
       })
@@ -87,6 +114,13 @@ export default {
       })
       player.on('ended', () => {
         this.$emit('ended')
+      })
+      player.on('waiting', () => {
+        // 播放中的加载等待过程
+      })
+      player.on('abort', () => {
+      })
+      player.on('emptied', () => {
       })
       player.on('error', () => {
         // const len = this.urlArray.length
