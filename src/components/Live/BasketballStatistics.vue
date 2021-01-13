@@ -36,11 +36,18 @@
           <span>{{bStatsData[0][1]}}</span>
           <div class="progress">
             <span>3分球得分</span>
-            <van-progress
-              :percentage="percentageCalc(bStatsData[0])"
-              :show-pivot="false"
-              color="#F6BD35"
-            />
+            <div class="progressView">
+              <van-progress
+                :percentage="percentageCalc(bStatsData[0],true)"
+                :show-pivot="false"
+                color="#F6BD35"
+              />
+              <van-progress
+                :percentage="percentageCalc(bStatsData[0],false)"
+                :show-pivot="false"
+                color="#F6BD35"
+              />
+            </div>
             <span>&nbsp;</span>
           </div>
           <span>{{bStatsData[0][2]}}</span>
@@ -49,11 +56,18 @@
           <span>{{bStatsData[1][1]}}</span>
           <div class="progress">
             <span>2分球得分</span>
-            <van-progress
-              :percentage="percentageCalc(bStatsData[1])"
-              :show-pivot="false"
-              color="#F6BD35"
-            />
+            <div class="progressView">
+              <van-progress
+                :percentage="percentageCalc(bStatsData[1],true)"
+                :show-pivot="false"
+                color="#F6BD35"
+              />
+              <van-progress
+                :percentage="percentageCalc(bStatsData[1],false)"
+                :show-pivot="false"
+                color="#F6BD35"
+              />
+            </div>
             <span>&nbsp;</span>
           </div>
           <span>{{bStatsData[1][2]}}</span>
@@ -62,11 +76,18 @@
           <span>{{bStatsData[2][1]}}</span>
           <div class="progress">
             <span>罚球得分</span>
-            <van-progress
-              :percentage="percentageCalc(bStatsData[2])"
-              :show-pivot="false"
-              color="#F6BD35"
-            />
+            <div class="progressView">
+              <van-progress
+                :percentage="percentageCalc(bStatsData[2],true)"
+                :show-pivot="false"
+                color="#F6BD35"
+              />
+              <van-progress
+                :percentage="percentageCalc(bStatsData[2],false)"
+                :show-pivot="false"
+                color="#F6BD35"
+              />
+            </div>
             <span>&nbsp;</span>
           </div>
           <span>{{bStatsData[2][2]}}</span>
@@ -75,11 +96,18 @@
           <span>{{bStatsData[5][1]}}</span>
           <div class="progress">
             <span>罚球命中率(%)</span>
-            <van-progress
-              :percentage="percentageCalc(bStatsData[5])"
-              :show-pivot="false"
-              color="#F6BD35"
-            />
+            <div class="progressView">
+              <van-progress
+                :percentage="percentageCalc(bStatsData[5],true)"
+                :show-pivot="false"
+                color="#F6BD35"
+              />
+              <van-progress
+                :percentage="percentageCalc(bStatsData[5],false)"
+                :show-pivot="false"
+                color="#F6BD35"
+              />
+            </div>
             <span>&nbsp;</span>
           </div>
           <span>{{bStatsData[5][1]}}</span>
@@ -141,10 +169,11 @@ export default {
     this.bStatsData = this.bStats
   },
   methods: {
-    percentageCalc (data) {
+    percentageCalc (data, isHteam) {
       const hteamV = data[1]
       const ateamV = data[2]
-      const res = hteamV / (hteamV + ateamV)
+      const count = hteamV + ateamV
+      const res = isHteam ? hteamV / count : ateamV / count
       return res.toFixed(2) * 100
     }
   }
@@ -198,7 +227,8 @@ export default {
     .left {
       .px2vw(font-size, 24);
       div {
-        .px2vw(width, 200);
+        // .px2vw(width, 200);
+        font-size: 12px;
         .px2vw(height, 33);
         .px2vw(line-height, 33);
         .px2vw(padding-left, 10);
@@ -229,9 +259,11 @@ export default {
       .px2vw(font-size, 22);
       .header,
       .body {
+        margin-right: -10px;
         span {
           display: inline-block;
-          .px2vw(width, 80);
+          text-align: center;
+          .px2vw(width, 70);
           .px2vw(height, 42);
         }
       }
@@ -263,9 +295,11 @@ export default {
       color: #333333;
       .home {
         color: #f6bd35;
+        margin-bottom: 12px;
       }
       .guest {
         color: #27c5c3;
+        margin-bottom: 12px;
       }
     }
     .middle {
@@ -292,6 +326,21 @@ export default {
             -ms-transform: scale(0.95);
             -o-transform: scale(0.95);
             transform: scale(0.95);
+          }
+        }
+        .progressView {
+          display: flex;
+          justify-content: space-between;
+          .van-progress {
+            margin: 2px;
+            width: 100%;
+            position: relative;
+          }
+          .van-progress:first-child {
+            -moz-transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+            -o-transform: scaleX(-1);
+            transform: scaleX(-1);
           }
         }
       }

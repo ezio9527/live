@@ -101,13 +101,11 @@ export default {
     }
   },
   deactivated () { // 销毁断开
-    console.log('deactivated')
     if (this.timer) window.clearInterval(this.timer)
     this.timer = null
     handleWebsocketClose()
   },
   destroyed () {
-    console.log('destroyed')
     if (this.timer) window.clearInterval(this.timer)
     this.timer = null
     handleWebsocketClose()
