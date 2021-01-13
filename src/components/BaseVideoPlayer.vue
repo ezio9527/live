@@ -58,6 +58,25 @@ export default {
             const hls = new Hls()
             hls.loadSource(video.src)
             hls.attachMedia(video)
+            hls.on(Hls.Events.ERROR, function (event, data) {
+              if (data.fatal) {
+                switch (data.type) {
+                  case Hls.ErrorTypes.NETWORK_ERROR:
+                    // 网络错误
+                    console.log('fatal network error encountered, try to recover')
+                    hls.startLoad()
+                    break
+                  case Hls.ErrorTypes.MEDIA_ERROR:
+                    console.log('fatal media error encountered, try to recover')
+                    hls.recoverMediaError()
+                    break
+                  default:
+                    // cannot recover
+                    hls.destroy()
+                    break
+                }
+              }
+            })
           } catch (e) {
             console.log(e)
           }

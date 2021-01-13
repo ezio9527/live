@@ -3,7 +3,7 @@
     <!--@scroll="scrollHandle" @mousewheel="scrollHandle" @DOMMouseScroll="scrollHandle"-->
     <!--PC样式-->
     <ul class="list-content" ref="content" v-if="getScreenIsPc">
-      <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string', underway: parseInt(match.status)===0}" @click="$emit('play', {type: match.type, playType: match.live_urls.length>0?1:2, channel: 0, id: match.id})">
+      <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string', underway: parseInt(match.status)===0}" @click="$emit('play', {isPc: true, type: match.type, playType: match.live_urls.length>0?1:2, channel: 0, id: match.id})">
         <template v-if="$type(match)==='object'">
           <BaseListItem :match="match"></BaseListItem>
         </template>
@@ -18,7 +18,7 @@
     </ul>
     <!--Mobile样式-->
     <ul class="list-content" ref="content" v-else>
-      <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string', underway: parseInt(match.status)===0}" @click="$emit('play', {type: match.type, playType: match.live_urls.length>0?1:2, channel: 0, id: match.id})">
+      <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string', underway: parseInt(match.status)===0}" @click="$emit('play', {isPc: false, type: match.type, playType: match.live_urls.length>0?1:2, channel: 0, id: match.id})">
         <template v-if="$type(match)==='object'">
           <BaseListItem :match="match"></BaseListItem>
         </template>
