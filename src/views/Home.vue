@@ -118,7 +118,12 @@ export default {
     },
     // 列表的load事件
     load () {
-      this.qryMatchList({ type: this.typeId, cid: this.categoryId, pn: ++this.pageIndex, ps: this.pageSize })
+      if (this.listLoading) {
+        return
+      } else {
+        ++this.pageIndex
+      }
+      this.qryMatchList({ type: this.typeId, cid: this.categoryId, pn: this.pageIndex, ps: this.pageSize })
     },
     // 列表的play事件
     play (params) {
