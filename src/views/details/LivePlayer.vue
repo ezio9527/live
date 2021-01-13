@@ -2,6 +2,7 @@
   <div class="live-player">
     <!--播放器部分-->
     <template v-if="playing">
+      <span class="header-back" @click="$router.push({name: 'Home'})">返回</span>
       <BaseVideoPlayer ref="player" :quality="channel" :video="video" v-if="playType===1"></BaseVideoPlayer>
       <iframe :src="animation" v-else></iframe>
     </template>
@@ -155,6 +156,14 @@ export default {
   display: -ms-flexbox;
   display: flex;
   flex-direction: column;
+  /*返回*/
+  .header-back {
+    color: #FFFFFF;
+    position: absolute;
+    z-index: 1;
+    .px2vw(right, 40);
+    .px2vw(top, 40);
+  }
   /*播放器*/
   .base-video {
     .px2vw(height, 424);
@@ -537,6 +546,7 @@ export default {
     width: 100%;
     height: 210px;
     border: none;
+    background: #000;
   }
 }
 </style>

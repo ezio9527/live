@@ -28,6 +28,15 @@
           <BasketballText :btlive="btlive" />
         </template>
       </template>
+      <template #statistics>
+        <!-- 足球 -->
+        <template v-if="params.type === 1">
+        </template>
+        <!--篮球-->
+        <template v-if="params.type === 2">
+          <BasketballTeam></BasketballTeam>
+        </template>
+      </template>
     </LivePlayer>
   </div>
 </template>
@@ -40,6 +49,7 @@ import FootballText from '@comp/Live/FootballText'
 import BasketballStatistics from '@comp/Live/BasketballStatistics'
 import BasketballText from '@comp/Live/BasketballText'
 import BaseListItem from '@comp/BaseListItem'
+import BasketballTeam from '@comp/Statistics/BasketballTeam'
 import { matchDetailApi, detailTabs } from '@/http/api'
 import {
   sendSock,
@@ -54,7 +64,8 @@ export default {
     FootballText,
     BasketballStatistics,
     BasketballText,
-    BaseListItem
+    BaseListItem,
+    BasketballTeam
   },
   props: {
     matchId: {
@@ -149,7 +160,6 @@ export default {
         const quality = []
         data.matchinfo.live_urls.forEach((item, index) => {
           quality[index] = item
-          // quality[index].url = 'http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8'
           quality[index].type = 'customHls'
         })
         video.quality = quality

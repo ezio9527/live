@@ -4,7 +4,7 @@
       <van-tab title="主队名称">
         <div class="header">
           <span class="player">球员</span>
-          <span class="basketball"></span>
+          <span class="basketball">1</span>
           <span class="first">首发</span>
           <span class="time">时间</span>
           <span class="score">得分</span>
@@ -12,7 +12,7 @@
           <span class="three">三分</span>
         </div>
         <div
-          class="content bg"
+          class="content"
           v-for="(item,index) in hteamPlayers"
           :key="index"
           v-html="parseTeam(item)"
@@ -64,7 +64,7 @@
 <script>
 import { Tab, Tabs } from 'vant'
 export default {
-  name: 'BaseBasketBallText',
+  name: 'BasketballTeam',
   props: {
     btlive: {
       type: Array,
@@ -154,10 +154,10 @@ export default {
   }
   .content {
     color: #666666;
-  }
-  /*间隔的背景色*/
-  .bg {
-    background: rgba(205, 205, 205, 0.1);
+    /*间隔的背景色*/
+    &:nth-child(2n-1) {
+      background: rgba(205, 205, 205, 0.1);
+    }
   }
   /*球员*/
   .player {

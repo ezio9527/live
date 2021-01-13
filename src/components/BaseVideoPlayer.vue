@@ -32,16 +32,14 @@ export default {
       }
     },
     quality (val) {
-      if (this.player) {
-        this.player.switchQuality(val)
-      }
+      this.currentQualityIndex = val
     }
   },
   data () {
     return {
       player: null,
       loading: true,
-      num: 0
+      currentQualityIndex: 0 // 当前播放地址
     }
   },
   mounted () {
@@ -51,35 +49,60 @@ export default {
     }
   },
   methods: {
+    // 切换播放源
+    switchVideo (index, player) {
+      debugger
+      const hls = new Hls()
+      hls.loadSource(player.options.video.quality[index].url)
+      hls.attachMedia(player)
+      hls.on(Hls.Events.ERROR, (event, data) => {
+        this.hlsHanlder(data, hls, player)
+      })
+    },
+    // hls监听器
+    hlsHanlder (data, hls, player) {
+      if (data.fatal) {
+        switch (data.type) {
+          case Hls.ErrorTypes.NETWORK_ERROR:
+            // 网络错误
+            console.log('fatal network error encountered, try to recover')
+            this.switchVideo(++this.currentQualityIndex, player)
+            // hls.startLoad()
+            break
+          case Hls.ErrorTypes.MEDIA_ERROR:
+            console.log('fatal media error encountered, try to recover')
+            this.switchVideo(++this.currentQualityIndex, player)
+            // hls.recoverMediaError()
+            break
+          default:
+            // cannot recover
+            hls.destroy()
+            break
+        }
+      }
+    },
+    // 设置自定义播放类型
+    setCustomType (video) {
+      video.customType = {
+        customHls: (video, player) => {
+          const hls = new Hls()
+          hls.loadSource(video.src)
+          hls.attachMedia(video)
+          hls.on(Hls.Events.ERROR, (event, data) => {
+            this.hlsHanlder(data, hls, player)
+          })
+        }
+      }
+    },
     init () {
       this.video.customType = {
-        customHls: function (video, player) {
-          try {
-            const hls = new Hls()
-            hls.loadSource(video.src)
-            hls.attachMedia(video)
-            hls.on(Hls.Events.ERROR, function (event, data) {
-              if (data.fatal) {
-                switch (data.type) {
-                  case Hls.ErrorTypes.NETWORK_ERROR:
-                    // 网络错误
-                    console.log('fatal network error encountered, try to recover')
-                    hls.startLoad()
-                    break
-                  case Hls.ErrorTypes.MEDIA_ERROR:
-                    console.log('fatal media error encountered, try to recover')
-                    hls.recoverMediaError()
-                    break
-                  default:
-                    // cannot recover
-                    hls.destroy()
-                    break
-                }
-              }
-            })
-          } catch (e) {
-            console.log(e)
-          }
+        customHls: (video, player) => {
+          const hls = new Hls()
+          hls.loadSource(video.src)
+          hls.attachMedia(video)
+          hls.on(Hls.Events.ERROR, (event, data) => {
+            this.hlsHanlder(data, hls, player)
+          })
         }
       }
       const player = this.player = new DPlayer({
