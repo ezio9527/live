@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!--导航-->
-    <BaseNavBar @categoryChange="categoryTypeChange" @search="search" :clear="searchKey"></BaseNavBar>
+    <BaseNavBar @categoryChange="categoryTypeChange" @search="search" :clear="searchKey" :loading="listLoading"></BaseNavBar>
     <!--分类-->
     <BaseCategory :type="typeId" @categoryChange="categoryIdChange"></BaseCategory>
     <!--列表头-->

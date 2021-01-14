@@ -6,10 +6,10 @@
         <img src="@img/nav/logo.png" class="logo">
       </a>
       <!--导航选项-->
-      <ul  @mouseleave="hoverId=typeId">
-        <li class="item" :class="{active: activeItem1}" @click="select(0)" @mouseenter="hoverId=0"><img src="@img/nav/all_selected.png" v-show="activeItem1"><img src="@img/nav/all_unselected.png" v-show="!activeItem1"><span>全部</span></li>
-        <li class="item" :class="{active: activeItem2}" @click="select(1)" @mouseenter="hoverId=1"><img src="@img/nav/football_selected.png" v-show="activeItem2"><img src="@img/nav/football_unselected.png" v-show="!activeItem2"><span>足球</span></li>
-        <li class="item" :class="{active: activeItem3}" @click="select(2)" @mouseenter="hoverId=2"><img src="@img/nav/basketball_selected.png" v-show="activeItem3"><img src="@img/nav/basketball_unselected.png" v-show="!activeItem3"><span>篮球</span></li>
+      <ul  @mouseleave="hoverId=typeId" @click="select(typeId)">
+        <li class="item" :class="{active: activeItem1, disabled: loading}" @click="select(0)" @mouseenter="hoverId=0"><img src="@img/nav/all_selected.png" v-show="activeItem1"><img src="@img/nav/all_unselected.png" v-show="!activeItem1"><span>全部</span></li>
+        <li class="item" :class="{active: activeItem2, disabled: loading}" @click="select(1)" @mouseenter="hoverId=1"><img src="@img/nav/football_selected.png" v-show="activeItem2"><img src="@img/nav/football_unselected.png" v-show="!activeItem2"><span>足球</span></li>
+        <li class="item" :class="{active: activeItem3, disabled: loading}" @click="select(2)" @mouseenter="hoverId=2"><img src="@img/nav/basketball_selected.png" v-show="activeItem3"><img src="@img/nav/basketball_unselected.png" v-show="!activeItem3"><span>篮球</span></li>
         <li class="background"></li>
       </ul>
       <!--搜索-->
@@ -19,12 +19,17 @@
 </template>
 
 <script>
+import { Toast } from 'vant'
 export default {
   name: 'BaseNavBar',
   props: {
     clear: {
       type: String,
       default: ''
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -87,6 +92,11 @@ export default {
   },
   methods: {
     select (id) {
+      if (this.loading) {
+        Toast('数据加载中')
+        this.hoverId = this.typeId
+        return
+      }
       this.typeId = id
       this.$emit('categoryChange', id)
       switch (id) {
@@ -289,6 +299,9 @@ export default {
           .item.active + li.background {
             left: auto !important;
             right: 0;
+          }
+          .item.disabled {
+            pointer-events: none;
           }
           li {
             .px2vw(width, 140);
