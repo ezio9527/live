@@ -7,33 +7,17 @@
       @rendered="autoTabs"
       v-if="btliveData && btliveData.length"
     >
-      <!--<van-tab title="第二节">-->
-      <!--<van-steps direction="vertical" :active="-1">-->
-      <!--<van-step>-->
-      <!--<p>-->
-      <!--<span class="title">第一节 00:00</span>-->
-      <!--<span class="sub-title">18-9</span>-->
-      <!--</p>-->
-      <!--<p class="content">本节比赛开始</p>-->
-      <!--</van-step>-->
-      <!--<van-step>-->
-      <!--<p>-->
-      <!--<span class="title">第一节 00:15</span>-->
-      <!--</p>-->
-      <!--<p class="content">乔哈特 三分 跳投 不中</p>-->
-      <!--</van-step>-->
-      <!--</van-steps>-->
-      <!--</van-tab>-->
-      <!--<van-tab title="第二节"></van-tab>-->
       <van-tab :title="tabList[indKont]" :key="indKont" v-for="(itemKnot,indKont) in btliveData">
-        <van-steps direction="vertical" :active="-1" v-if="itemKnot && itemKnot.length">
-          <div style="display:flex;flex-direction:column-reverse;">
-            <van-step v-for="(item,index) in itemKnot" :key="index">
-              <div v-html="parseItem(item,index,indKont)"></div>
-            </van-step>
-          </div>
+        <van-steps
+          direction="vertical"
+          :active="-1"
+          v-if="itemKnot && itemKnot.length"
+          class="btliveDataView"
+        >
+          <van-step v-for="(item,index) in itemKnot" :key="index" class="home guest">
+            <div v-html="parseItem(item,index,indKont)"></div>
+          </van-step>
         </van-steps>
-        <!-- <p class="notData" v-else>暂无文字直播数据</p> -->
         <van-empty description="暂无文字直播数据" v-else></van-empty>
       </van-tab>
     </van-tabs>
@@ -94,7 +78,6 @@ export default {
   },
   created () {
     this.btliveData = this.btlive
-    // this.autoTabs()
   },
   methods: {
     autoTabs (val) {
@@ -103,15 +86,22 @@ export default {
     },
     parseItem (item, index, indKont) {
       const Data = JSON.parse(JSON.stringify(item)).split('^')
+      let teamType = ''
+      if (Data[2] === '1') {
+        teamType = `<img src="${this.homeLogo}"/>`
+      } else if (Data[2] === '2') {
+        teamType = `<img src="${this.guestLogo}"/>`
+      }
       const scoreNum = Data[4].split('-')
       const scoreHteam = scoreNum[1]
       const scoreAteam = scoreNum[0]
+      console.log('🚀 ~ file: BasketballText.vue ~ line 104 ~ parseItem ~ teamType', teamType)
       return `
         <p>
           <span class="title">${this.tabList[indKont]} ${Data[1]}</span>
           <span class="sub-title">${scoreHteam}-${scoreAteam}</span>
         </p>
-        <p class="content"><img src="${this.homeLogo}"/>${Data[5]}</p>
+        <p class="content">${teamType}${Data[5]}</p>
       `
     }
   }
@@ -130,6 +120,10 @@ export default {
     padding: 20px 0;
     font-size: 14px;
     color: #666;
+  }
+  .btliveDataView .van-steps__items {
+    display: flex;
+    flex-direction: column-reverse;
   }
   // Tabs在card模式下的样式
   //整体背景色

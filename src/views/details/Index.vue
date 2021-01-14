@@ -49,7 +49,7 @@
           />
         </template>
       </van-tab>
-      <van-tab title="统计" v-if="matchData.hascount === 0 && matchDetails.type === 2">
+      <van-tab title="统计" v-if="matchData.hascount === 1 && matchDetails.type === 2">
         <!-- 足球 -->
         <template v-if="params.type === 1"></template>
         <!--篮球-->
