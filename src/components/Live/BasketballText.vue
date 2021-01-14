@@ -14,7 +14,7 @@
           v-if="itemKnot && itemKnot.length"
           class="btliveDataView"
         >
-          <van-step v-for="(item,index) in itemKnot" :key="index" class="home guest">
+          <van-step v-for="(item,index) in itemKnot" :key="index" :class="dotCalc(item)">
             <div v-html="parseItem(item,index,indKont)"></div>
           </van-step>
         </van-steps>
@@ -83,6 +83,16 @@ export default {
     autoTabs (val) {
       var endLength = this.btlive && this.btlive.length - 1
       this.tabActive = endLength
+    },
+    dotCalc (item) {
+      const Data = JSON.parse(JSON.stringify(item)).split('^')
+      let teamType = ''
+      if (Data[2] === '1') {
+        teamType = 'home'
+      } else if (Data[2] === '2') {
+        teamType = 'guest'
+      }
+      return teamType
     },
     parseItem (item, index, indKont) {
       const Data = JSON.parse(JSON.stringify(item)).split('^')
