@@ -10,7 +10,7 @@
     <BasePanel :matchDetails="matchDetails" v-else @play="play"></BasePanel>
 
     <!--tabs菜单-->
-    <van-tabs v-model="tabActive" @change="tabsChanges" :class="{playing}" :swipeable="true">
+    <van-tabs v-model="tabActive" @change="tabsChanges" :class="{playing}" :swipeable="false">
       <van-tab title="直播">
         <!-- 足球 -->
         <template v-if="params.type === 1">
