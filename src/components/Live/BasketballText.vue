@@ -1,44 +1,48 @@
 <template>
   <div class="basketball-text">
     <p class="live-title">文字直播</p>
-    <van-tabs type="card" v-model="tabActive" @rendered="autoTabs">
+    <van-tabs
+      type="card"
+      v-model="tabActive"
+      @rendered="autoTabs"
+      v-if="btliveData && btliveData.length"
+    >
       <!--<van-tab title="第二节">-->
-        <!--<van-steps direction="vertical" :active="-1">-->
-          <!--<van-step>-->
-            <!--<p>-->
-              <!--<span class="title">第一节 00:00</span>-->
-              <!--<span class="sub-title">18-9</span>-->
-            <!--</p>-->
-            <!--<p class="content">本节比赛开始</p>-->
-          <!--</van-step>-->
-          <!--<van-step>-->
-            <!--<p>-->
-              <!--<span class="title">第一节 00:15</span>-->
-            <!--</p>-->
-            <!--<p class="content">乔哈特 三分 跳投 不中</p>-->
-          <!--</van-step>-->
-        <!--</van-steps>-->
+      <!--<van-steps direction="vertical" :active="-1">-->
+      <!--<van-step>-->
+      <!--<p>-->
+      <!--<span class="title">第一节 00:00</span>-->
+      <!--<span class="sub-title">18-9</span>-->
+      <!--</p>-->
+      <!--<p class="content">本节比赛开始</p>-->
+      <!--</van-step>-->
+      <!--<van-step>-->
+      <!--<p>-->
+      <!--<span class="title">第一节 00:15</span>-->
+      <!--</p>-->
+      <!--<p class="content">乔哈特 三分 跳投 不中</p>-->
+      <!--</van-step>-->
+      <!--</van-steps>-->
       <!--</van-tab>-->
       <!--<van-tab title="第二节"></van-tab>-->
-      <template v-if="btliveData && btliveData.length">
-        <van-tab :title="tabList[indKont]" :key="indKont" v-for="(itemKnot,indKont) in btliveData">
-          <van-steps direction="vertical" :active="-1" v-if="itemKnot && itemKnot.length">
-            <div style="display:flex;flex-direction:column-reverse;">
-              <van-step v-for="(item,index) in itemKnot" :key="index">
-                <div v-html="parseItem(item,index,indKont)"></div>
-              </van-step>
-            </div>
-          </van-steps>
-          <p class="notData" v-else>暂无文字直播数据</p>
-        </van-tab>
-      </template>
-      <van-tab v-else title="暂无数据"></van-tab>
+      <van-tab :title="tabList[indKont]" :key="indKont" v-for="(itemKnot,indKont) in btliveData">
+        <van-steps direction="vertical" :active="-1" v-if="itemKnot && itemKnot.length">
+          <div style="display:flex;flex-direction:column-reverse;">
+            <van-step v-for="(item,index) in itemKnot" :key="index">
+              <div v-html="parseItem(item,index,indKont)"></div>
+            </van-step>
+          </div>
+        </van-steps>
+        <!-- <p class="notData" v-else>暂无文字直播数据</p> -->
+        <van-empty description="暂无文字直播数据" v-else></van-empty>
+      </van-tab>
     </van-tabs>
+    <van-empty description="暂无文字直播数据" v-else></van-empty>
   </div>
 </template>
 
 <script>
-import { Tab, Tabs, Steps, Step } from 'vant'
+import { Tab, Tabs, Empty, Steps, Step } from 'vant'
 export default {
   name: 'BaseBasketBallText',
   props: {
@@ -51,7 +55,8 @@ export default {
     VanTab: Tab,
     VanTabs: Tabs,
     VanSteps: Steps,
-    VanStep: Step
+    VanStep: Step,
+    VanEmpty: Empty
   },
   watch: {
     btlive: {

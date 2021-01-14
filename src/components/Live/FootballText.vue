@@ -17,7 +17,7 @@
           </div>
         </li>
       </template>
-      <p class="notData" v-else>暂无文字直播数据</p>
+      <van-empty description="暂无文字直播数据" v-else></van-empty>
     </ul>
     <!--重要事件-->
     <ul class="live" v-else>
@@ -31,14 +31,18 @@
           </div>
         </li>
       </template>
-      <p class="notData" v-else>暂无重要事件数据</p>
+      <van-empty description="暂无重要事件数据" v-else></van-empty>
     </ul>
   </div>
 </template>
 
 <script>
+import { Empty } from 'vant'
 export default {
   name: 'FootballStatistics',
+  components: {
+    VanEmpty: Empty
+  },
   props: {
     txtLive: {
       type: Array,
