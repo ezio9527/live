@@ -1,51 +1,77 @@
 <template>
   <div class="details">
-    <!--<BaseNavBar></BaseNavBar>-->
-    <!--播放器部分-->
-    <LivePlayer
-      :matchDetails="matchDetails"
-      :matchData="matchData"
-      :video="video"
-      :animation="animation"
-      @tabsChanges="tabsChanges"
-      @play="play"
-    >
-      <template #live>
-        <!-- 足球 -->
-        <template v-if="params.type === 1">
-          <BaseListItem :match="matchDetails" v-if="playing" v-loading="detailsLoading"></BaseListItem>
-          <FootballStatistics :match="matchDetails" :fStats="fStats" v-if="isSocket" />
-          <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive" />
-        </template>
-        <!--篮球-->
-        <template v-if="params.type === 2">
-          <BaseListItem :match="matchDetails" v-if="playing" v-loading="detailsLoading"></BaseListItem>
-          <BasketballStatistics
-            :score="score"
-            :bStats="bStats"
-            :match="matchDetails"
-            v-if="isSocket"
-          />
-          <BasketballText :btlive="btlive" />
-        </template>
-      </template>
-      <template #statistics>
-        <!-- 足球 -->
-        <template v-if="params.type === 1"></template>
-        <!--篮球-->
-        <template v-if="params.type === 2">
-          <BasketballPlayerChart></BasketballPlayerChart>
-          <BasketballTeam></BasketballTeam>
-          <BasketballTeamChart></BasketballTeamChart>
-        </template>
-      </template>
-    </LivePlayer>
+    <!--播放器-->
+    <template v-if="playing">
+      <span class="header-back" @click="$router.push({name: 'Home'})">返回</span>
+      <BaseVideoPlayer ref="player" :quality="channel" :video="video" v-if="playType===1"></BaseVideoPlayer>
+      <iframe :src="animation" v-else></iframe>
+    </template>
+    <!--信息面板-->
+    <BasePanel :matchDetails="matchDetails" v-else @play="play"></BasePanel>
+
+    <!--tabs菜单-->
+    <van-tabs v-model="tabActive" @change="tabsChanges" :class="{playing}" :swipeable="true">
+      <van-tab title="直播">
+        <slot name="live">
+          <template #live>
+            <!-- 足球 -->
+            <template v-if="params.type === 1">
+              <BaseListItem :match="matchDetails" v-if="playing" v-loading="detailsLoading" @play="play"></BaseListItem>
+              <FootballStatistics :match="matchDetails" :fStats="fStats" v-if="isSocket" />
+              <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive" />
+            </template>
+            <!--篮球-->
+            <template v-if="params.type === 2">
+              <BaseListItem :match="matchDetails" v-if="playing" v-loading="detailsLoading" @play="play"></BaseListItem>
+              <BasketballStatistics
+                :score="score"
+                :bStats="bStats"
+                :match="matchDetails"
+                v-if="isSocket"
+              />
+              <BasketballText :btlive="btlive" />
+            </template>
+          </template>
+          <van-empty description="暂无直播信息"></van-empty>
+        </slot>
+      </van-tab>
+      <van-tab title="统计" v-if="matchData.hascount === 1 && matchDetails.type === 2">
+        <slot name="statistics">
+          <template #statistics>
+            <!-- 足球 -->
+            <template v-if="params.type === 1"></template>
+            <!--篮球-->
+            <template v-if="params.type === 2">
+              <BasketballPlayerChart></BasketballPlayerChart>
+              <BasketballTeam></BasketballTeam>
+              <BasketballTeamChart></BasketballTeamChart>
+            </template>
+          </template>
+          <van-empty description="暂无统计信息"></van-empty>
+        </slot>
+      </van-tab>
+      <van-tab title="聊天">
+        <slot name="chat">
+          <van-empty description="暂无聊天信息"></van-empty>
+        </slot>
+      </van-tab>
+      <van-tab title="数据">
+        <slot name="data">
+          <van-empty description="暂无数据信息"></van-empty>
+        </slot>
+      </van-tab>
+      <van-tab title="会员">
+        <slot name="vip">
+          <van-empty description="暂无会员信息"></van-empty>
+        </slot>
+      </van-tab>
+    </van-tabs>
   </div>
 </template>
 
 <script>
-// import BaseNavBar from '@comp/BaseNavBar'
-import LivePlayer from './LivePlayer'
+import BasePanel from '@comp/BasePanel'
+import BaseVideoPlayer from '@comp/BaseVideoPlayer'
 import FootballStatistics from '@comp/Live/FootballStatistics'
 import FootballText from '@comp/Live/FootballText'
 import BasketballStatistics from '@comp/Live/BasketballStatistics'
@@ -55,6 +81,7 @@ import BasketballPlayerChart from '@comp/Statistics/BasketballPlayerChart'
 import BasketballTeam from '@comp/Statistics/BasketballTeam'
 import BasketballTeamChart from '@comp/Statistics/BasketballTeamChart'
 import { matchDetailApi, detailTabs } from '@/http/api'
+import { Tab, Tabs, Empty } from 'vant'
 import {
   sendSock,
   handleWebsocketClose
@@ -62,8 +89,8 @@ import {
 export default {
   name: 'Details',
   components: {
-    // BaseNavBar,
-    LivePlayer,
+    BasePanel,
+    BaseVideoPlayer,
     FootballStatistics,
     FootballText,
     BasketballStatistics,
@@ -71,7 +98,10 @@ export default {
     BaseListItem,
     BasketballPlayerChart,
     BasketballTeam,
-    BasketballTeamChart
+    BasketballTeamChart,
+    VanTab: Tab,
+    VanTabs: Tabs,
+    VanEmpty: Empty
   },
   props: {
     matchId: {
@@ -81,15 +111,26 @@ export default {
   },
   data () {
     return {
+      // 页面参数
       params: {
         type: 1,
         playType: 1,
         channel: 0,
         id: 0
       },
+      // 当前播放参数
+      playing: false, // 当前播放状态
+      playType: 1, // 当前播放类型
+      channel: 0, // 当前播放源
+      // 视频播放参数
+      video: {
+        url: '',
+        type: 'hls'
+      },
+      animation: '', // 动画播放参数
       token: '',
       matchData: {},
-      matchDetails: {},
+      matchDetails: {}, // 比赛详情信息
       statisticsData: {},
       timer: null,
       isSocket: false, // 当前是ws状态
@@ -103,20 +144,12 @@ export default {
       impTxtLive: [], // 足球重要事件
       btlive: [], // 篮球文字直播
       bStats: [], // 篮球技术统计
-      // 播放器部分
-      playing: false, // 当前播放状态
-      // 视频播放参数
-      video: {
-        url: '',
-        type: 'hls'
-      },
-      // 动画播放参数
-      animation: '',
       detailsLoading: false, // 比赛详情加载中
       match: {
         live_urls: [],
         live_cartoon_url: []
-      } // 比赛详情
+      }, // 比赛详情
+      tabActive: 0 // 菜单
     }
   },
   deactivated () { // 销毁断开
@@ -136,10 +169,8 @@ export default {
     routeParams.channel = parseInt(routeParams.channel) // 视频播放信号
     routeParams.id = parseInt(routeParams.id) // 视频播放信号
     this.params = routeParams
+    this.channel = routeParams.channel
     this.qryMatchDetails({ mid: routeParams.id, type: routeParams.type })
-  },
-  mounted () {
-
   },
   methods: {
     async tabsChanges (val) {
@@ -159,9 +190,9 @@ export default {
       }
     },
     // 查询比赛详情
-    qryMatchDetails (datas = {}) {
+    qryMatchDetails (params = {}) {
       this.detailsLoading = true
-      matchDetailApi(datas).then(data => {
+      matchDetailApi(params).then(data => {
         this.token = data.token
         this.matchData = data
         this.matchDetails = data.matchinfo
@@ -272,15 +303,20 @@ export default {
         sendSock(id, type, this.token, this.getMsgResult)
       }, 10000)
     },
-    play (type) {
-      this.playType = type
-      this.playing = true
+    play (params) {
+      // 选择视频播放或者动画播放
+      if (this.$type(params) === 'number') {
+        this.playing = true
+        this.playType = params
+      } else {
+        // 选择指定视频源或动画源播放
+      }
     }
   }
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 .details {
   height: 100%;
   background: #fcfcfc;
@@ -289,6 +325,15 @@ export default {
   display: -ms-flexbox;
   display: flex;
   flex-direction: column;
+  /*返回*/
+  .header-back {
+    color: #ffffff;
+    position: absolute;
+    z-index: 1;
+    .px2vw(right, 40);
+    .px2vw(top, 40);
+  }
+  /*比赛信息*/
   .base-list-item {
     margin: auto;
     .px2vw(margin-top, 20);
@@ -299,5 +344,50 @@ export default {
     background: #ffffff;
     box-shadow: 0px 5px 44px 0px rgba(0, 0, 0, 0.06);
   }
+  // tabs菜单
+  .van-tabs.van-tabs--line {
+    .px2vw(margin-top, -82);
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    justify-content: center;
+    flex: 1;
+  }
+  .van-tabs.van-tabs--line.playing {
+    margin-top: 0;
+    .van-tabs__nav.van-tabs__nav--line {
+      background: url("../../assets/images/details/background.png") no-repeat;
+    }
+  }
+  .van-tabs__content {
+    flex: 1;
+    overflow: hidden scroll;
+  }
+  .van-tabs--line .van-tabs__wrap {
+    .px2vw(height, 82);
+  }
+  .van-tabs__nav.van-tabs__nav--line {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding-bottom: 0;
+  }
+  .van-tab {
+    .px2vw(font-size, 28);
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .van-tab.van-tab--active {
+    .px2vw(font-size, 28);
+    font-weight: 600;
+    color: rgba(255, 255, 255, 1);
+  }
+  .van-tabs__line {
+    .px2vw(width, 46);
+    .px2vw(height, 6);
+    .px2vw(bottom, 12);
+    background-color: #ffffff;
+  }
+  // tabs菜单
 }
 </style>

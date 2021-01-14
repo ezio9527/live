@@ -1,5 +1,5 @@
 <template>
-  <div class="team">
+  <div class="basketball-team">
     <van-tabs type="card" v-model="tabActive">
       <van-tab title="主队名称">
         <div class="flex header">
@@ -111,7 +111,7 @@ export default {
 </script>
 
 <style lang="less">
-.team {
+.basketball-team {
   position: relative;
   margin: auto !important;
   .px2vw(width, 700);

@@ -15,6 +15,7 @@ import logo from '@img/nav/logo.png'
 export default {
   name: 'BaseVideoPlayer',
   props: {
+    // 播放源
     quality: {
       type: Number,
       default: 0
