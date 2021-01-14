@@ -95,7 +95,6 @@ export default {
       const scoreNum = Data[4].split('-')
       const scoreHteam = scoreNum[1]
       const scoreAteam = scoreNum[0]
-      console.log('🚀 ~ file: BasketballText.vue ~ line 104 ~ parseItem ~ teamType', teamType)
       return `
         <p>
           <span class="title">${this.tabList[indKont]} ${Data[1]}</span>
@@ -118,7 +117,7 @@ export default {
   /*主队颜色*/
   .home {
     .van-step__circle {
-      background: #F6BD35;
+      background: #f6bd35;
     }
   }
   /*客队颜色*/
