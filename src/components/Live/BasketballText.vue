@@ -15,7 +15,7 @@
             <!--<p>-->
               <!--<span class="title">第一节 00:15</span>-->
             <!--</p>-->
-            <!--<p class="content">乔哈特 三分 跳投 不中</p>-->
+            <!--<p class="content"><img :src="homeLogo"/>乔哈特 三分 跳投 不中</p>-->
           <!--</van-step>-->
         <!--</van-steps>-->
       <!--</van-tab>-->
@@ -45,6 +45,16 @@ export default {
     btlive: {
       type: Array,
       default: () => []
+    },
+    // 主队logo
+    homeLogo: {
+      type: String,
+      default: ''
+    },
+    // 客队logo
+    guestLogo: {
+      type: String,
+      default: ''
     }
   },
   components: {
@@ -96,7 +106,7 @@ export default {
           <span class="title">${this.tabList[indKont]} ${Data[1]}</span>
           <span class="sub-title">${scoreHteam}-${scoreAteam}</span>
         </p>
-        <p class="content">${Data[5]}</p>
+        <p class="content"><img src="${this.homeLogo}"/>${Data[5]}</p>
       `
     }
   }
@@ -218,12 +228,17 @@ export default {
       box-sizing: border-box;
       .px2vw(width, 623);
       .px2vw(line-height, 70);
+      .px2vw(padding-left, 70);
       .px2vw(border-radius, 10);
       background: #fbfbfb;
       color: #333333;
       .px2vw(font-size, 24);
       .px2vw(padding-left, 25);
       .px2vw(padding-right, 25);
+      img {
+        .px2vw(width, 40);
+        .px2vw(margin-right, 10);
+      }
     }
   }
 }

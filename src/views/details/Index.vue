@@ -28,7 +28,7 @@
             :match="matchDetails"
             v-if="isSocket"
           />
-          <BasketballText :btlive="btlive" />
+          <BasketballText :btlive="btlive" :homeLogo="matchDetails.hteam_logo" :guestLogo="matchDetails.ateam_logo"/>
         </template>
         <van-empty description="暂无直播信息"></van-empty>
       </van-tab>
