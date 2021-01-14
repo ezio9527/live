@@ -1,7 +1,7 @@
 <template>
   <div class="basketball-team">
     <van-tabs type="card" v-model="tabActive">
-      <van-tab title="主队名称">
+      <van-tab :title="match.hteam_name">
         <div class="flex header">
           <span class="player">球员</span>
           <span class="first">首发</span>
@@ -16,30 +16,8 @@
           :key="index"
           v-html="parseTeam(item)"
         ></div>
-        <!-- <div class="content">
-          <span class="player">明道加斯·库兹明斯卡斯</span>
-          <span class="basketball">
-            <img src="@img/details/basketball.png" />
-          </span>
-          <span class="first">9</span>
-          <span class="time">8</span>
-          <span class="score">12</span>
-          <span class="shoot">2-1</span>
-          <span class="three">9-0</span>
-        </div>
-        <div class="content bg">
-          <span class="player">明道加斯·库兹明斯卡斯</span>
-          <span class="basketball">
-            <img src="@img/details/basketball.png" />
-          </span>
-          <span class="first">9</span>
-          <span class="time">8</span>
-          <span class="score">12</span>
-          <span class="shoot">2-1</span>
-          <span class="three">9-0</span>
-        </div>-->
       </van-tab>
-      <van-tab title="客队名称">
+      <van-tab :title="match.ateam_name">
         <div class="flex header">
           <span class="player">球员</span>
           <span class="basketball"></span>
@@ -50,7 +28,7 @@
           <span class="three">三分</span>
         </div>
         <div
-          class="content"
+          class="flex content"
           v-for="(item,index) in ateamPlayers"
           :key="index"
           v-html="parseTeam(item)"
@@ -66,6 +44,10 @@ export default {
   name: 'BasketballTeam',
   props: {
     statisticsData: {
+      type: Object,
+      default: () => { }
+    },
+    match: {
       type: Object,
       default: () => { }
     }

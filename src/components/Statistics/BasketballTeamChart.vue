@@ -1,11 +1,11 @@
 <template>
   <div class="basketball-team-chart">
     <div class="header">
-      <img src="@img/list/team_default_logo.png" class="logo left" />
-      <span class="team-name">罗斯托夫火车头</span>
+      <img :src="match.hteam_logo" class="logo left" />
+      <span class="team-name">{{match.hteam_name}}</span>
       <span class="middle">VS</span>
-      <span class="team-name">忽热</span>
-      <img src="@img/list/team_default_logo.png" class="logo right" />
+      <span class="team-name">{{match.ateam_name}}</span>
+      <img :src="match.ateam_logo" class="logo right" />
     </div>
     <div class="content" v-for="(item,index) in countMap" :key="index">
       <span class="score">{{hteamCount[item.key]}}</span>
@@ -38,6 +38,10 @@ export default {
   },
   props: {
     statisticsData: {
+      type: Object,
+      default: () => { }
+    },
+    match: {
       type: Object,
       default: () => { }
     }

@@ -55,8 +55,8 @@
         <!--篮球-->
         <template v-if="params.type === 2 && Object.keys(statisticsData).length">
           <BasketballPlayerChart :statisticsData="statisticsData"></BasketballPlayerChart>
-          <BasketballTeam :statisticsData="statisticsData"></BasketballTeam>
-          <BasketballTeamChart :statisticsData="statisticsData"></BasketballTeamChart>
+          <BasketballTeam :match="matchDetails" :statisticsData="statisticsData"></BasketballTeam>
+          <BasketballTeamChart :match="matchDetails" :statisticsData="statisticsData"></BasketballTeamChart>
         </template>
         <van-empty description="暂无统计信息" v-else></van-empty>
       </van-tab>
