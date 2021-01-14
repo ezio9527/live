@@ -52,9 +52,16 @@ export default {
   methods: {
     // 切换播放源
     switchVideo (index, player) {
-      debugger
+      // 取设置好的播放源
+      const quality = player.options.video.quality
+      // 检查是否有可切换的播放源
+      if (index >= quality.length) {
+        index = 0
+        this.currentQualityIndex = 0
+      }
+      // 重新加载新的播放源
       const hls = new Hls()
-      hls.loadSource(player.options.video.quality[index].url)
+      hls.loadSource(quality[index].url)
       hls.attachMedia(player)
       hls.on(Hls.Events.ERROR, (event, data) => {
         this.hlsHanlder(data, hls, player)
