@@ -4,7 +4,8 @@
     <template v-if="playing">
       <span class="header-back" @click="$router.push({name: 'Home'})">返回</span>
       <BaseVideoPlayer ref="player" :quality="channel" :video="video" v-if="playType===1"></BaseVideoPlayer>
-      <iframe :src="animation" v-else></iframe>
+      <iframe :src="animation" v-else>
+      </iframe>
     </template>
     <!--信息面板-->
     <BasePanel :matchDetails="matchDetails" v-else @play="play"></BasePanel>
@@ -12,43 +13,35 @@
     <!--tabs菜单-->
     <van-tabs v-model="tabActive" @change="tabsChanges" :class="{playing}" :swipeable="true">
       <van-tab title="直播">
-        <slot name="live">
-          <template #live>
-            <!-- 足球 -->
-            <template v-if="params.type === 1">
-              <BaseListItem :match="matchDetails" v-if="playing" v-loading="detailsLoading" @play="play"></BaseListItem>
-              <FootballStatistics :match="matchDetails" :fStats="fStats" v-if="isSocket" />
-              <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive" />
-            </template>
-            <!--篮球-->
-            <template v-if="params.type === 2">
-              <BaseListItem :match="matchDetails" v-if="playing" v-loading="detailsLoading" @play="play"></BaseListItem>
-              <BasketballStatistics
-                :score="score"
-                :bStats="bStats"
-                :match="matchDetails"
-                v-if="isSocket"
-              />
-              <BasketballText :btlive="btlive" />
-            </template>
-          </template>
-          <van-empty description="暂无直播信息"></van-empty>
-        </slot>
+        <!-- 足球 -->
+        <template v-if="params.type === 1">
+          <BaseListItem :match="matchDetails" v-if="playing" v-loading="detailsLoading" @play="play"></BaseListItem>
+          <FootballStatistics :match="matchDetails" :fStats="fStats" v-if="isSocket" />
+          <FootballText :impTxtLive="impTxtLive" :txtLive="txtLive" />
+        </template>
+        <!--篮球-->
+        <template v-if="params.type === 2">
+          <BaseListItem :match="matchDetails" v-if="playing" v-loading="detailsLoading" @play="play"></BaseListItem>
+          <BasketballStatistics
+            :score="score"
+            :bStats="bStats"
+            :match="matchDetails"
+            v-if="isSocket"
+          />
+          <BasketballText :btlive="btlive" />
+        </template>
+        <van-empty description="暂无直播信息"></van-empty>
       </van-tab>
       <van-tab title="统计" v-if="matchData.hascount === 1 && matchDetails.type === 2">
-        <slot name="statistics">
-          <template #statistics>
-            <!-- 足球 -->
-            <template v-if="params.type === 1"></template>
-            <!--篮球-->
-            <template v-if="params.type === 2">
-              <BasketballPlayerChart></BasketballPlayerChart>
-              <BasketballTeam></BasketballTeam>
-              <BasketballTeamChart></BasketballTeamChart>
-            </template>
-          </template>
-          <van-empty description="暂无统计信息"></van-empty>
-        </slot>
+        <!-- 足球 -->
+        <template v-if="params.type === 1"></template>
+        <!--篮球-->
+        <template v-if="params.type === 2">
+          <BasketballPlayerChart></BasketballPlayerChart>
+          <BasketballTeam></BasketballTeam>
+          <BasketballTeamChart></BasketballTeamChart>
+        </template>
+        <van-empty description="暂无统计信息"></van-empty>
       </van-tab>
       <van-tab title="聊天">
         <slot name="chat">
@@ -81,7 +74,7 @@ import BasketballPlayerChart from '@comp/Statistics/BasketballPlayerChart'
 import BasketballTeam from '@comp/Statistics/BasketballTeam'
 import BasketballTeamChart from '@comp/Statistics/BasketballTeamChart'
 import { matchDetailApi, detailTabs } from '@/http/api'
-import { Tab, Tabs, Empty } from 'vant'
+import { Tab, Tabs, Empty, Toast } from 'vant'
 import {
   sendSock,
   handleWebsocketClose
@@ -122,14 +115,9 @@ export default {
       playing: false, // 当前播放状态
       playType: 1, // 当前播放类型
       channel: 0, // 当前播放源
-      // 视频播放参数
-      video: {
-        url: '',
-        type: 'hls'
-      },
-      animation: '', // 动画播放参数
       token: '',
       matchData: {},
+      detailsLoading: false, // 比赛详情加载中
       matchDetails: {}, // 比赛详情信息
       statisticsData: {},
       timer: null,
@@ -144,12 +132,39 @@ export default {
       impTxtLive: [], // 足球重要事件
       btlive: [], // 篮球文字直播
       bStats: [], // 篮球技术统计
-      detailsLoading: false, // 比赛详情加载中
-      match: {
-        live_urls: [],
-        live_cartoon_url: []
-      }, // 比赛详情
       tabActive: 0 // 菜单
+    }
+  },
+  computed: {
+    // 视频播放地址
+    video () {
+      // 设置视频播放地址参数
+      const video = {
+        url: '',
+        type: 'hls',
+        defaultQuality: 0,
+        quality: []
+      }
+      const quality = []
+      const urls = this.matchDetails.live_urls || []
+      urls.forEach((item, index) => {
+        quality[index] = item
+        quality[index].type = 'customHls'
+      })
+      video.quality = quality
+      if (this.params.playType === 1) {
+        video.defaultQuality = this.params.channel
+      }
+      return video
+    },
+    // 动画播放地址
+    animation () {
+      // 设置动画播放地址参数
+      if (this.matchDetails.live_cartoon_url && this.matchDetails.live_cartoon_url.length > 0) {
+        return this.matchDetails.live_cartoon_url[0].url
+      } else {
+        return ''
+      }
     }
   },
   deactivated () { // 销毁断开
@@ -202,35 +217,17 @@ export default {
           sendSock(id, type, this.token, this.getMsgResult)
           this.loopSendMsg()
         }
-        // 设置视频播放地址参数
-        const video = {}
-        const quality = []
-        data.matchinfo.live_urls.forEach((item, index) => {
-          quality[index] = item
-          quality[index].type = 'customHls'
-        })
-        video.quality = quality
-        if (this.params.playType === 1) {
-          video.defaultQuality = this.params.channel
-        } else {
-          video.defaultQuality = 0
-        }
-        this.video = video
-        // 设置动画播放地址参数
-        if (data.matchinfo.live_cartoon_url.length > 0) {
-          this.animation = data.matchinfo.live_cartoon_url[this.params.channel].url
-        }
         this.match = data.matchinfo
         // 处理一下比赛时间格式
         data.matchinfo.matchTime = new Date(data.matchinfo.matchtime.replace(/-/g, '/')).format('hh:mm')
-        this.match.videoUrl = data.matchinfo.live_urls.map((item, index) => {
+        this.matchDetails.videoUrl = data.matchinfo.live_urls.map((item, index) => {
           return {
             disabled: item.status === 0,
             text: item.name,
             value: item.url
           }
         })
-        this.match.animationUrl = data.matchinfo.live_cartoon_url.map((item, index) => {
+        this.matchDetails.animationUrl = data.matchinfo.live_cartoon_url.map((item, index) => {
           return {
             disabled: item.status === 0,
             text: item.name,
@@ -306,6 +303,14 @@ export default {
     play (params) {
       // 选择视频播放或者动画播放
       if (this.$type(params) === 'number') {
+        if (params === 1 && this.video.quality.length === 0) {
+          Toast('暂无视频直播')
+          return
+        }
+        if (params === 2 && !this.animation) {
+          Toast('暂无动画直播')
+          return
+        }
         this.playing = true
         this.playType = params
       } else {
@@ -389,5 +394,19 @@ export default {
     background-color: #ffffff;
   }
   // tabs菜单
+}
+@media screen and (max-width: 1024px) {
+  .details {
+    .base-video {
+      width: 100%;
+      height: 250px;
+    }
+    iframe {
+      width: 100%;
+      height: 210px;
+      border: none;
+      background: #000;
+    }
+  }
 }
 </style>
