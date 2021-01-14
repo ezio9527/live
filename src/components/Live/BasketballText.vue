@@ -125,6 +125,9 @@ export default {
   .px2vw(margin-bottom, 20) !important;
   .px2vw(padding-top, 30) !important;
   /*主队颜色*/
+  .van-step__circle {
+    background: #999;
+  }
   .home {
     .van-step__circle {
       background: #f6bd35;
