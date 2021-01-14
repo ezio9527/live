@@ -125,6 +125,18 @@ export default {
   .px2vw(margin-top, 20) !important;
   .px2vw(margin-bottom, 20) !important;
   .px2vw(padding-top, 30) !important;
+  /*主队颜色*/
+  .home {
+    .van-step__circle {
+      background: #F6BD35;
+    }
+  }
+  /*客队颜色*/
+  .guest {
+    .van-step__circle {
+      background: #27c5c3;
+    }
+  }
   .notData {
     text-align: center;
     padding: 20px 0;
