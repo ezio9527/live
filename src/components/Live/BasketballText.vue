@@ -128,6 +128,12 @@ export default {
   .van-step__circle {
     background: #999;
   }
+  .van-step:last-child .van-step__line {
+    border-left: 1px dotted #cdcdcd !important;
+  }
+  .van-step:first-child .van-step__line {
+    border: none !important;
+  }
   .home {
     .van-step__circle {
       background: #f6bd35;
