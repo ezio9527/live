@@ -212,11 +212,7 @@ export default {
       const result = await detailTabs({ mid: id, type, tabtype })
       if (result && result.length) {
         if (type === 2 && tabtype === 2) { // 篮球统计
-          if (typeof msg === 'string') {
-            this.statisticsData = JSON.parse(result)
-          } else {
-            this.statisticsData = result
-          }
+          this.statisticsData = JSON.parse(result)
         } else {
           this.extractData(JSON.parse(result))
         }
