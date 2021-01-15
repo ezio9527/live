@@ -2,7 +2,7 @@
   <div class="details">
     <!--播放器-->
     <template v-if="playing">
-      <span class="header-back" @click="playing=false">返回</span>
+      <span class="header-back" @click="back">返回</span>
       <BaseVideoPlayer ref="player" :quality="channel" :video="video" v-if="playType===1"></BaseVideoPlayer>
       <iframe :src="animation" v-else></iframe>
     </template>
@@ -206,6 +206,9 @@ export default {
     this.tabsChanges(this.tabActive)
   },
   methods: {
+    back () {
+      this.playing = false
+    },
     async tabsChanges (val) {
       const { id, type } = this.params
       const tabtype = val + 1

@@ -14,6 +14,7 @@
         <span class="team_name line-word-hidden">{{matchDetails.hteam_name}}</span>
       </div>
       <div class="info">
+        <span class="status">{{matchDetails.status | interpreter('MatchType')}}</span>
         <span class="score">{{matchDetails.score}}</span>
         <div class="btn-group">
           <button class="btn" @click="$emit('play', 2)">
