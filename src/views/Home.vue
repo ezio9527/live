@@ -49,8 +49,10 @@ export default {
       let newList = []
       // 关键字过滤
       list = this.matchList.filter(match => {
+        debugger
         // 赛事、主队、客队，关键字匹配
-        return match.name.indexOf(this.searchKey) > -1 || match.hteam_name.indexOf(this.searchKey) > -1 || match.ateam_name.indexOf(this.searchKey) > -1
+        console.log(match.name)
+        return (match.name || '').indexOf(this.searchKey) > -1 || (match.hteam_name || '').indexOf(this.searchKey) > -1 || (match.ateam_name || '').indexOf(this.searchKey) > -1
       })
       // 分组处理
       if (list.length > 0) {
