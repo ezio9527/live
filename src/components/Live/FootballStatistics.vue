@@ -67,7 +67,7 @@
         <span class="item">{{fStatsCalc(3).home}}</span>
         <span class="item">{{fStatsCalc(22).home}}</span>
         <div class="progress">
-          <span>射歪球门</span>
+          <span>射偏球门</span>
           <div class="progressView">
             <van-progress
               :percentage="percentageCalc(22,true)"

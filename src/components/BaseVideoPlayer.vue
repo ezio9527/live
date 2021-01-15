@@ -49,6 +49,11 @@ export default {
       this.init()
     }
   },
+  beforeDestroy () {
+    if (this.player) {
+      this.player.destroy()
+    }
+  },
   methods: {
     // 切换播放源
     switchVideo (index, player) {
