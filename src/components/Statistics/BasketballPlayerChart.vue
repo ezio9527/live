@@ -2,7 +2,11 @@
   <div class="basketball-player-chart">
     <div class="item" v-for="(item,index) in countMap" :key="index">
       <!--主队-->
-      <img class="header-img home" :src="homerank[item.key].logo" />
+      <van-image class="header-img home" lazy-load :src="homerank[item.key].logo" :error-icon="logo">
+        <template #loading>
+          <van-loading type="spinner" size="20" />
+        </template>
+      </van-image>
       <div class="info home">
         <span class="num line-word-hidden">#{{homerank[item.key].qiuyi}}</span>
         <span class="name line-word-hidden">{{homerank[item.key].name_zh}}</span>
@@ -28,14 +32,26 @@
         <span class="num line-word-hidden">#{{awayrank[item.key].qiuyi}}</span>
         <span class="name line-word-hidden">{{awayrank[item.key].name_zh}}</span>
       </div>
-      <img class="header-img guest" :src="awayrank[item.key].logo" />
+      <van-image class="header-img guest" lazy-load :src="awayrank[item.key].logo" :error-icon="logo">
+        <template #loading>
+          <van-loading type="spinner" size="20" />
+        </template>
+      </van-image>
     </div>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
+import { Image as VanImage, Lazyload, Loading as VanLoading } from 'vant'
+import logo from '@img/list/team_default_logo.png'
+Vue.use(Lazyload)
 export default {
   name: 'BasketballPlayerChart',
+  components: {
+    VanImage,
+    VanLoading
+  },
   props: {
     statisticsData: {
       type: Object,
@@ -46,6 +62,7 @@ export default {
   },
   data () {
     return {
+      logo,
       countMap: [
         { key: 'defen', name: '得分' },
         { key: 'lanban', name: '篮板' },
@@ -96,8 +113,7 @@ export default {
     /*头像*/
     .header-img {
       .px2vw(width, 70);
-      .px2vw(height, 70);
-      border-radius: 100%;
+      .px2vw(min-height, 70);
       &.home {
         .px2vw(margin-right, 16);
       }
