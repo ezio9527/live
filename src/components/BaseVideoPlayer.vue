@@ -39,6 +39,7 @@ export default {
   data () {
     return {
       player: null,
+      hls: null,
       loading: true,
       currentQualityIndex: 0 // 当前播放地址
     }
@@ -52,6 +53,7 @@ export default {
   beforeDestroy () {
     if (this.player) {
       this.player.destroy()
+      this.hls.destroy()
     }
   },
   methods: {
@@ -65,7 +67,7 @@ export default {
         this.currentQualityIndex = 0
       }
       // 重新加载新的播放源
-      const hls = new Hls()
+      const hls = this.hls = new Hls()
       hls.loadSource(quality[index].url)
       hls.attachMedia(player)
       hls.on(Hls.Events.ERROR, (event, data) => {
@@ -79,11 +81,13 @@ export default {
           case Hls.ErrorTypes.NETWORK_ERROR:
             // 网络错误
             console.log('fatal network error encountered, try to recover')
+            hls.destroy()
             this.switchVideo(++this.currentQualityIndex, player)
             // hls.startLoad()
             break
           case Hls.ErrorTypes.MEDIA_ERROR:
             console.log('fatal media error encountered, try to recover')
+            hls.destroy()
             this.switchVideo(++this.currentQualityIndex, player)
             // hls.recoverMediaError()
             break
@@ -110,7 +114,7 @@ export default {
     init () {
       this.video.customType = {
         customHls: (video, player) => {
-          const hls = new Hls()
+          const hls = this.hls = new Hls()
           hls.loadSource(video.src)
           hls.attachMedia(video)
           hls.on(Hls.Events.ERROR, (event, data) => {
