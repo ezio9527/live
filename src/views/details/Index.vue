@@ -291,8 +291,8 @@ export default {
         const hScore = score[2][0]
         const aScore = score[3][0]
         this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
-        this.ftlive = (msg.tlive && msg.tlive.length) && msg.tlive.reverse()
-        this.fStats = (msg.stats && msg.stats.length) && msg.stats
+        this.ftlive = (msg.tlive.length) && msg.tlive.reverse()
+        this.fStats = (msg.stats.length) && msg.stats
         const newImpTxt = []
         this.ftlive.forEach(e => {
           if (e.main) {
