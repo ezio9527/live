@@ -56,6 +56,7 @@ export default {
     btlive: {
       handler (newValue, oldValue) {
         this.btliveData = newValue
+        this.autoTabs()
       },
       deep: true
     }
@@ -80,9 +81,17 @@ export default {
     this.btliveData = this.btlive
   },
   methods: {
-    autoTabs (val) {
-      var endLength = this.btlive && this.btlive.length - 1
-      this.tabActive = endLength
+    autoTabs () {
+      const btlive = this.btlive
+      const len = this.btlive.length
+      for (let i = len - 1; i >= 0; i--) {
+        if (btlive[i].length > 0) {
+          this.tabActive = i
+          break
+        }
+      }
+      // var endLength = this.btlive && this.btlive.length - 1
+      // this.tabActive = endLength
     },
     dotCalc (item) {
       const Data = JSON.parse(JSON.stringify(item)).split('^')

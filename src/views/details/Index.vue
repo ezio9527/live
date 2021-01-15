@@ -40,7 +40,7 @@
             :score="score"
             :bStats="bStats"
             :match="matchDetails"
-            v-if="isSocket"
+            v-if="isSocket && bStats.length"
           />
           <BasketballText
             :btlive="btlive"
@@ -143,11 +143,10 @@ export default {
       score: [], // 比分集合
       // hScore: 0, // 主队比分
       // aScore: 0, // 客队比分
-      ftlive: [], // 足球文字直播集合
       fStats: [], // 足球技术统计
-      txtLive: [], // 足球文字直播
+      txtLive: [], // 足球文字直播集合
       impTxtLive: [], // 足球重要事件
-      btlive: [], // 篮球文字直播
+      btlive: [[], [], [], []], // 篮球文字直播
       bStats: [], // 篮球技术统计
       tabActive: 0 // 菜单
     }
@@ -287,28 +286,61 @@ export default {
       this.msgContent = msg
       const score = (msg.score && msg.score.length) && msg.score
       this.score = score
-      if (this.params.type === 1) {
+      if (this.params.type === 1) { // 增量更新
         const hScore = score[2][0]
         const aScore = score[3][0]
+        this.txtLive.forEach(e => (e.new = false))
         this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
-        this.ftlive = (msg.tlive.length) && msg.tlive.reverse()
-        this.fStats = (msg.stats.length) && msg.stats
+        const ftlive = msg.tlive && msg.tlive.length ? msg.tlive : []
+        this.fStats = msg.stats && msg.stats.length ? msg.stats : []
         const newImpTxt = []
-        this.ftlive.forEach(e => {
+        ftlive.forEach(e => {
+          e.new = true
           if (e.main) {
             newImpTxt.push(e)
           }
         })
-        this.txtLive = this.ftlive
-        this.impTxtLive = newImpTxt
+        ftlive.length && this.txtLive.push(...ftlive)
+        newImpTxt.length && this.impTxtLive.push(...newImpTxt)
       }
       if (this.params.type === 2) {
         const hScore = score[3].reduce((a, b) => (a + b))
         const aScore = score[4].reduce((a, b) => (a + b))
+        // this.btlive.forEach(e => {
+        //   e.forEach(q => (q = q + '^0'))
+        // })
         this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
-        this.btlive = (msg.tlive && msg.tlive.length) && msg.tlive
-        this.bStats = (msg.stats && msg.stats.length) && msg.stats
+        const tlive = msg.tlive && msg.tlive.length ? msg.tlive : []
+        tlive.forEach((e, i) => {
+          if (e.length) {
+            // e.forEach(q => (q = q + '^1'))
+            this.btlive[i].push(...e)
+          }
+        })
+        this.bStats = msg.stats && msg.stats.length ? msg.stats : []
       }
+      // if (this.params.type === 1) {//覆盖更新
+      //   const hScore = score[2][0]
+      //   const aScore = score[3][0]
+      //   this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
+      //   this.ftlive = (msg.tlive && msg.tlive.length) && msg.tlive.reverse()
+      //   this.fStats = (msg.stats && msg.stats.length) && msg.stats
+      //   const newImpTxt = []
+      //   this.ftlive.forEach(e => {
+      //     if (e.main) {
+      //       newImpTxt.push(e)
+      //     }
+      //   })
+      //   this.txtLive = this.ftlive
+      //   this.impTxtLive = newImpTxt
+      // }
+      // if (this.params.type === 2) {
+      //   const hScore = score[3].reduce((a, b) => (a + b))
+      //   const aScore = score[4].reduce((a, b) => (a + b))
+      //   this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
+      //   this.btlive = (msg.tlive && msg.tlive.length) && msg.tlive
+      //   this.bStats = (msg.stats && msg.stats.length) && msg.stats
+      // }
     },
     loopSendMsg () { // 定时拉消息
       if (this.timer) window.clearInterval(this.timer)

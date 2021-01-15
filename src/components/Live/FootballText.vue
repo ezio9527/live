@@ -14,6 +14,7 @@
             <p>{{item.data}}</p>
             <i v-if="item.position === 1" class="colorBar hColor"></i>
             <i v-if="item.position === 2" class="colorBar aColor"></i>
+            <b v-if="item.new">new</b>
           </div>
         </li>
       </template>
@@ -150,6 +151,8 @@ export default {
   .live {
     .px2vw(width, 700);
     margin: auto;
+    display: flex;
+    flex-direction: column-reverse;
     li {
       .px2vw(margin-bottom, 10);
       img {
