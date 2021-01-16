@@ -3,7 +3,10 @@
     <div class="title">历史交锋</div>
     <div class="wrap">
       <div class="header">
-        <div class="checkbox"><van-checkbox v-model="checked" shape="square" checked-color="#27C5C3">同主客</van-checkbox></div>
+        <div class="checkbox clear-fix">
+          <van-checkbox v-model="checked" shape="square" checked-color="#27C5C3" class="float-left">同主客</van-checkbox>
+          <van-checkbox v-model="checked" shape="square" checked-color="#27C5C3" class="float-left">同赛事</van-checkbox>
+        </div>
         <div class="btn-group"><button :class="{active: active==='all'}" @click="active='all'">全场</button><button :class="{active: active==='half'}" @click="active='half'">半场</button></div>
       </div>
       <ul class="content">
@@ -92,7 +95,11 @@ export default {
       .px2vw(padding-left, 25);
       .px2vw(padding-right, 25);
       /*复选框*/
-      .checkbox {}
+      .checkbox {
+        .float-left {
+          .px2vw(margin-right, 20);
+        }
+      }
       .btn-group {
         button {
           .px2vw(width, 78);
@@ -251,7 +258,7 @@ export default {
             }
           }
           .van-checkbox__label {
-            .px2vw(margin-left, 0) !important;
+            .px2vw(margin-left, 8) !important;
             color: #999999;
           }
         }
