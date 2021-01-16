@@ -87,7 +87,7 @@
 <script>
 import { Checkbox, Progress } from 'vant'
 export default {
-  name: 'History',
+  name: 'Lately',
   components: {
     VanCheckbox: Checkbox,
     VanProgress: Progress
