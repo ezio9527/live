@@ -242,12 +242,16 @@ export default {
       .header {
         .van-checkbox {
           .px2vw(font-size, 22);
-          .van-checkbox__icon .van-icon {
-            border: none;
-            background: rgba(205, 205, 205, 0.2);
-            .px2vw(border-radius, 6);
+          .van-checkbox__icon {
+            font-size: 1em;
+            .van-icon {
+              border: none;
+              background: rgba(205, 205, 205, 0.2);
+              .px2vw(border-radius, 6);
+            }
           }
           .van-checkbox__label {
+            .px2vw(margin-left, 0) !important;
             color: #999999;
           }
         }
