@@ -5,7 +5,11 @@
       <!--主队-->
       <template>
         <div class="header-logo">
-          <img src="@img/list/team_default_logo.png"/>
+          <van-image class="logo" lazy-load src="https://cdn.sportnanoapi.com/1.jpg" :error-icon="logo">
+            <template #loading>
+              <van-loading type="spinner" size="20" />
+            </template>
+          </van-image>
           <span>热刺</span>
         </div>
         <div class="header">
@@ -27,7 +31,11 @@
           </li>
         </ul>
         <div class="chart">
-          <img class="logo" src="@img/list/team_default_logo.png">
+          <van-image class="logo" lazy-load src="https://cdn.sportnanoapi.com/1.jpg" :error-icon="logo">
+            <template #loading>
+              <van-loading type="spinner" size="20" />
+            </template>
+          </van-image>
           <div class="middle">
             <div class="win-num"><span>5胜</span><span>5胜</span></div>
             <van-progress
@@ -37,14 +45,22 @@
               color="#27C5C3"/>
             <div class="score"><span>场均96.7分</span><span>共10场</span><span>场均96.1分</span></div>
           </div>
-          <img class="logo" src="@img/list/team_default_logo.png">
+          <van-image class="logo" lazy-load src="https://cdn.sportnanoapi.com/1.jpg" :error-icon="logo">
+            <template #loading>
+              <van-loading type="spinner" size="20" />
+            </template>
+          </van-image>
         </div>
         <div class="des">近10场交锋 4单6双 罗斯托夫火车头，胜率50%赢率20%大率40%</div>
       </template>
       <!--客队-->
       <template>
         <div class="header-logo guest">
-          <img src="@img/list/team_default_logo.png"/>
+          <van-image class="logo" lazy-load src="https://cdn.sportnanoapi.com/1.jpg" :error-icon="logo">
+            <template #loading>
+              <van-loading type="spinner" size="20" />
+            </template>
+          </van-image>
           <span>热刺</span>
         </div>
         <div class="header">
@@ -66,7 +82,11 @@
           </li>
         </ul>
         <div class="chart">
-          <img class="logo" src="@img/list/team_default_logo.png">
+          <van-image class="logo" lazy-load src="https://cdn.sportnanoapi.com/1.jpg" :error-icon="logo">
+            <template #loading>
+              <van-loading type="spinner" size="20" />
+            </template>
+          </van-image>
           <div class="middle">
             <div class="win-num"><span>5胜</span><span>5胜</span></div>
             <van-progress
@@ -76,7 +96,11 @@
               color="#27C5C3"/>
             <div class="score"><span>场均96.7分</span><span>共10场</span><span>场均96.1分</span></div>
           </div>
-          <img class="logo" src="@img/list/team_default_logo.png">
+          <van-image class="logo" lazy-load src="https://cdn.sportnanoapi.com/1.jpg" :error-icon="logo">
+            <template #loading>
+              <van-loading type="spinner" size="20" />
+            </template>
+          </van-image>
         </div>
         <div class="des">近10场交锋 4单6双 罗斯托夫火车头，胜率50%赢率20%大率40%</div>
       </template>
@@ -85,15 +109,21 @@
 </template>
 
 <script>
-import { Checkbox, Progress } from 'vant'
+import Vue from 'vue'
+import { Checkbox, Progress, Image as VanImage, Lazyload, Loading as VanLoading } from 'vant'
+import logo from '@img/list/team_default_logo.png'
+Vue.use(Lazyload)
 export default {
   name: 'BasketballLately',
   components: {
     VanCheckbox: Checkbox,
-    VanProgress: Progress
+    VanProgress: Progress,
+    VanImage,
+    VanLoading
   },
   data () {
     return {
+      logo,
       checked: true,
       active: 'all'
     }
@@ -134,9 +164,16 @@ export default {
         .px2vw(margin-bottom, 32);
         font-weight: 400;
         color: #333333;
-        img {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        .logo {
           .px2vw(width, 38);
-          .px2vw(height, 38);
+          .px2vw(min-height, 38);
+          .px2vw(font-size, 38);
           .px2vw(margin-left, 24);
           .px2vw(margin-right, 8);
         }
@@ -256,6 +293,8 @@ export default {
         .px2vw(padding-right, 40);
         .logo {
           .px2vw(width, 56);
+          .px2vw(min-height, 56);
+          .px2vw(font-size, 56);
         }
         .middle {
           .px2vw(width, 450);
@@ -312,6 +351,11 @@ export default {
   .basketball-lately {
     /*主体*/
     .wrap {
+      .van-image {
+        * {
+          font-size: 1em !important;
+        }
+      }
       /*表头*/
       .header {
         .van-checkbox {
