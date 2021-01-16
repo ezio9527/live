@@ -11,10 +11,9 @@
         <li v-for="(item,index) in txtLiveData" :key="index">
           <img :src="require(`@img/minIcon/tlive${someType(item.type)}.png`)" />
           <div class="content">
-            <p>{{item.data}}</p>
+            <p>{{item.data}}<b v-if="item.new">NEW</b></p>
             <i v-if="item.position === 1" class="colorBar hColor"></i>
             <i v-if="item.position === 2" class="colorBar aColor"></i>
-            <b v-if="item.new">new</b>
           </div>
         </li>
       </template>
@@ -178,6 +177,18 @@ export default {
         -moz-box-shadow: 0px 5px 44px 0px rgba(0, 0, 0, 0.06);
         box-shadow: 0px 5px 44px 0px rgba(0, 0, 0, 0.06);
         .px2vw(border-radius, 26);
+        b {
+          display: inline-flex;
+          background: #f45461;
+          color: #FFFFFF;
+          .px2vw(width, 80);
+          .px2vw(height, 34);
+          .px2vw(font-size, 12);
+          .px2vw(margin-left, 28);
+          border-radius: 99px;
+          justify-content: center;
+          align-items: center;
+        }
       }
     }
   }
