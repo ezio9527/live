@@ -1,5 +1,5 @@
 <template>
-  <div class="lately">
+  <div class="basketball-lately">
     <div class="title">近期战绩</div>
     <div class="wrap">
       <!--主队-->
@@ -87,7 +87,7 @@
 <script>
 import { Checkbox, Progress } from 'vant'
 export default {
-  name: 'Lately',
+  name: 'BasketballLately',
   components: {
     VanCheckbox: Checkbox,
     VanProgress: Progress
@@ -102,7 +102,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-  .lately {
+  .basketball-lately {
     position: relative;
     margin: auto;
     .px2vw(margin-top, 25);
@@ -211,8 +211,13 @@ export default {
           .px2vw(padding-top, 20);
           .px2vw(padding-bottom, 16);
           div {
-            text-align: center;
-            display: inline-block;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
           }
           div:nth-child(1) {
             .px2vw(width, 119);
@@ -304,7 +309,7 @@ export default {
   }
 </style>
 <style lang="less">
-  .lately {
+  .basketball-lately {
     /*主体*/
     .wrap {
       /*表头*/
