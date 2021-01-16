@@ -27,9 +27,9 @@
     <div class="bottom">
       <div class="left">
         <span>本节犯规数</span>
-        <span class="home">{{bStatsData[4][1]}}</span>
+        <span class="home" ref="home41">{{bStatsData[4][1]}}</span>
         <span>剩余暂停</span>
-        <span class="home">{{bStatsData[3][1]}}</span>
+        <span class="home" ref="home31">{{bStatsData[3][1]}}</span>
       </div>
       <div class="middle">
         <div class="item">
@@ -115,9 +115,9 @@
       </div>
       <div class="right">
         <span>本节犯规数</span>
-        <span class="guest">{{bStatsData[4][2]}}</span>
+        <span class="guest" ref="guest42">{{bStatsData[4][2]}}</span>
         <span>剩余暂停</span>
-        <span class="guest">{{bStatsData[3][2]}}</span>
+        <span class="guest" ref="guest32">{{bStatsData[3][2]}}</span>
       </div>
     </div>
   </div>
@@ -145,6 +145,42 @@ export default {
     }
   },
   watch: {
+    'bStatsData.4.1' (newV, oldV) {
+      if (oldV && newV !== oldV) {
+        const dom = this.$refs.home41
+        dom.style.animation = 'tipsfade 500ms 2'
+        setTimeout(() => {
+          dom.style.animation = 'none'
+        }, 1000)
+      }
+    },
+    'bStatsData.4.2' (newV, oldV) {
+      if (oldV && newV !== oldV) {
+        const dom = this.$refs.guest42
+        dom.style.animation = 'tipsfade 500ms 2'
+        setTimeout(() => {
+          dom.style.animation = 'none'
+        }, 1000)
+      }
+    },
+    'bStatsData.3.1' (newV, oldV) {
+      if (oldV && newV !== oldV) {
+        const dom = this.$refs.home31
+        dom.style.animation = 'tipsfade 500ms 2'
+        setTimeout(() => {
+          dom.style.animation = 'none'
+        }, 1000)
+      }
+    },
+    'bStatsData.3.2' (newV, oldV) {
+      if (oldV && newV !== oldV) {
+        const dom = this.$refs.guest32
+        dom.style.animation = 'tipsfade 500ms 2'
+        setTimeout(() => {
+          dom.style.animation = 'none'
+        }, 1000)
+      }
+    },
     score: {
       handler (newValue, oldValue) {
         this.scoreData = newValue
@@ -345,6 +381,19 @@ export default {
         }
       }
     }
+  }
+}
+</style>
+<style>
+@keyframes tipsfade {
+  from {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
   }
 }
 </style>

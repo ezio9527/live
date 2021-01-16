@@ -36,7 +36,7 @@
         <span class="item">{{fStatsCalc(21).home}}</span>
         <div class="progress">
           <span>射正球门</span>
-          <div class="progressView">
+          <div class="progressView" ref="item21">
             <van-progress
               :percentage="percentageCalc(21,true)"
               :show-pivot="false"
@@ -62,13 +62,13 @@
         </span>
       </div>
       <div class="shoot">
-        <span class="item">{{fStatsCalc(2).home}}</span>
-        <span class="item">{{fStatsCalc(4).home}}</span>
-        <span class="item">{{fStatsCalc(3).home}}</span>
+        <span class="item" ref="home2">{{fStatsCalc(2).home}}</span>
+        <span class="item" ref="home4">{{fStatsCalc(4).home}}</span>
+        <span class="item" ref="home3">{{fStatsCalc(3).home}}</span>
         <span class="item">{{fStatsCalc(22).home}}</span>
         <div class="progress">
           <span>射偏球门</span>
-          <div class="progressView">
+          <div class="progressView" ref="item22">
             <van-progress
               :percentage="percentageCalc(22,true)"
               :show-pivot="false"
@@ -83,9 +83,9 @@
           <span>&nbsp;</span>
         </div>
         <span class="item align-right">{{fStatsCalc(22).away}}</span>
-        <span class="item align-right">{{fStatsCalc(3).away}}</span>
-        <span class="item align-right">{{fStatsCalc(4).away}}</span>
-        <span class="item align-right">{{fStatsCalc(2).away}}</span>
+        <span class="item align-right" ref="away3">{{fStatsCalc(3).away}}</span>
+        <span class="item align-right" ref="away4">{{fStatsCalc(4).away}}</span>
+        <span class="item align-right" ref="away2">{{fStatsCalc(2).away}}</span>
       </div>
     </div>
   </div>
@@ -110,6 +110,75 @@ export default {
     }
   },
   watch: {
+    fStatsData: {
+      handler (newValue, oldValue) {
+        try {
+          const newV = this.findData(newValue, 21)
+          const oldV = this.findData(oldValue, 21)
+          if (oldV && newV !== oldV) {
+            const dom = this.$refs.item21
+            dom.style.animation = 'tipsfade 500ms 2'
+            setTimeout(() => {
+              dom.style.animation = 'none'
+            }, 1000)
+          }
+        } catch { }
+        try {
+          const newV = this.findData(newValue, 22)
+          const oldV = this.findData(oldValue, 22)
+          if (oldV && newV !== oldV) {
+            const dom = this.$refs.item22
+            dom.style.animation = 'tipsfade 500ms 2'
+            setTimeout(() => {
+              dom.style.animation = 'none'
+            }, 1000)
+          }
+        } catch { }
+        try {
+          const newV = this.findData(newValue, 2)
+          const oldV = this.findData(oldValue, 2)
+          if (oldV && newV !== oldV) {
+            const dom = this.$refs.home2
+            const dom2 = this.$refs.away2
+            dom.style.animation = 'tipsfade 500ms 2'
+            dom2.style.animation = 'tipsfade 500ms 2'
+            setTimeout(() => {
+              dom.style.animation = 'none'
+              dom2.style.animation = 'none'
+            }, 1000)
+          }
+        } catch { }
+        try {
+          const newV = this.findData(newValue, 3)
+          const oldV = this.findData(oldValue, 3)
+          if (oldV && newV !== oldV) {
+            const dom = this.$refs.home3
+            const dom2 = this.$refs.away3
+            dom.style.animation = 'tipsfade 500ms 2'
+            dom2.style.animation = 'tipsfade 500ms 2'
+            setTimeout(() => {
+              dom.style.animation = 'none'
+              dom2.style.animation = 'none'
+            }, 1000)
+          }
+        } catch { }
+        try {
+          const newV = this.findData(newValue, 4)
+          const oldV = this.findData(oldValue, 4)
+          if (oldV && newV !== oldV) {
+            const dom = this.$refs.home4
+            const dom2 = this.$refs.away4
+            dom.style.animation = 'tipsfade 500ms 2'
+            dom2.style.animation = 'tipsfade 500ms 2'
+            setTimeout(() => {
+              dom.style.animation = 'none'
+              dom2.style.animation = 'none'
+            }, 1000)
+          }
+        } catch { }
+      },
+      deep: true
+    },
     fStats: {
       handler (newValue, oldValue) {
         this.fStatsData = newValue
@@ -132,6 +201,9 @@ export default {
     this.fStatsData = this.fStats
   },
   methods: {
+    findData (item, key) {
+      return JSON.stringify(item.find(e => (e.type === key)))
+    },
     fStatsCalc (key) {
       const itemData = this.fStatsData.find(e => (e.type === key))
       return itemData
@@ -266,6 +338,19 @@ export default {
         }
       }
     }
+  }
+}
+</style>
+<style>
+@keyframes tipsfade {
+  from {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
   }
 }
 </style>

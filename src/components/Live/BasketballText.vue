@@ -15,7 +15,7 @@
           class="btliveDataView"
         >
           <van-step v-for="(item,index) in itemKnot" :key="index" :class="dotCalc(item)">
-            <div v-html="parseItem(item,index,indKont)"></div>
+            <div v-html="parseItem(item,index,indKont)" class="con"></div>
           </van-step>
         </van-steps>
         <van-empty description="暂无文字直播数据" v-else></van-empty>
@@ -63,7 +63,7 @@ export default {
   },
   data () {
     return {
-      tabActive: 2,
+      tabActive: 0,
       tabList: [
         '第一节',
         '第二节',
@@ -94,7 +94,7 @@ export default {
       // this.tabActive = endLength
     },
     dotCalc (item) {
-      const Data = JSON.parse(JSON.stringify(item)).split('^')
+      const Data = JSON.parse(JSON.stringify(item))
       let teamType = ''
       if (Data[2] === '1') {
         teamType = 'home'
@@ -104,7 +104,7 @@ export default {
       return teamType
     },
     parseItem (item, index, indKont) {
-      const Data = JSON.parse(JSON.stringify(item)).split('^')
+      const Data = JSON.parse(JSON.stringify(item))
       let teamType = ''
       if (Data[2] === '1') {
         teamType = `<img src="${this.homeLogo}"/>`
@@ -114,9 +114,10 @@ export default {
       const scoreNum = Data[4].split('-')
       const scoreHteam = scoreNum[1]
       const scoreAteam = scoreNum[0]
+      const isNew = Data[11] === 'new' ? '<b>new</b>' : ''
       return `
         <p>
-          <span class="title">${this.tabList[indKont]} ${Data[1]}</span>
+          <span class="title">${this.tabList[indKont]} ${Data[1]}${isNew}</span>
           <span class="sub-title">${scoreHteam}-${scoreAteam}</span>
         </p>
         <p class="content">${teamType}${Data[5]}</p>
@@ -152,6 +153,22 @@ export default {
   .guest {
     .van-step__circle {
       background: #27c5c3;
+    }
+  }
+  .con {
+    b {
+      display: inline-block;
+      background: #f45461;
+      color: #ffffff;
+      padding: 0 6px 2px;
+      line-height: 12px;
+      font-family: none;
+      font-size: 12px;
+      border-radius: 99px;
+      margin-left: 6px;
+      text-align: center;
+      transform: scale(0.8);
+      font-weight: normal;
     }
   }
   .notData {

@@ -138,6 +138,7 @@ export default {
       matchDetails: {}, // 比赛详情信息
       statisticsData: {},
       timer: null,
+      nux: 0,
       isSocket: false, // 当前是ws状态
       msgContent: {}, // 接收的内容
       score: [], // 比分集合
@@ -216,7 +217,7 @@ export default {
         if (type === 2 && tabtype === 2) { // 篮球统计
           this.statisticsData = JSON.parse(result)
         } else {
-          this.extractData(JSON.parse(result))
+          this.extractData(JSON.parse(result), true)
         }
       }
     },
@@ -281,7 +282,7 @@ export default {
         this.extractData(msg)
       }
     },
-    extractData (msg) { // 提取数据
+    extractData (msg, isfirst) { // 提取数据
       this.isSocket = true
       this.msgContent = msg
       const score = (msg.score && msg.score.length) && msg.score
@@ -295,7 +296,7 @@ export default {
         this.fStats = msg.stats && msg.stats.length ? msg.stats : []
         const newImpTxt = []
         ftlive.forEach(e => {
-          e.new = true
+          e.new = !isfirst
           if (e.main) {
             newImpTxt.push(e)
           }
@@ -306,17 +307,29 @@ export default {
       if (this.params.type === 2) {
         const hScore = score[3].reduce((a, b) => (a + b))
         const aScore = score[4].reduce((a, b) => (a + b))
-        // this.btlive.forEach(e => {
-        //   e.forEach(q => (q = q + '^0'))
-        // })
+        this.btlive.forEach(e => {
+          if (e.length) {
+            e.forEach((q, ind) => {
+              e[ind][11] = 'old'
+            })
+          }
+        })
         this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
         const tlive = msg.tlive && msg.tlive.length ? msg.tlive : []
         tlive.forEach((e, i) => {
           if (e.length) {
-            // e.forEach(q => (q = q + '^1'))
+            e.forEach((q, ind) => {
+              e[ind] = q.split('^')
+              if (isfirst) {
+                e[ind].push('old')
+              } else {
+                e[ind].push('new')
+              }
+            })
             this.btlive[i].push(...e)
           }
         })
+        console.log(this.btlive)
         this.bStats = msg.stats && msg.stats.length ? msg.stats : []
       }
       // if (this.params.type === 1) {//覆盖更新
