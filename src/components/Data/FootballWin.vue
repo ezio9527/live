@@ -2,46 +2,38 @@
   <div class="rank">
     <div class="title">胜分差</div>
     <div class="wrap">
-      <template>
-        <div class="header">
-          <div class="checkbox clear-fix">
-            <van-checkbox v-model="checked" shape="square" checked-color="#27C5C3" class="float-left">同主客</van-checkbox>
-            <van-checkbox v-model="checked" shape="square" checked-color="#27C5C3" class="float-left">同赛事</van-checkbox>
-          </div>
-          <div class="btn-group"><button :class="{active: active==='all'}" @click="active='all'">10场</button><button :class="{active: active==='half'}" @click="active='half'">20场</button></div>
+      <div class="header">
+        <div class="checkbox clear-fix">
+          <van-checkbox v-model="checked" shape="square" checked-color="#27C5C3" class="float-left">同主客</van-checkbox>
+          <van-checkbox v-model="checked" shape="square" checked-color="#27C5C3" class="float-left">同赛事</van-checkbox>
         </div>
-        <div class="header-logo">
-          <div class="logo-wrap">
-            <van-image class="logo" lazy-load src="https://cdn.sportnanoapi.com/1.jpg" :error-icon="logo">
-              <template #loading>
-                <van-loading type="spinner" size="20" />
-              </template>
-            </van-image>
-            <span>热刺</span>
-          </div>
-          <div class="logo-wrap">
-            <span>热刺</span>
-            <van-image class="logo" lazy-load src="https://cdn.sportnanoapi.com/1.jpg" :error-icon="logo">
-              <template #loading>
-                <van-loading type="spinner" size="20" />
-              </template>
-            </van-image>
-          </div>
+        <div class="btn-group"><button :class="{active: active==='all'}" @click="active='all'">10场</button><button :class="{active: active==='half'}" @click="active='half'">20场</button></div>
+      </div>
+      <div class="header-logo">
+        <div class="logo-wrap">
+          <van-image class="logo" lazy-load src="https://cdn.sportnanoapi.com/1.jpg" :error-icon="logo">
+            <template #loading>
+              <van-loading type="spinner" size="20" />
+            </template>
+          </van-image>
+          <span>热刺</span>
         </div>
-        <ul class="content">
-          <li class="th"><div></div><div>赛</div><div>胜</div><div>平</div><div>负</div><div>进/失</div><div>积分</div><div>排名</div></li>
-          <li>
-            <div>总</div><div>6</div><div>6</div><div>6</div><div>6</div><div>6</div><div>22/16</div><div class="lose">6</div>
-          </li>
-          <li>
-            <div>主</div><div>6</div><div>6</div><div>6</div><div>6</div><div>6</div><div>22/16</div><div class="lose">6</div>
-          </li>
-          <li>
-            <div>客</div><div>6</div><div>6</div><div>6</div><div>6</div><div>6</div><div>22/16</div><div class="lose">6</div>
-          </li>
-        </ul>
-        <div class="des">近10场交锋 4单6双 罗斯托夫火车头，胜率50%赢率20%大率40%</div>
-      </template>
+        <div class="logo-wrap">
+          <span>热刺</span>
+          <van-image class="logo" lazy-load src="https://cdn.sportnanoapi.com/1.jpg" :error-icon="logo">
+            <template #loading>
+              <van-loading type="spinner" size="20" />
+            </template>
+          </van-image>
+        </div>
+      </div>
+      <ul class="content">
+        <li class="th"><div>主(18)</div><div>客(18)</div><div>总(12)</div><div>全场</div><div>主(18)</div><div>客(18)</div><div>总(12)</div></li>
+        <li v-for="item in [1,2,3,4,5]" :key="item">
+          <div>4</div><div>6</div><div>6</div><div>12-12</div><div>6</div><div>6</div><div class="lose">6</div>
+        </li>
+      </ul>
+      <div class="des">PS：当前赛季的所有比赛</div>
     </div>
   </div>
 </template>
@@ -210,7 +202,7 @@ export default {
     }
     .des {
       margin: auto;
-      color: #666666;
+      color: #999999;
       .px2vw(font-size, 24);
       .px2vw(width, 645);
       .px2vw(margin-top, 30);
