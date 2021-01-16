@@ -1,16 +1,32 @@
 <template>
   <div class="rank">
-    <div class="title">积分排名</div>
+    <div class="title">胜分差</div>
     <div class="wrap">
-      <!--主队-->
       <template>
+        <div class="header">
+          <div class="checkbox clear-fix">
+            <van-checkbox v-model="checked" shape="square" checked-color="#27C5C3" class="float-left">同主客</van-checkbox>
+            <van-checkbox v-model="checked" shape="square" checked-color="#27C5C3" class="float-left">同赛事</van-checkbox>
+          </div>
+          <div class="btn-group"><button :class="{active: active==='all'}" @click="active='all'">10场</button><button :class="{active: active==='half'}" @click="active='half'">20场</button></div>
+        </div>
         <div class="header-logo">
-          <van-image class="logo" lazy-load src="https://cdn.sportnanoapi.com/1.jpg" :error-icon="logo">
-            <template #loading>
-              <van-loading type="spinner" size="20" />
-            </template>
-          </van-image>
-          <span>热刺</span>
+          <div class="logo-wrap">
+            <van-image class="logo" lazy-load src="https://cdn.sportnanoapi.com/1.jpg" :error-icon="logo">
+              <template #loading>
+                <van-loading type="spinner" size="20" />
+              </template>
+            </van-image>
+            <span>热刺</span>
+          </div>
+          <div class="logo-wrap">
+            <span>热刺</span>
+            <van-image class="logo" lazy-load src="https://cdn.sportnanoapi.com/1.jpg" :error-icon="logo">
+              <template #loading>
+                <van-loading type="spinner" size="20" />
+              </template>
+            </van-image>
+          </div>
         </div>
         <ul class="content">
           <li class="th"><div></div><div>赛</div><div>胜</div><div>平</div><div>负</div><div>进/失</div><div>积分</div><div>排名</div></li>
@@ -26,36 +42,19 @@
         </ul>
         <div class="des">近10场交锋 4单6双 罗斯托夫火车头，胜率50%赢率20%大率40%</div>
       </template>
-      <!--客队-->
-      <template>
-        <div class="header-logo guest">
-          <van-image class="logo" lazy-load src="https://cdn.sportnanoapi.com/1.jpg" :error-icon="logo">
-            <template #loading>
-              <van-loading type="spinner" size="20" />
-            </template>
-          </van-image>
-          <span>热刺</span>
-        </div>
-        <ul class="content">
-          <li class="th"><div></div><div>赛</div><div>胜</div><div>平</div><div>负</div><div>进/失</div><div>积分</div><div>排名</div></li>
-          <li v-for="item in [1,2,3,4,5,6]" :key="item">
-            <div>总</div><div>6</div><div>6</div><div>6</div><div>6</div><div>6</div><div>22/16</div><div class="lose">6</div>
-          </li>
-        </ul>
-        <div class="des">近10场交锋 4单6双 罗斯托夫火车头，胜率50%赢率20%大率40%</div>
-      </template>
     </div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import { Image as VanImage, Lazyload, Loading as VanLoading } from 'vant'
+import { Checkbox, Image as VanImage, Lazyload, Loading as VanLoading } from 'vant'
 import logo from '@img/list/team_default_logo.png'
 Vue.use(Lazyload)
 export default {
   name: 'Rank',
   components: {
+    VanCheckbox: Checkbox,
     VanImage,
     VanLoading
   },
@@ -105,18 +104,72 @@ export default {
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
-      justify-content: flex-start;
+      justify-content: space-between;
       align-items: center;
-      .logo {
-        .px2vw(width, 38);
-        .px2vw(min-height, 38);
-        .px2vw(font-size, 38);
-        .px2vw(margin-left, 24);
-        .px2vw(margin-right, 8);
+      .logo-wrap {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        align-items: center;
+        .logo {
+          .px2vw(width, 38);
+          .px2vw(min-height, 38);
+          .px2vw(font-size, 38);
+          &:first-child {
+            .px2vw(margin-left, 24);
+            .px2vw(margin-right, 8);
+          }
+          &:last-child {
+            .px2vw(margin-left, 8);
+            .px2vw(margin-right, 24);
+          }
+        }
       }
       /*客队和上面主队的距离*/
       &.guest {
         .px2vw(margin-top, 25);
+      }
+    }
+    /*表头*/
+    .header {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .px2vw(height, 45);
+      .px2vw(padding-left, 25);
+      .px2vw(padding-right, 25);
+      .px2vw(margin-bottom, 25);
+      /*复选框*/
+      .checkbox {
+        .float-left {
+          .px2vw(margin-right, 20);
+        }
+      }
+      .btn-group {
+        button {
+          .px2vw(width, 78);
+          .px2vw(height, 45);
+          .px2vw(font-size, 22);
+          border: none;
+          background: rgba(205, 205, 205, 0.2);
+          color: #999999;
+          &.active {
+            color: #FFFFFF;
+            background: #27C5C3;
+          }
+          &:first-child {
+            border-top-left-radius: 99px;
+            border-bottom-left-radius: 99px;
+          }
+          &:last-child {
+            border-top-right-radius: 99px;
+            border-bottom-right-radius: 99px;
+          }
+        }
       }
     }
     /*表格*/
