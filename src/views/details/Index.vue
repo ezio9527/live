@@ -215,13 +215,10 @@ export default {
       const tabtype = val + 1
       const result = await detailTabs({ mid: id, type, tabtype })
       if (result && result.data.length) {
-        console.log(123)
-        console.log('🚀 ~ file: Index.vue ~ line 216 ~ tabsChanges ~ tabtype', tabtype)
         if (type === 2 && tabtype === 2) { // 篮球统计
           this.statisticsData = JSON.parse(result.data)
         }
         if (tabtype === 1 && this.firstSend) {
-          console.log(222)
           this.extractData(JSON.parse(result.data), true)
           // 初始化连接
           this.tabsToken = result.token
@@ -370,7 +367,7 @@ export default {
       this.timer = window.setInterval(() => {
         const { id, type } = this.params
         sendSock(id, type, this.tabsToken, this.getMsgResult)
-      }, 3000)
+      }, 8000)
     },
     play (params) {
       // 选择视频播放或者动画播放
