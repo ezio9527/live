@@ -29,9 +29,9 @@
         <div class="status">{{match.status | interpreter('MatchType')}}</div>
       </div>
       <div class="middle">
-        <div class="home line-word-hidden"><span>{{match.hteam_name}}</span><img :src="match.hteam_logo" @error="errorImg"></div>
+        <div class="home"><span class="line-word-hidden">{{match.hteam_name}}</span><img :src="match.hteam_logo" @error="errorImg"></div>
         <div class="score">{{match.score}}</div>
-        <div class="guest line-word-hidden"><img :src="match.ateam_logo" @error="errorImg"><span>{{match.ateam_name}}</span></div>
+        <div class="guest"><img :src="match.ateam_logo" @error="errorImg"><span class="line-word-hidden">{{match.ateam_name}}</span></div>
       </div>
       <div class="bottom">
         <div class="video" :class="{disabled: video.status===0}" v-for="(video, k) in match.live_urls" :key="'video'+k" @click="$emit('play', {type: match.type, playType: 1, channel: k, id: match.id})">
@@ -258,15 +258,24 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      .home {
+      .home, .guest {
         flex: 1;
-        text-align: right;
         font-size: 14px;
         color: #000000;
         font-weight: 400;
+        .px2vw(width, 240);
         img {
           .px2vw(width, 38);
           .px2vw(height, 38);
+        }
+        span {
+          display: inline-block;
+          .px2vw(width, 180);
+        }
+      }
+      .home {
+        text-align: right;
+        img {
           .px2vw(margin-left, 16);
         }
       }
@@ -274,18 +283,12 @@ export default {
         font-size: 18px;
         font-weight: 600;
         color: #000000;
-        .px2vw(width, 120);
+        .px2vw(width, 160);
         text-align: center;
       }
       .guest {
-        flex: 1;
         text-align: left;
-        font-size: 14px;
-        color: #000000;
-        font-weight: 400;
         img {
-          .px2vw(width, 38);
-          .px2vw(height, 38);
           .px2vw(margin-right, 16);
         }
       }
