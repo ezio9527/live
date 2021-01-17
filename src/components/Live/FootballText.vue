@@ -71,7 +71,7 @@ export default {
   },
   data () {
     return {
-      exist: [1, 2, 3, 4, 9, 13],
+      exist: [1, 2, 3, 4, 8, 9, 13, 15, 16, 17],
       txtLiveData: [],
       impTxtLiveData: [],
       tliveTab: true // 足球文字直播切换栏
@@ -181,7 +181,7 @@ export default {
         b {
           display: inline-flex;
           background: #f45461;
-          color: #FFFFFF;
+          color: #ffffff;
           .px2vw(width, 100);
           .px2vw(height, 40);
           .px2vw(font-size, 12);
