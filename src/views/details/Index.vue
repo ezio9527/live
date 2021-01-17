@@ -329,7 +329,6 @@ export default {
             this.btlive[i].push(...e)
           }
         })
-        console.log(this.btlive)
         this.bStats = msg.stats && msg.stats.length ? msg.stats : []
       }
       // if (this.params.type === 1) {//覆盖更新
