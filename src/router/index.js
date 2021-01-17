@@ -22,7 +22,7 @@ const routes = [
   },
   {
     path: '/test',
-    component: () => import('@comp/BasePanel.vue')
+    component: () => import('@views/Test.vue')
   },
   {
     path: '/:type',
