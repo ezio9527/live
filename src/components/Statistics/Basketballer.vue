@@ -248,6 +248,7 @@ export default {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     position: relative;
     .left,

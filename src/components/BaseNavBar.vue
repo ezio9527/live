@@ -20,8 +20,12 @@
 
 <script>
 import { Toast } from 'vant'
+import { Input } from 'element-ui'
 export default {
   name: 'BaseNavBar',
+  components: {
+    ElInput: Input
+  },
   props: {
     clear: {
       type: String,

@@ -10,7 +10,7 @@
     </ul>
     <!--固定日期栏-->
     <!--列表区域-->
-    <BaseList :list="matchFilterList" :loading="listLoading" @load="load" @play="play"></BaseList>
+    <BaseList :list="matchFilterList" :loading="listLoading" @load="load" @play="play" @refresh="refresh"></BaseList>
     <!--底部Footer-->
     <!--<BaseFooter></BaseFooter>-->
   </div>
@@ -20,7 +20,6 @@
 import BaseNavBar from '@comp/BaseNavBar'
 import BaseCategory from '@comp/BaseCategory'
 import BaseList from '@comp/BaseList'
-// import BaseFooter from '@comp/BaseFooter'
 import { matchListApi } from '@/http/api'
 export default {
   name: 'Home',
@@ -28,10 +27,10 @@ export default {
     BaseNavBar,
     BaseCategory,
     BaseList
-    // BaseFooter
   },
   data () {
     return {
+      isLoading: false,
       searchKey: '', // 搜索关键字
       typeId: 0, // 球分类ID
       categoryId: 0, // 球赛ID
@@ -97,6 +96,9 @@ export default {
     this.qryMatchList({ pn: 0, type, ps: this.pageSize })
   },
   methods: {
+    // 下拉刷新
+    onRefresh () {
+    },
     // 关键字搜索
     search (key) {
       this.searchKey = key
@@ -115,6 +117,12 @@ export default {
       this.categoryId = id
       this.pageIndex = 0
       this.qryMatchList({ type: type, cid: this.categoryId, pn: this.pageIndex, ps: this.pageSize })
+    },
+    // 列表的refresh事件
+    refresh () {
+      this.listLoading = false
+      this.pageIndex = 1
+      this.qryMatchList({ type: this.typeId, cid: this.categoryId, pn: this.pageIndex, ps: this.pageSize })
     },
     // 列表的load事件
     load () {

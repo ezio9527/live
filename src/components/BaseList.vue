@@ -1,6 +1,5 @@
 <template>
-  <div class="base-list" ref="wrap" v-infinite-scroll="scrollHandle" infinite-scroll-distance="700" @scroll="record" @mousewheel="record" @DOMMouseScroll="record">
-    <!--@scroll="scrollHandle" @mousewheel="scrollHandle" @DOMMouseScroll="scrollHandle"-->
+  <div class="base-list" ref="wrap" @scroll="scrollHandle" @mousewheel="scrollHandle" @DOMMouseScroll="scrollHandle">
     <!--PC样式-->
     <ul class="list-content" ref="content" v-if="getScreenIsPc">
       <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string', underway: parseInt(match.status)===0}" @click="$emit('play', {isPc: true, type: match.type, playType: match.live_urls.length>0?1:2, channel: 0, id: match.id})">
@@ -17,20 +16,22 @@
       </li>
     </ul>
     <!--Mobile样式-->
-    <ul class="list-content" ref="content" v-else>
-      <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string', underway: parseInt(match.status)===0}" @click="$emit('play', {isPc: false, type: match.type, playType: match.live_urls.length>0?1:2, channel: 0, id: match.id})">
-        <template v-if="$type(match)==='object'">
-          <BaseListItem :match="match"></BaseListItem>
-        </template>
-        <template v-else>
-          {{match}}
-        </template>
-      </li>
-      <li class="more" @click="$emit('load')">
-        <span v-show="loading">数据加载中</span>
-        <span v-show="!loading">点击加载更多</span>
-      </li>
-    </ul>
+    <van-pull-refresh v-model="refreshing" @refresh="$emit('refresh')" v-else>
+      <ul class="list-content" ref="content">
+        <li v-for="(match, index) in list" :key="index" :class="{'group-header': $type(match)==='string', underway: parseInt(match.status)===0}" @click="$emit('play', {isPc: false, type: match.type, playType: match.live_urls.length>0?1:2, channel: 0, id: match.id})">
+          <template v-if="$type(match)==='object'">
+            <BaseListItem :match="match"></BaseListItem>
+          </template>
+          <template v-else>
+            {{match}}
+          </template>
+        </li>
+        <li class="more" @click="$emit('load')">
+          <span v-show="loading">数据加载中</span>
+          <span v-show="!loading">点击加载更多</span>
+        </li>
+      </ul>
+    </van-pull-refresh>
     <el-backtop target=".base-list" :bottom="100">
       <img src="@img/list/backtop.png"/>
     </el-backtop>
@@ -40,9 +41,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import BaseListItem from '@comp/BaseListItem'
+import { PullRefresh as VanPullRefresh } from 'vant'
+import { Backtop } from 'element-ui'
 export default {
   name: 'BaseList',
-  components: { BaseListItem },
+  components: {
+    BaseListItem,
+    VanPullRefresh,
+    ElBacktop: Backtop
+  },
   props: {
     list: {
       type: Array,
@@ -59,8 +66,16 @@ export default {
       'getScreenIsMobile'
     ])
   },
+  watch: {
+    list () {
+      if (this.refreshing) {
+        this.refreshing = false
+      }
+    }
+  },
   data () {
     return {
+      refreshing: false,
       scrollTop: 0
     }
   },
@@ -68,23 +83,21 @@ export default {
     this.$refs.wrap.scrollTop = this.scrollTop
   },
   methods: {
-    // 记录滚动
-    record () {
-      // 失活之后拿不到高度了,记录滚动高度
-      this.scrollTop = this.$refs.wrap.scrollTop
-    },
     // 处理滚动
     scrollHandle () {
-      this.$emit('load')
-      // const viewH = this.$refs.wrap.clientHeight // 可见高度
-      // const contentH = this.$refs.content.clientHeight // 内容高度
-      // const scrollTop = this.$refs.wrap.scrollTop// 滚动高度
+      // 失活之后拿不到高度了,记录滚动高度
+      this.scrollTop = this.$refs.wrap.scrollTop
+      const viewH = this.$refs.wrap.clientHeight // 可见高度
+      const contentH = this.$refs.content.clientHeight // 内容高度
+      const scrollTop = this.$refs.wrap.scrollTop// 滚动高度
       // // 当滚动到底部时
       // if (contentH === viewH + scrollTop) {}
       // // 当滚动到距离底部100px时
       // if (contentH - viewH - scrollTop <= 100) {}
       // // 当滚动到距离底部5%时
-      // if (scrollTop / (contentH - viewH) >= 0.95 && !this.load) {}
+      if (scrollTop / (contentH - viewH) >= 0.95 && !this.load) {
+        this.$emit('load')
+      }
     }
   }
 }
