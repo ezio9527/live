@@ -32,7 +32,7 @@
         <span class="home" ref="home31">{{bStatsData[3][1]}}</span>
       </div>
       <div class="middle">
-        <div class="item">
+        <div class="item" ref="item0">
           <span>{{bStatsData[0][1]}}</span>
           <div class="progress">
             <span>3分球得分</span>
@@ -52,7 +52,7 @@
           </div>
           <span>{{bStatsData[0][2]}}</span>
         </div>
-        <div class="item">
+        <div class="item" ref="item1">
           <span>{{bStatsData[1][1]}}</span>
           <div class="progress">
             <span>2分球得分</span>
@@ -72,7 +72,7 @@
           </div>
           <span>{{bStatsData[1][2]}}</span>
         </div>
-        <div class="item">
+        <div class="item" ref="item2">
           <span>{{bStatsData[2][1]}}</span>
           <div class="progress">
             <span>罚球得分</span>
@@ -92,7 +92,7 @@
           </div>
           <span>{{bStatsData[2][2]}}</span>
         </div>
-        <div class="item">
+        <div class="item" ref="item5">
           <span>{{bStatsData[5][1]}}</span>
           <div class="progress">
             <span>罚球命中率(%)</span>
@@ -110,7 +110,7 @@
             </div>
             <span>&nbsp;</span>
           </div>
-          <span>{{bStatsData[5][1]}}</span>
+          <span>{{bStatsData[5][2]}}</span>
         </div>
       </div>
       <div class="right">
@@ -180,6 +180,54 @@ export default {
           dom.style.animation = 'none'
         }, 1000)
       }
+    },
+    'bStatsData.0': {
+      handler (newV, oldV) {
+        if (oldV && JSON.stringify(newV) !== JSON.stringify(oldV)) {
+          const dom = this.$refs.item0
+          dom.style.animation = 'tipsfade 500ms 2'
+          setTimeout(() => {
+            dom.style.animation = 'none'
+          }, 1000)
+        }
+      },
+      deep: true
+    },
+    'bStatsData.1': {
+      handler (newV, oldV) {
+        if (oldV && JSON.stringify(newV) !== JSON.stringify(oldV)) {
+          const dom = this.$refs.item1
+          dom.style.animation = 'tipsfade 500ms 2'
+          setTimeout(() => {
+            dom.style.animation = 'none'
+          }, 1000)
+        }
+      },
+      deep: true
+    },
+    'bStatsData.2': {
+      handler (newV, oldV) {
+        if (oldV && JSON.stringify(newV) !== JSON.stringify(oldV)) {
+          const dom = this.$refs.item2
+          dom.style.animation = 'tipsfade 500ms 2'
+          setTimeout(() => {
+            dom.style.animation = 'none'
+          }, 1000)
+        }
+      },
+      deep: true
+    },
+    'bStatsData.5': {
+      handler (newV, oldV) {
+        if (oldV && JSON.stringify(newV) !== JSON.stringify(oldV)) {
+          const dom = this.$refs.item5
+          dom.style.animation = 'tipsfade 500ms 2'
+          setTimeout(() => {
+            dom.style.animation = 'none'
+          }, 1000)
+        }
+      },
+      deep: true
     },
     score: {
       handler (newValue, oldValue) {
@@ -388,6 +436,7 @@ export default {
 @keyframes tipsfade {
   from {
     opacity: 1;
+    color: red;
   }
   50% {
     opacity: 0.4;

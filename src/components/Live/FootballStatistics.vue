@@ -345,6 +345,7 @@ export default {
 @keyframes tipsfade {
   from {
     opacity: 1;
+    color: red;
   }
   50% {
     opacity: 0.4;
