@@ -7,12 +7,12 @@
       </div>
       <div class="right">
         <div class="body">
-          <span v-for="(item,key) in scoreData[3]" :key="key">{{item || 0}}</span>
-          <span>{{scoreData[3].reduce((a, b) => (a + b))}}</span>
-        </div>
-        <div class="body">
           <span v-for="(item,key) in scoreData[4]" :key="key">{{item || 0}}</span>
           <span>{{scoreData[4].reduce((a, b) => (a + b))}}</span>
+        </div>
+        <div class="body">
+          <span v-for="(item,key) in scoreData[3]" :key="key">{{item || 0}}</span>
+          <span>{{scoreData[3].reduce((a, b) => (a + b))}}</span>
         </div>
         <div class="header">
           <span>一</span>

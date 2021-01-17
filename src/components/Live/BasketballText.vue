@@ -7,19 +7,15 @@
       @rendered="autoTabs"
       v-if="btliveData && btliveData.length"
     >
-      <van-tab :title="tabList[indKont]" :key="indKont" v-for="(itemKnot,indKont) in btliveData">
-        <van-steps
-          direction="vertical"
-          :active="-1"
-          v-if="itemKnot && itemKnot.length"
-          class="btliveDataView"
-        >
-          <van-step v-for="(item,index) in itemKnot" :key="index" :class="dotCalc(item)">
-            <div v-html="parseItem(item,index,indKont)" class="con"></div>
-          </van-step>
-        </van-steps>
-        <van-empty description="暂无文字直播数据" v-else></van-empty>
-      </van-tab>
+      <template v-for="(itemKnot,indKont) in btliveData">
+        <van-tab :title="tabList[indKont]" :key="indKont" v-if="itemKnot && itemKnot.length">
+          <van-steps direction="vertical" :active="-1" class="btliveDataView">
+            <van-step v-for="(item,index) in itemKnot" :key="index" :class="dotCalc(item)">
+              <div v-html="parseItem(item,index,indKont)" class="con"></div>
+            </van-step>
+          </van-steps>
+        </van-tab>
+      </template>
     </van-tabs>
     <van-empty description="暂无文字直播数据" v-else></van-empty>
   </div>
