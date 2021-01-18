@@ -285,21 +285,6 @@ export default {
     },
     getMsgResult (res) { // 接收
       let msg = res.data
-      msg = {
-        score: [3452018, 8, [1, 0, 0, 2, 8, 0, 0], [1, 0, 0, 2, 2, 0, 0], 1610968128, ''],
-        stats: [{ away: 0, type: 4, home: 0 }, { away: 118, type: 23, home: 134 }, { away: 0, type: 8, home: 0 }, { away: 2, type: 2, home: 8 }, { away: 39, type: 24, home: 42 }, { away: 3, type: 21, home: 7 }, { away: 2, type: 3, home: 2 }, { away: 53, type: 25, home: 47 }, { away: 3, type: 22, home: 8 }],
-        tlive: [
-          {
-            data: "61' - 第2个进球 - (法加尔瑟帕斯)1",
-            main: 1,
-            time: "61'",
-            position: 2,
-            type: 1
-          }
-        ],
-        incidents: [],
-        id: 3452018
-      }
       if (typeof msg === 'string') {
         msg = JSON.parse(msg)
       }
@@ -342,6 +327,7 @@ export default {
                 obj[z] = 1
               }
             }
+            resArr.sort((a, b) => (a.index - b.index))
             this.$set(this.$data, 'txtLive', resArr)
           }
           incidents.length && this.incidents.push(...incidents)
