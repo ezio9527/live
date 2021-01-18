@@ -285,6 +285,21 @@ export default {
     },
     getMsgResult (res) { // 接收
       let msg = res.data
+      msg = {
+        score: [3452018, 8, [1, 0, 0, 2, 8, 0, 0], [1, 0, 0, 2, 2, 0, 0], 1610968128, ''],
+        stats: [{ away: 0, type: 4, home: 0 }, { away: 118, type: 23, home: 134 }, { away: 0, type: 8, home: 0 }, { away: 2, type: 2, home: 8 }, { away: 39, type: 24, home: 42 }, { away: 3, type: 21, home: 7 }, { away: 2, type: 3, home: 2 }, { away: 53, type: 25, home: 47 }, { away: 3, type: 22, home: 8 }],
+        tlive: [
+          {
+            data: "61' - 第2个进球 - (法加尔瑟帕斯)1",
+            main: 1,
+            time: "61'",
+            position: 2,
+            type: 1
+          }
+        ],
+        incidents: [],
+        id: 3452018
+      }
       if (typeof msg === 'string') {
         msg = JSON.parse(msg)
       }
@@ -314,7 +329,21 @@ export default {
               newImpTxt.push(e)
             }
           })
-          ftlive.length && this.txtLive.push(...ftlive)
+          if (ftlive.length) {
+            const newArr = this.txtLive.concat(ftlive)
+            const resArr = []
+            const obj = {}
+            for (const i of newArr) {
+              const x = Object.assign({}, i)
+              x.new = 0
+              const z = JSON.stringify(x)
+              if (!obj[z]) {
+                resArr.push(i)
+                obj[z] = 1
+              }
+            }
+            this.$set(this.$data, 'txtLive', resArr)
+          }
           incidents.length && this.incidents.push(...incidents)
           newImpTxt.length && this.impTxtLive.push(...newImpTxt)
           this.tliveLen = this.txtLive.length
@@ -344,6 +373,7 @@ export default {
               })
               this.btlive[i].push(...e)
               this.tliveLen = this.btlive[i].length
+              this.imptliveLen = i + 1
             }
           })
           this.bStats = msg.stats && msg.stats.length ? msg.stats : []
@@ -379,7 +409,7 @@ export default {
         const { id, type } = this.params
         const sendContent = `${id}-${this.tliveLen}-${this.imptliveLen}`
         sendSock(sendContent, type, this.tabsToken, this.getMsgResult)
-      }, 8000)
+      }, 3000)
     },
     play (params) {
       // 选择视频播放或者动画播放
