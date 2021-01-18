@@ -152,7 +152,7 @@ export default {
       txtLive: [], // 足球文字直播集合
       incidents: [], // 足球重要事件
       impTxtLive: [], // 足球重要事件
-      btlive: [[], [], [], []], // 篮球文字直播
+      btlive: [[], [], [], [], []], // 篮球文字直播
       bStats: [], // 篮球技术统计
       tabActive: 0 // 菜单
     }
@@ -341,7 +341,7 @@ export default {
           this.btlive.forEach(e => {
             if (e.length) {
               e.forEach((q, ind) => {
-                e[ind][11] = 'old'
+                e[ind][12] = 'old'
               })
             }
           })
@@ -357,7 +357,19 @@ export default {
                   e[ind].push('new')
                 }
               })
-              this.btlive[i].push(...e)
+              const newArr = this.btlive[i].concat(e)
+              const resArr = []
+              const obj = {}
+              for (const i of newArr) {
+                const x = i.slice(0, 12)
+                const z = JSON.stringify(x)
+                if (!obj[z]) {
+                  resArr.push(i)
+                  obj[z] = 1
+                }
+              }
+              resArr.sort((a, b) => (Number(a[0]) - Number(b[0])))
+              this.$set(this.btlive, i, resArr)
               this.tliveLen = this.btlive[i].length
               this.imptliveLen = i + 1
             }

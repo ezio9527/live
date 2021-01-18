@@ -89,9 +89,9 @@ export default {
     dotCalc (item) {
       const Data = JSON.parse(JSON.stringify(item))
       let teamType = ''
-      if (Data[2] === '1') {
+      if (Data[3] === '1') {
         teamType = 'home'
-      } else if (Data[2] === '2') {
+      } else if (Data[3] === '2') {
         teamType = 'guest'
       }
       return teamType
@@ -99,21 +99,21 @@ export default {
     parseItem (item, index, indKont) {
       const Data = JSON.parse(JSON.stringify(item))
       let teamType = ''
-      if (Data[2] === '1') {
+      if (Data[3] === '1') {
         teamType = `<img src="${this.homeLogo}"/>`
-      } else if (Data[2] === '2') {
+      } else if (Data[3] === '2') {
         teamType = `<img src="${this.guestLogo}"/>`
       }
-      const scoreNum = Data[4].split('-')
+      const scoreNum = Data[5].split('-')
       const scoreHteam = scoreNum[1]
       const scoreAteam = scoreNum[0]
-      const isNew = Data[11] === 'new' ? '<b>new</b>' : ''
+      const isNew = Data[12] === 'new' ? '<b>new</b>' : ''
       return `
         <p>
-          <span class="title">${this.tabList[indKont]} ${Data[1]}${isNew}</span>
+          <span class="title">${this.tabList[indKont]} ${Data[2]}${isNew}</span>
           <span class="sub-title">${scoreHteam}-${scoreAteam}</span>
         </p>
-        <p class="content">${teamType}${Data[5]}</p>
+        <p class="content">${teamType}${Data[6]}</p>
       `
     }
   }

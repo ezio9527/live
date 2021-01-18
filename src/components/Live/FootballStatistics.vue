@@ -206,7 +206,7 @@ export default {
     },
     fStatsCalc (key) {
       const itemData = this.fStatsData.find(e => (e.type === key))
-      return itemData
+      return itemData || { home: 0, away: 0 }
     },
     percentageRate (key) {
       const hteamV = this.fStatsCalc(key).home
