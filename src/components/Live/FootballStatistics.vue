@@ -213,14 +213,14 @@ export default {
       const ateamV = this.fStatsCalc(key).away
       const count = hteamV + ateamV
       const res = hteamV / count
-      return Number(res).toFixed(2) * 100
+      return Number(res).toFixed(2) * 100 || 0
     },
     percentageCalc (key, isHteam) {
       const hteamV = this.fStatsCalc(key).home
       const ateamV = this.fStatsCalc(key).away
       const count = hteamV + ateamV
       const res = isHteam ? hteamV / count : ateamV / count
-      return res.toFixed(2) * 100
+      return res.toFixed(2) * 100 || 0
     }
   }
 }

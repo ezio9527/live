@@ -258,7 +258,7 @@ export default {
       const ateamV = data[2]
       const count = hteamV + ateamV
       const res = isHteam ? hteamV / count : ateamV / count
-      return res.toFixed(2) * 100
+      return res.toFixed(2) * 100 || 0
     }
   }
 }
