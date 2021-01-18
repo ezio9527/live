@@ -134,6 +134,8 @@ export default {
       channel: 0, // 当前播放源
       token: '',
       tabsToken: '',
+      tliveLen: 0,
+      imptliveLen: 0,
       matchData: {},
       detailsLoading: false, // 比赛详情加载中
       matchDetails: {}, // 比赛详情信息
@@ -148,6 +150,7 @@ export default {
       // aScore: 0, // 客队比分
       fStats: [], // 足球技术统计
       txtLive: [], // 足球文字直播集合
+      incidents: [], // 足球重要事件
       impTxtLive: [], // 足球重要事件
       btlive: [[], [], [], []], // 篮球文字直播
       bStats: [], // 篮球技术统计
@@ -219,18 +222,18 @@ export default {
           this.statisticsData = JSON.parse(result.data)
         }
         if (tabtype === 1 && this.firstSend) {
-          this.extractData(JSON.parse(result.data), true)
-          // 初始化连接
-          this.tabsToken = result.token
-          if (this.tabsToken && this.match.status === 0) {
-            const { id, type } = this.params
-            sendSock(id, type, this.tabsToken, this.getMsgResult)
-            this.loopSendMsg()
-          }
+          const historyMsg = JSON.parse(result.data)
+          this.extractData(historyMsg, true).then(val => {
+            // 初始化连接
+            this.tabsToken = result.token
+            if (this.tabsToken && this.match.status === 0) {
+              const { id, type } = this.params
+              const sendContent = `${id}-${val.tliveLen}-${val.imptliveLen}`
+              sendSock(sendContent, type, this.tabsToken, this.getMsgResult)
+              this.loopSendMsg()
+            }
+          })
         }
-        // else {
-        //   this.extractData(JSON.parse(result.data), true)
-        // }
       }
     },
     // 查询比赛详情
@@ -290,83 +293,92 @@ export default {
       }
     },
     extractData (msg, isfirst) { // 提取数据
-      this.firstSend = false
-      this.isSocket = true
-      this.msgContent = msg
-      const score = (msg.score && msg.score.length) && msg.score
-      this.score = score
-      if (this.params.type === 1) { // 增量更新
-        const hScore = score[2][0]
-        const aScore = score[3][0]
-        this.txtLive.forEach(e => (e.new = false))
-        this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
-        const ftlive = msg.tlive && msg.tlive.length ? msg.tlive : []
-        this.fStats = msg.stats && msg.stats.length ? msg.stats : []
-        const newImpTxt = []
-        ftlive.forEach(e => {
-          e.new = !isfirst
-          if (e.main) {
-            newImpTxt.push(e)
-          }
-        })
-        ftlive.length && this.txtLive.push(...ftlive)
-        newImpTxt.length && this.impTxtLive.push(...newImpTxt)
-      }
-      if (this.params.type === 2) {
-        const hScore = score[3].reduce((a, b) => (a + b))
-        const aScore = score[4].reduce((a, b) => (a + b))
-        this.btlive.forEach(e => {
-          if (e.length) {
-            e.forEach((q, ind) => {
-              e[ind][11] = 'old'
-            })
-          }
-        })
-        this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
-        const tlive = msg.tlive && msg.tlive.length ? msg.tlive : []
-        tlive.forEach((e, i) => {
-          if (e.length) {
-            e.forEach((q, ind) => {
-              e[ind] = q.split('^')
-              if (isfirst) {
-                e[ind].push('old')
-              } else {
-                e[ind].push('new')
-              }
-            })
-            this.btlive[i].push(...e)
-          }
-        })
-        this.bStats = msg.stats && msg.stats.length ? msg.stats : []
-      }
-      // if (this.params.type === 1) {//覆盖更新
-      //   const hScore = score[2][0]
-      //   const aScore = score[3][0]
-      //   this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
-      //   this.ftlive = (msg.tlive && msg.tlive.length) && msg.tlive.reverse()
-      //   this.fStats = (msg.stats && msg.stats.length) && msg.stats
-      //   const newImpTxt = []
-      //   this.ftlive.forEach(e => {
-      //     if (e.main) {
-      //       newImpTxt.push(e)
-      //     }
-      //   })
-      //   this.txtLive = this.ftlive
-      //   this.impTxtLive = newImpTxt
-      // }
-      // if (this.params.type === 2) {
-      //   const hScore = score[3].reduce((a, b) => (a + b))
-      //   const aScore = score[4].reduce((a, b) => (a + b))
-      //   this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
-      //   this.btlive = (msg.tlive && msg.tlive.length) && msg.tlive
-      //   this.bStats = (msg.stats && msg.stats.length) && msg.stats
-      // }
+      return new Promise((resolve, reject) => {
+        this.firstSend = false
+        this.isSocket = true
+        this.msgContent = msg
+        const score = (msg.score && msg.score.length) && msg.score
+        this.score = score
+        if (this.params.type === 1) { // 增量更新
+          const hScore = score[2][0]
+          const aScore = score[3][0]
+          this.txtLive.forEach(e => (e.new = false))
+          this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
+          const ftlive = msg.tlive && msg.tlive.length ? msg.tlive : []
+          const incidents = msg.incidents && msg.incidents.length ? msg.incidents : []
+          this.fStats = msg.stats && msg.stats.length ? msg.stats : []
+          const newImpTxt = []
+          ftlive.forEach(e => {
+            e.new = !isfirst
+            if (e.main) {
+              newImpTxt.push(e)
+            }
+          })
+          ftlive.length && this.txtLive.push(...ftlive)
+          incidents.length && this.incidents.push(...incidents)
+          newImpTxt.length && this.impTxtLive.push(...newImpTxt)
+          this.tliveLen = this.txtLive.length
+          this.imptliveLen = this.incidents.length
+        }
+        if (this.params.type === 2) {
+          const hScore = score[3].reduce((a, b) => (a + b))
+          const aScore = score[4].reduce((a, b) => (a + b))
+          this.btlive.forEach(e => {
+            if (e.length) {
+              e.forEach((q, ind) => {
+                e[ind][11] = 'old'
+              })
+            }
+          })
+          this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
+          const tlive = msg.tlive && msg.tlive.length ? msg.tlive : []
+          tlive.forEach((e, i) => {
+            if (e.length) {
+              e.forEach((q, ind) => {
+                e[ind] = q.split('^')
+                if (isfirst) {
+                  e[ind].push('old')
+                } else {
+                  e[ind].push('new')
+                }
+              })
+              this.btlive[i].push(...e)
+              this.tliveLen = this.btlive[i].length
+            }
+          })
+          this.bStats = msg.stats && msg.stats.length ? msg.stats : []
+        }
+        // if (this.params.type === 1) {//覆盖更新
+        //   const hScore = score[2][0]
+        //   const aScore = score[3][0]
+        //   this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
+        //   this.ftlive = (msg.tlive && msg.tlive.length) && msg.tlive.reverse()
+        //   this.fStats = (msg.stats && msg.stats.length) && msg.stats
+        //   const newImpTxt = []
+        //   this.ftlive.forEach(e => {
+        //     if (e.main) {
+        //       newImpTxt.push(e)
+        //     }
+        //   })
+        //   this.txtLive = this.ftlive
+        //   this.impTxtLive = newImpTxt
+        // }
+        // if (this.params.type === 2) {
+        //   const hScore = score[3].reduce((a, b) => (a + b))
+        //   const aScore = score[4].reduce((a, b) => (a + b))
+        //   this.$set(this.matchDetails, 'score', `${hScore}-${aScore}`)
+        //   this.btlive = (msg.tlive && msg.tlive.length) && msg.tlive
+        //   this.bStats = (msg.stats && msg.stats.length) && msg.stats
+        // }
+        resolve({ tliveLen: this.tliveLen, imptliveLen: this.imptliveLen })
+      })
     },
     loopSendMsg () { // 定时拉消息
       if (this.timer) window.clearInterval(this.timer)
       this.timer = window.setInterval(() => {
         const { id, type } = this.params
-        sendSock(id, type, this.tabsToken, this.getMsgResult)
+        const sendContent = `${id}-${this.tliveLen}-${this.imptliveLen}`
+        sendSock(sendContent, type, this.tabsToken, this.getMsgResult)
       }, 8000)
     },
     play (params) {
