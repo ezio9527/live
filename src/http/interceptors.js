@@ -18,7 +18,11 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use(function (response) {
   const res = response.data
   if (res.code === '0') {
-    return Promise.resolve(res.data)
+    if (res.token) {
+      return Promise.resolve(res)
+    } else {
+      return Promise.resolve(res.data)
+    }
   } else {
     return Promise.reject(res.data)
   }

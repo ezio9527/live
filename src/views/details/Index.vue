@@ -133,6 +133,7 @@ export default {
       playType: 1, // 当前播放类型
       channel: 0, // 当前播放源
       token: '',
+      tabsToken: '',
       matchData: {},
       detailsLoading: false, // 比赛详情加载中
       matchDetails: {}, // 比赛详情信息
@@ -140,6 +141,7 @@ export default {
       timer: null,
       nux: 0,
       isSocket: false, // 当前是ws状态
+      firstSend: true, // 当前是ws状态
       msgContent: {}, // 接收的内容
       score: [], // 比分集合
       // hScore: 0, // 主队比分
@@ -203,7 +205,6 @@ export default {
     this.params = routeParams
     this.channel = routeParams.channel
     this.qryMatchDetails({ mid: routeParams.id, type: routeParams.type })
-    this.tabsChanges(this.tabActive)
   },
   methods: {
     back () {
@@ -213,12 +214,23 @@ export default {
       const { id, type } = this.params
       const tabtype = val + 1
       const result = await detailTabs({ mid: id, type, tabtype })
-      if (result && result.length) {
+      if (result && result.data.length) {
         if (type === 2 && tabtype === 2) { // 篮球统计
-          this.statisticsData = JSON.parse(result)
-        } else {
-          this.extractData(JSON.parse(result), true)
+          this.statisticsData = JSON.parse(result.data)
         }
+        if (tabtype === 1 && this.firstSend) {
+          this.extractData(JSON.parse(result.data), true)
+          // 初始化连接
+          this.tabsToken = result.token
+          if (this.tabsToken && this.match.status === 0) {
+            const { id, type } = this.params
+            sendSock(id, type, this.tabsToken, this.getMsgResult)
+            this.loopSendMsg()
+          }
+        }
+        // else {
+        //   this.extractData(JSON.parse(result.data), true)
+        // }
       }
     },
     // 查询比赛详情
@@ -228,13 +240,8 @@ export default {
         this.token = data.token
         this.matchData = data
         this.matchDetails = data.matchinfo
-        // 初始化连接
-        if (this.token && data.matchinfo.status === 0) {
-          const { id, type } = this.params
-          sendSock(id, type, this.token, this.getMsgResult)
-          this.loopSendMsg()
-        }
         this.match = data.matchinfo
+        this.tabsChanges(this.tabActive)
         // 处理一下比赛时间格式
         data.matchinfo.matchTime = new Date(data.matchinfo.matchtime.replace(/-/g, '/')).format('hh:mm')
         this.matchDetails.videoUrl = data.matchinfo.live_urls.map((item, index) => {
@@ -283,6 +290,7 @@ export default {
       }
     },
     extractData (msg, isfirst) { // 提取数据
+      this.firstSend = false
       this.isSocket = true
       this.msgContent = msg
       const score = (msg.score && msg.score.length) && msg.score
@@ -358,8 +366,8 @@ export default {
       if (this.timer) window.clearInterval(this.timer)
       this.timer = window.setInterval(() => {
         const { id, type } = this.params
-        sendSock(id, type, this.token, this.getMsgResult)
-      }, 10000)
+        sendSock(id, type, this.tabsToken, this.getMsgResult)
+      }, 8000)
     },
     play (params) {
       // 选择视频播放或者动画播放
