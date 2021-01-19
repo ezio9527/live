@@ -22,7 +22,7 @@ const routes = [
   },
   {
     path: '/test',
-    component: () => import('@views/Test.vue')
+    component: () => import('@comp/battle_formation/Test.vue')
   },
   {
     path: '/:type',
